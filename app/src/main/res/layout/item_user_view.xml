@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:fresco="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/user_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60">
+
+        <com.xxyp.xxyp.common.view.ShapeImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="@dimen/dimen_44"
+            android:layout_height="@dimen/dimen_44"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen_17"
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@drawable/default_avatar_icon"
+            fresco:roundAsCircle="true"/>
+
+        <com.xxyp.xxyp.common.view.ShapeImageView
+            android:id="@+id/user_product"
+            android:layout_width="@dimen/dimen_90"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dimen_17"
+            android:visibility="gone"
+            fresco:placeholderImage="@color/c5"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/user_avatar"
+            android:layout_alignTop="@id/user_avatar"
+            android:layout_marginLeft="@dimen/dimen_15"
+            android:layout_marginRight="@dimen/dimen_15"
+            android:layout_toLeftOf="@id/user_product"
+            android:layout_toRightOf="@id/user_avatar">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/c6"
+                android:textSize="@dimen/dimen_16"/>
+
+            <TextView
+                android:id="@+id/user_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingRight="@dimen/dimen_12"
+                android:textColor="@color/c6"
+                android:textSize="@dimen/dimen_12"/>
+
+            <TextView
+                android:id="@+id/user_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/user_location"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/c6"
+                android:textSize="@dimen/dimen_12"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

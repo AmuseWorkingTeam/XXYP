@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <include layout="@layout/item_user_view"/>
+
+    <com.xxyp.xxyp.common.view.ShapeImageView
+        android:id="@+id/iv_work_pic"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_250"
+        fresco:fadeDuration="300"
+        fresco:placeholderImage="@color/c5"/>
+
+    <LinearLayout
+        android:id="@+id/ll_product_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_product_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dimen_15"
+            android:paddingTop="@dimen/dimen_11"
+            android:textColor="@color/c6"
+            android:textSize="@dimen/dimen_16"/>
+
+        <TextView
+            android:id="@+id/tv_product_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:paddingLeft="@dimen/dimen_15"
+            android:textColor="@color/c6"
+            android:textSize="@dimen/dimen_12"/>
+    </LinearLayout>
+</LinearLayout>

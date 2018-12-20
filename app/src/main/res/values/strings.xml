@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">秀秀约拍</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="fans">粉丝%s</string>
+    <string name="focus">关注%s</string>
+    <string name="total_fans">全部粉丝</string>
+    <string name="total_focus">全部关注</string>
+    <string name="hot_works">热门</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
+    <string name="message">消息</string>
+    <string name="my_appointment">我的约拍</string>
+    <string name="my_gallery">我的相册</string>
+    <string name="personal_center">个人中心</string>
+    <string name="personal_info">用户信息</string>
+    <string name="setting">设置</string>
+    <string name="shot">约拍</string>
+    <string name="works">作品</string>
+
+    <string name="publish_shot">发布约拍</string>
+    <string name="publish_shot_desc_hint">简单描述一下你的需求，让大家了解一下!</string>
+    <string name="publish_shot_intro">上传一些你想表现的相似风格的作品吧~</string>
+    <string name="publish_shot_fail">发布约拍失败~</string>
+
+    <string name="upload_work">上传作品</string>
+    <string name="upload_work_title_hint">标题 为你的梦想起个名字吧!</string>
+    <string name="upload_work_desc_hint">简单描述一下你的作品</string>
+    <string name="publish_work_fail">上传作品失败~</string>
+
+    <!--网络错误提示-->
+    <string name="net_error">网络异常,请检查网络设置</string>
+
+    <!--相册-->
+    <string name="AllPhotos">相机胶卷</string>
+    <string name="AllVideo">所有视频</string>
+    <string name="AttachPhoto">图片</string>
+    <string name="Cancel">取消</string>
+    <string name="ClearButton">Clear</string>
+    <string name="ClearSearch">Clear search history?</string>
+    <string name="Crop">剪切</string>
+    <string name="Gallery">相册</string>
+    <string name="MostSelect">你最多只能选择%d张图片</string>
+    <string name="NoPhotos">还没有图片</string>
+    <string name="NoRecentGIFs">No recent GIFs</string>
+    <string name="NoRecentPhotos">No recent photos</string>
+    <string name="NoResult">No results</string>
+    <string name="NoVideo">还没有视频</string>
+    <string name="Of">%1$d / %2$d</string>
+    <string name="PickerPhotos">图片</string>
+    <string name="PickerVideo">视频</string>
+    <string name="Preview">预览</string>
+    <string name="SearchGifs">FIND GIFS</string>
+    <string name="SearchImages">FIND IMAGES</string>
+    <string name="SearchImagesInfo">WEB SEARCH</string>
+    <string name="Send">完成</string>
+    <string name="Set">设置</string>
+    <string name="album_read_fail">相册读取失败,请检查权限</string>
+
+    <!--权限-->
+    <string name="permission_title">权限申请</string>
+    <string name="permission_setting">去设置</string>
+    <string name="permission_prompt">在设置中开启权限，以保证正常使用</string>
+    <string name="record_fail_check_permission">录音失败，请检查权限</string>
+    <string name="camera_fail_check_permission">拍照失败，请检查权限</string>
+    <string name="not_has_sd_permission">没有手机存储权限</string>
+
+    <string name="tip">提示</string>
+    <string name="location_service_tip">定位服务未开启,请在设置中开启本应用的定位服务</string>
+
+</resources>

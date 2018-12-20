@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/dimen_10"
+    android:paddingStart="@dimen/dimen_10">
+
+    <com.xxyp.xxyp.message.customsviews.ChatPicImageView
+        android:id="@+id/image_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginStart="@dimen/dimen_10"
+        app:fadeDuration="300"
+        app:placeholderImage="@color/c5"
+        app:roundedCornerRadius="@dimen/dimen_8" />
+
+</FrameLayout>

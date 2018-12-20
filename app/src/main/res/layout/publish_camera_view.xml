@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/dimen_25"
+              android:layout_marginLeft="@dimen/dimen_6"
+              android:layout_marginRight="@dimen/dimen_6"
+              android:background="@drawable/publish_camera_bg"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/dimen_23"
+              android:paddingTop="@dimen/dimen_16">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dimen_50"
+        android:paddingRight="@dimen/dimen_50"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/find_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="约摄影师"
+                android:textColor="@color/color_737373"
+                android:textSize="@dimen/dimen_12"/>
+
+            <View
+                android:id="@+id/choose_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_3"
+                android:layout_alignLeft="@id/find_camera"
+                android:layout_alignRight="@id/find_camera"
+                android:layout_below="@id/find_camera"
+                android:layout_marginTop="@dimen/dimen_4"
+                android:background="@color/c2"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/find_model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="约模特"
+                android:textColor="@color/color_737373"
+                android:textSize="@dimen/dimen_12"/>
+
+            <View
+                android:id="@+id/choose_model"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_3"
+                android:layout_alignLeft="@id/find_model"
+                android:layout_alignRight="@id/find_model"
+                android:layout_below="@id/find_model"
+                android:layout_marginTop="@dimen/dimen_4"
+                android:background="@color/c2"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_25"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_gather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="收款"
+                android:textColor="@color/color_737373"
+                android:textSize="@dimen/dimen_12"/>
+
+            <View
+                android:id="@+id/choose_gather"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_3"
+                android:layout_alignLeft="@id/tv_gather"
+                android:layout_alignRight="@id/tv_gather"
+                android:layout_below="@id/tv_gather"
+                android:layout_marginTop="@dimen/dimen_4"
+                android:background="@color/c2"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_free"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="双方互免"
+                android:textColor="@color/color_737373"
+                android:textSize="@dimen/dimen_12"/>
+
+            <View
+                android:id="@+id/choose_free"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_3"
+                android:layout_alignLeft="@id/tv_free"
+                android:layout_alignRight="@id/tv_free"
+                android:layout_below="@id/tv_free"
+                android:layout_marginTop="@dimen/dimen_4"
+                android:background="@color/c2"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="付款"
+                android:textColor="@color/color_737373"
+                android:textSize="@dimen/dimen_12"/>
+
+            <View
+                android:id="@+id/choose_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_3"
+                android:layout_alignLeft="@id/tv_pay"
+                android:layout_alignRight="@id/tv_pay"
+                android:layout_below="@id/tv_pay"
+                android:layout_marginTop="@dimen/dimen_4"
+                android:background="@color/c2"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_31"
+        android:gravity="center"
+        android:text="时间"
+        android:textColor="@color/color_737373"
+        android:textSize="@dimen/dimen_12"/>
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_31"
+        android:gravity="center"
+        android:text="地点"
+        android:textColor="@color/color_737373"
+        android:textSize="@dimen/dimen_12"/>
+
+</LinearLayout>

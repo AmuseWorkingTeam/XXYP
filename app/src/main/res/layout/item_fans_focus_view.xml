@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:fresco="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/fans_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60">
+
+        <com.xxyp.xxyp.common.view.ShapeImageView
+            android:id="@+id/fans_avatar"
+            android:layout_width="@dimen/dimen_44"
+            android:layout_height="@dimen/dimen_44"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen_17"
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@drawable/default_avatar_icon"
+            fresco:roundAsCircle="true"/>
+
+        <ImageView
+            android:id="@+id/fans_relation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dimen_20"
+            android:layout_marginRight="@dimen/dimen_20"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/fans_avatar"
+            android:layout_alignTop="@id/fans_avatar"
+            android:layout_marginLeft="@dimen/dimen_15"
+            android:layout_marginRight="@dimen/dimen_15"
+            android:layout_toEndOf="@id/fans_avatar"
+            android:layout_toLeftOf="@id/fans_relation"
+            android:layout_toRightOf="@id/fans_avatar"
+            android:layout_toStartOf="@id/fans_relation">
+
+            <TextView
+                android:id="@+id/fans_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/c6"
+                android:textSize="@dimen/dimen_16"/>
+
+            <TextView
+                android:id="@+id/fans_describe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/c6"
+                android:textSize="@dimen/dimen_12"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

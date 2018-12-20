@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:fresco="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_200"
+            android:background="@drawable/xx_title_bg"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="@dimen/dimen_104"
+                android:layout_height="@dimen/dimen_104"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_8">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/personal_user_avatar"
+                    android:layout_width="@dimen/dimen_104"
+                    android:layout_height="@dimen/dimen_104"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    fresco:placeholderImage="@color/c5"
+                    fresco:roundAsCircle="true"/>
+
+                <ImageView
+                    android:id="@+id/user_identity"
+                    android:layout_width="@dimen/dimen_30"
+                    android:layout_height="@dimen/dimen_30"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/cameraman_icon"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/dimen_30"
+                android:layout_marginRight="@dimen/dimen_30"
+                android:layout_marginTop="@dimen/dimen_22"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/c3"
+                android:textSize="@dimen/dimen_16"/>
+
+            <TextView
+                android:id="@+id/user_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/dimen_30"
+                android:layout_marginRight="@dimen/dimen_30"
+                android:layout_marginTop="@dimen/dimen_5"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/c3"
+                android:textSize="@dimen/dimen_12"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_60"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_follow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:background="@drawable/list_selector"
+                android:gravity="center"
+                android:text="关注0"
+                android:textColor="@color/color_7f7f7f"
+                android:textSize="@dimen/dimen_12"/>
+
+            <View
+                android:layout_width="@dimen/dimen_0.3"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/guide_divider"/>
+
+            <TextView
+                android:id="@+id/tv_fans"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:background="@drawable/list_selector"
+                android:gravity="center"
+                android:text="粉丝0"
+                android:textColor="@color/color_7f7f7f"
+                android:textSize="@dimen/dimen_12"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_0.3"
+            android:background="@color/guide_divider"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_60"
+            android:background="@drawable/list_selector"
+            android:gravity="center"
+            android:text="@string/personal_info"
+            android:textColor="@color/color_7f7f7f"
+            android:textSize="@dimen/dimen_12"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_0.3"
+            android:background="@color/guide_divider"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_60"
+            android:background="@drawable/list_selector"
+            android:gravity="center"
+            android:text="@string/my_gallery"
+            android:textColor="@color/color_7f7f7f"
+            android:textSize="@dimen/dimen_12"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_0.3"
+            android:background="@color/guide_divider"/>
+
+        <TextView
+            android:id="@+id/tv_my_dating_shot"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_60"
+            android:background="@drawable/list_selector"
+            android:gravity="center"
+            android:text="@string/my_appointment"
+            android:textColor="@color/color_7f7f7f"
+            android:textSize="@dimen/dimen_12"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_0.3"
+            android:background="@color/guide_divider"/>
+
+        <TextView
+            android:id="@+id/tv_setting"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_60"
+            android:background="@drawable/list_selector"
+            android:gravity="center"
+            android:text="@string/setting"
+            android:textColor="@color/color_7f7f7f"
+            android:textSize="@dimen/dimen_12"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_0.3"
+            android:background="@color/guide_divider"/>
+    </LinearLayout>
+</ScrollView>

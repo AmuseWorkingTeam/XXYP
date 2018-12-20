@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_publish_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:gravity="start|center"
+        android:hint="简单描述一下你的需求，让大家了解一下！"
+        android:imeOptions="actionNone"
+        android:inputType="textMultiLine"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:paddingTop="@dimen/dimen_16"
+        android:textColor="@color/c6"
+        android:textColorHint="@color/color_D7D7D7"
+        android:textCursorDrawable="@color/c2"
+        android:textSize="@dimen/dimen_15"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_16"
+        android:background="@color/c1"/>
+
+    <EditText
+        android:id="@+id/et_publish_des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_36"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:gravity="start|center"
+        android:hint="简单描述一下你的作品"
+        android:imeOptions="actionNone"
+        android:inputType="textMultiLine"
+        android:maxLength="50"
+        android:maxLines="3"
+        android:paddingTop="@dimen/dimen_14"
+        android:textColor="@color/c6"
+        android:textColorHint="@color/color_D7D7D7"
+        android:textCursorDrawable="@color/c2"
+        android:textSize="@dimen/dimen_15"/>
+</LinearLayout>

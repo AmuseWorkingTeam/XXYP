@@ -1,0 +1,123 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+android {
+    //为了解决部分第三方库重复打包了META-INF的问题
+    packagingOptions{
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.xxyp.xxyp"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // Enabling multidex support.
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('xiuxiuyuepai.jks')
+            storePassword 'sunpengfei'
+            keyAlias 'xiuxiu'
+            keyPassword 'sunpengfei'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
+}
+
+greendao {
+    schemaVersion 1
+    //生成dao的目录
+    daoPackage 'com.xxyp.xxyp.dao'
+    targetGenDir 'src/main/java'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.1'
+
+    //recyclerView
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+
+    //网络调用库 retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'//打印log的依赖包
+
+    //RxJava
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.3.0'
+
+    //fresco图片控件
+    compile 'com.facebook.fresco:fresco:1.4.0'
+    //网络框架为okHttp
+    compile "com.facebook.fresco:imagepipeline-okhttp3:0.12.0+"
+    //增加webp图片格式支持
+    compile 'com.facebook.fresco:webpsupport:1.4.0'
+//    // 支持 GIF 动图，需要添加  添加gif会导致roundCircle失效  所以注释
+//    compile 'com.facebook.fresco:animated-gif:1.4.0'
+//    // 支持 WebP （静态图+动图），需要添加
+//    compile 'com.facebook.fresco:animated-webp:1.4.0'
+
+    //支持fresco的大图 手势放大缩小
+    compile 'me.relex:photodraweeview:1.1.3'
+
+    //调试工具
+    compile 'com.facebook.stetho:stetho:1.5.0'
+
+    //log日志
+    compile 'com.orhanobut:logger:2.1.1'
+
+    //七牛云存储
+    compile 'com.qiniu:qiniu-android-sdk:7.3.+'
+
+    //greenDao数据库
+    compile'org.greenrobot:greendao:3.2.0'
+    compile'org.greenrobot:greendao-generator:3.2.0'
+
+    compile ('com.android.support:support-v4:21.0.3')
+
+    // LeanCloud 基础包
+    compile ('cn.leancloud.android:avoscloud-sdk:v4.4.3')
+
+    // 推送与实时聊天需要的包
+    compile ('cn.leancloud.android:avoscloud-push:v4.4.3@aar'){transitive = true}
+
+    //上下拉刷新
+    compile 'com.github.Aspsine:SwipeToLoadLayout:1.0.4'
+
+    //定位功能
+    compile 'com.amap.api:3dmap:5.0.0'
+    compile 'com.amap.api:location:3.8.0'
+    compile 'com.amap.api:search:5.0.0'
+
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_7"
+        android:background="@color/c1"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_32"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:ellipsize="end"
+        android:gravity="end|center"
+        android:maxLines="1"
+        android:paddingTop="@dimen/dimen_7"
+        android:text="简单描述一下你的作品"
+        android:textColor="@color/color_D6D6D6"
+        android:textSize="@dimen/dimen_12"/>
+
+    <com.xxyp.xxyp.publish.view.PublishChooseView
+        android:id="@+id/publish_choose_extra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+    </com.xxyp.xxyp.publish.view.PublishChooseView>
+
+    <TextView
+        android:id="@+id/tv_publish"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_40"
+        android:layout_marginBottom="@dimen/dimen_30"
+        android:layout_marginLeft="@dimen/dimen_6"
+        android:layout_marginRight="@dimen/dimen_6"
+        android:background="@color/c1"
+        android:gravity="center"
+        android:text="确认发布"
+        android:textColor="@color/c3"
+        android:textSize="@dimen/dimen_16"/>
+</LinearLayout>

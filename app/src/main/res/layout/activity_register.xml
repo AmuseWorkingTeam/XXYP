@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimen_30">
+
+        <ImageView
+            android:id="@+id/iv_choose_avatar"
+            android:layout_width="@dimen/dimen_80"
+            android:layout_height="@dimen/dimen_80"
+            android:layout_centerInParent="true"
+            android:src="@drawable/register_choose_avatar"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_avatar"
+            android:layout_width="@dimen/dimen_80"
+            android:layout_height="@dimen/dimen_80"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            fresco:placeholderImage="@color/c5"
+            fresco:roundAsCircle="true"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_input_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/dimen_30"
+        android:layout_marginRight="@dimen/dimen_30"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:drawablePadding="@dimen/dimen_15"
+        android:drawableRight="@drawable/register_nick_icon"
+        android:gravity="center"
+        android:hint="昵称"
+        android:maxLines="1"
+        android:textColor="@color/c6"
+        android:textSize="@dimen/dimen_16"/>
+
+    <EditText
+        android:id="@+id/et_input_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/dimen_40"
+        android:layout_marginLeft="@dimen/dimen_30"
+        android:layout_marginRight="@dimen/dimen_30"
+        android:layout_marginTop="@dimen/dimen_40"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:gravity="center"
+        android:hint="用一句话介绍自己吧"
+        android:maxLines="1"
+        android:textColor="@color/c6"
+        android:textSize="@dimen/dimen_16"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0.3"
+        android:background="@color/guide_divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_80"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0.0dip"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_gravity="center"
+            android:layout_weight="1.0"
+            android:src="@drawable/cameraman_icon"/>
+
+        <View
+            android:layout_width="@dimen/dimen_0.3"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:background="@color/guide_divider"/>
+
+        <ImageView
+            android:layout_width="0.0dip"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_gravity="center"
+            android:layout_weight="1.0"
+            android:src="@drawable/customer_icon"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0.3"
+        android:background="@color/guide_divider"/>
+
+    <EditText
+        android:id="@+id/et_input_phone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_56"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:gravity="center"
+        android:hint="手机号"
+        android:inputType="phone"
+        android:maxLines="1"
+        android:textColor="@color/c6"
+        android:textSize="@dimen/dimen_17"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0.3"
+        android:background="@color/guide_divider"/>
+
+    <EditText
+        android:id="@+id/et_input_email"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_56"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:gravity="center"
+        android:hint="邮箱"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:textColor="@color/c6"
+        android:textSize="@dimen/dimen_17"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0.3"
+        android:background="@color/guide_divider"/>
+</LinearLayout>

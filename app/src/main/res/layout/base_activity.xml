@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xxyp.xxyp.common.view.ImmerseLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c3"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/container_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/xx_title_bg"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/container_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_56"
+        android:background="@drawable/xx_title_bg" />
+</com.xxyp.xxyp.common.view.ImmerseLinearLayout>
