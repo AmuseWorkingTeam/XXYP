@@ -18,17 +18,17 @@ import com.xxyp.xxyp.common.utils.ScreenUtils;
 import com.xxyp.xxyp.common.view.Header;
 import com.xxyp.xxyp.common.view.ImageLoader;
 import com.xxyp.xxyp.common.view.ShapeImageView;
-import com.xxyp.xxyp.user.contract.PersonalSettingContract;
-import com.xxyp.xxyp.user.presenter.PersonalSettingPresenter;
+import com.xxyp.xxyp.user.contract.PersonalInfoContract;
+import com.xxyp.xxyp.user.presenter.PersonalInfoPresenter;
 
 /**
- * Description : 个人设置页面 Created by sunpengfei on 2017/8/3. Person in charge :
+ * Description : 用户信息页面 Created by sunpengfei on 2017/8/3. Person in charge :
  * sunpengfei
  */
-public class PersonalSettingActivity extends BaseTitleActivity implements PersonalSettingContract.View {
+public class PersonalInfoActivity extends BaseTitleActivity implements PersonalInfoContract.View {
 
     private EditText mEtName, mEtIntroduction;
-    
+
     private TextView mEtAddress;
 
     private ShapeImageView mIvAvatar;
@@ -38,14 +38,14 @@ public class PersonalSettingActivity extends BaseTitleActivity implements Person
 
     private TextView mTvConfirm;
 
-    private PersonalSettingContract.Presenter mPresenter;
+    private PersonalInfoContract.Presenter mPresenter;
 
     private ImageRequestConfig mConfig;
 
     @Override
     protected Header onCreateHeader(RelativeLayout headerContainer) {
         Header.Builder builder = new Header.Builder(this, headerContainer);
-        builder.setTitle(R.string.setting);
+        builder.setTitle(R.string.personal_info);
         builder.setBackIcon(R.drawable.header_back_icon, new View.OnClickListener() {
             public void onClick(View view) {
                 finish();
@@ -63,7 +63,7 @@ public class PersonalSettingActivity extends BaseTitleActivity implements Person
         mEtAddress = (TextView) view.findViewById(R.id.et_set_address);
         mEtIntroduction = (EditText) view.findViewById(R.id.et_set_desc);
         mTvConfirm = (TextView) view.findViewById(R.id.tv_set_confirm);
-        mPresenter = new PersonalSettingPresenter(this);
+        mPresenter = new PersonalInfoPresenter(this);
         return view;
     }
 
@@ -106,13 +106,13 @@ public class PersonalSettingActivity extends BaseTitleActivity implements Person
     }
 
     @Override
-    public void setPresenter(PersonalSettingContract.Presenter presenter) {
+    public void setPresenter(PersonalInfoContract.Presenter presenter) {
 
     }
 
     @Override
     public void showUserInfo(UserInfo userInfo) {
-        if(userInfo == null){
+        if (userInfo == null) {
             return;
         }
         if (mConfig == null) {
@@ -148,7 +148,7 @@ public class PersonalSettingActivity extends BaseTitleActivity implements Person
 
     @Override
     protected void onDestroy() {
-        if(mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.onDestroyPresenter();
             setNull(mPresenter);
         }

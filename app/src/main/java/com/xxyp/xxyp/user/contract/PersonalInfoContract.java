@@ -12,7 +12,7 @@ import com.xxyp.xxyp.common.bean.UserInfo;
  * Created by sunpengfei on 2017/8/28.
  * Person in charge : sunpengfei
  */
-public interface PersonalSettingContract {
+public interface PersonalInfoContract {
 
     /**
      * 个人设置view

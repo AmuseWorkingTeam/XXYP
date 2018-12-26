@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:fresco="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            android:scrollbars="none">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:overScrollMode="never"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     fresco:placeholderImage="@color/c5"
-                    fresco:roundAsCircle="true"/>
+                    fresco:roundAsCircle="true" />
 
                 <ImageView
                     android:id="@+id/user_identity"
@@ -39,7 +39,7 @@
                     android:layout_height="@dimen/dimen_30"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/cameraman_icon"/>
+                    android:src="@drawable/cameraman_icon" />
             </RelativeLayout>
 
             <TextView
@@ -53,7 +53,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/c3"
-                android:textSize="@dimen/dimen_16"/>
+                android:textSize="@dimen/dimen_16" />
 
             <TextView
                 android:id="@+id/user_intro"
@@ -66,7 +66,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/c3"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
         </LinearLayout>
 
         <LinearLayout
@@ -84,13 +84,13 @@
                 android:gravity="center"
                 android:text="关注0"
                 android:textColor="@color/color_7f7f7f"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
 
             <View
                 android:layout_width="@dimen/dimen_0.3"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@color/guide_divider"/>
+                android:background="@color/guide_divider" />
 
             <TextView
                 android:id="@+id/tv_fans"
@@ -102,41 +102,43 @@
                 android:gravity="center"
                 android:text="粉丝0"
                 android:textColor="@color/color_7f7f7f"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_0.3"
-            android:background="@color/guide_divider"/>
+            android:background="@color/guide_divider" />
 
         <TextView
+            android:id="@+id/tv_user_info"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_60"
             android:background="@drawable/list_selector"
             android:gravity="center"
             android:text="@string/personal_info"
             android:textColor="@color/color_7f7f7f"
-            android:textSize="@dimen/dimen_12"/>
+            android:textSize="@dimen/dimen_12" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_0.3"
-            android:background="@color/guide_divider"/>
+            android:background="@color/guide_divider" />
 
         <TextView
+            android:id="@+id/tv_my_photo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_60"
             android:background="@drawable/list_selector"
             android:gravity="center"
             android:text="@string/my_gallery"
             android:textColor="@color/color_7f7f7f"
-            android:textSize="@dimen/dimen_12"/>
+            android:textSize="@dimen/dimen_12" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_0.3"
-            android:background="@color/guide_divider"/>
+            android:background="@color/guide_divider" />
 
         <TextView
             android:id="@+id/tv_my_dating_shot"
@@ -146,12 +148,12 @@
             android:gravity="center"
             android:text="@string/my_appointment"
             android:textColor="@color/color_7f7f7f"
-            android:textSize="@dimen/dimen_12"/>
+            android:textSize="@dimen/dimen_12" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_0.3"
-            android:background="@color/guide_divider"/>
+            android:background="@color/guide_divider" />
 
         <TextView
             android:id="@+id/tv_setting"
@@ -161,11 +163,11 @@
             android:gravity="center"
             android:text="@string/setting"
             android:textColor="@color/color_7f7f7f"
-            android:textSize="@dimen/dimen_12"/>
+            android:textSize="@dimen/dimen_12" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_0.3"
-            android:background="@color/guide_divider"/>
+            android:background="@color/guide_divider" />
     </LinearLayout>
 </ScrollView>

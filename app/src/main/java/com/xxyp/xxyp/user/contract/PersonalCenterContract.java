@@ -39,9 +39,9 @@ public interface PersonalCenterContract {
         void getMyUserInfo();
 
         /**
-         * 打开个人设置
+         * 打开用户信息
          */
-        void openPersonalSetting();
+        void openPersonalInfo();
 
         /**
          * 打开我的约拍
@@ -57,6 +57,8 @@ public interface PersonalCenterContract {
          * 打开我的全部关注
          */
         void openMyFocus();
+
+        void openSetting();
     }
 
     /**

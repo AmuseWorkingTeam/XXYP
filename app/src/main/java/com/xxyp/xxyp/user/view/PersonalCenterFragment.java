@@ -46,6 +46,8 @@ public class PersonalCenterFragment extends BaseTitleFragment
     private TextView mUserName;
 
     private ImageView mUserdentity;
+    private TextView tvUserInfo;
+    private TextView tvMyPhoto;
 
     @Override
     protected Header onCreateHeader(RelativeLayout headerContainer) {
@@ -56,14 +58,16 @@ public class PersonalCenterFragment extends BaseTitleFragment
     @Override
     protected View onCreateView() {
         View view = View.inflate(getActivity(), R.layout.fragment_personal, null);
-        mUserAvatar = ((SimpleDraweeView)view.findViewById(R.id.personal_user_avatar));
-        mUserdentity = ((ImageView)view.findViewById(R.id.user_identity));
-        mUserName = ((TextView)view.findViewById(R.id.user_name));
-        mUserIntro = ((TextView)view.findViewById(R.id.user_intro));
-        mTvFans = ((TextView)view.findViewById(R.id.tv_fans));
-        mTvFollow = ((TextView)view.findViewById(R.id.tv_follow));
-        mTvMyDatingShot = ((TextView)view.findViewById(R.id.tv_my_dating_shot));
-        mTvSetting = ((TextView)view.findViewById(R.id.tv_setting));
+        mUserAvatar = ((SimpleDraweeView) view.findViewById(R.id.personal_user_avatar));
+        mUserdentity = ((ImageView) view.findViewById(R.id.user_identity));
+        mUserName = ((TextView) view.findViewById(R.id.user_name));
+        mUserIntro = ((TextView) view.findViewById(R.id.user_intro));
+        mTvFans = ((TextView) view.findViewById(R.id.tv_fans));
+        mTvFollow = ((TextView) view.findViewById(R.id.tv_follow));
+        tvUserInfo = (TextView) view.findViewById(R.id.tv_user_info);
+        tvMyPhoto = (TextView) view.findViewById(R.id.tv_my_photo);
+        mTvMyDatingShot = ((TextView) view.findViewById(R.id.tv_my_dating_shot));
+        mTvSetting = ((TextView) view.findViewById(R.id.tv_setting));
         mPresenter = new PersonalCenterPresenter(this);
         return view;
     }
@@ -78,6 +82,8 @@ public class PersonalCenterFragment extends BaseTitleFragment
     protected void setViewListener() {
         mTvMyDatingShot.setOnClickListener(this);
         mTvSetting.setOnClickListener(this);
+        tvUserInfo.setOnClickListener(this);
+        tvMyPhoto.setOnClickListener(this);
         mTvFans.setOnClickListener(this);
         mTvFollow.setOnClickListener(this);
     }
@@ -85,9 +91,9 @@ public class PersonalCenterFragment extends BaseTitleFragment
     @Override
     public void showFansCount(int fansCount, int followCount) {
         mTvFans
-                .setText(String.format(getResources().getString(R.string.fans), fansCount+""));
+                .setText(String.format(getResources().getString(R.string.fans), fansCount + ""));
         mTvFollow
-                .setText(String.format(getResources().getString(R.string.focus), followCount+""));
+                .setText(String.format(getResources().getString(R.string.focus), followCount + ""));
     }
 
     @Override
@@ -103,7 +109,7 @@ public class PersonalCenterFragment extends BaseTitleFragment
                 mConfig);
         if (userInfo.getUserIdentity() == UserConfig.UserType.CAMERAMER) {
             mUserdentity.setImageResource(R.drawable.cameraman_icon);
-        }else{
+        } else {
             mUserdentity.setImageResource(R.drawable.customer_icon);
         }
         mUserName.setText(userInfo.getUserName());
@@ -112,13 +118,20 @@ public class PersonalCenterFragment extends BaseTitleFragment
 
     @Override
     public void onClick(View v) {
-        if(mPresenter == null){
+        if (mPresenter == null) {
             return;
         }
-        switch (v.getId()){
+        switch (v.getId()) {
+            case R.id.tv_user_info:
+                // 用户信息
+                mPresenter.openPersonalInfo();
+                break;
+            case R.id.tv_my_photo:
+                // 我的相册
+                break;
             case R.id.tv_setting:
                 //跳转个人设置
-                mPresenter.openPersonalSetting();
+                mPresenter.openSetting();
                 break;
             case R.id.tv_my_dating_shot:
                 //我的约拍

@@ -33,8 +33,9 @@ import com.xxyp.xxyp.main.presenter.MainPresenter;
 import java.util.List;
 
 /**
- * Description : 首页fragment Created by sunpengfei on 2017/8/1. Person in charge
- * : sunpengfei
+ * Description :热门
+ * Created by sunpengfei on 2017/8/1.
+ * Person in charge : sunpengfei
  */
 public class MainFragment extends BaseTitleFragment implements MainContract.View {
 
@@ -64,7 +65,7 @@ public class MainFragment extends BaseTitleFragment implements MainContract.View
     private TextView mUserTime;
 
     private AutoViewPager mViewPager;
-    
+
     /* 当前banner展示的用户的userId */
     private String mCurrentUserId;
 
@@ -79,22 +80,22 @@ public class MainFragment extends BaseTitleFragment implements MainContract.View
     protected View onCreateView() {
         View view = View.inflate(getActivity(), R.layout.fragment_main, null);
         mSwipeToLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.container);
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.swipe_target);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.swipe_target);
         mHotWorkAdapter = new HotWorkAdapter(getActivity());
 
         View headerView = View.inflate(getActivity(), R.layout.fragment_main_header, null);
-        mRlHeaderView = (RelativeLayout)headerView.findViewById(R.id.user_container);
-        mViewPager = (AutoViewPager)headerView.findViewById(R.id.main_view_pager);
-        mCirclePageIndicator = (CirclePageIndicator)headerView.findViewById(R.id.circle_pager_indicator);
+        mRlHeaderView = (RelativeLayout) headerView.findViewById(R.id.user_container);
+        mViewPager = (AutoViewPager) headerView.findViewById(R.id.main_view_pager);
+        mCirclePageIndicator = (CirclePageIndicator) headerView.findViewById(R.id.circle_pager_indicator);
         mBannerAdapter = new HotWorkBannerAdapter(getActivity());
         mViewPager.setAdapter(mBannerAdapter);
         mHotWorkAdapter.addHeaderView(headerView);
 
         mCirclePageIndicator.setViewPager(mViewPager);
-        mUserAvatar = (SimpleDraweeView)headerView.findViewById(R.id.user_avatar);
-        mUserName = (TextView)headerView.findViewById(R.id.user_name);
-        mUserLocation = (TextView)headerView.findViewById(R.id.user_location);
-        mUserTime = (TextView)headerView.findViewById(R.id.user_time);
+        mUserAvatar = (SimpleDraweeView) headerView.findViewById(R.id.user_avatar);
+        mUserName = (TextView) headerView.findViewById(R.id.user_name);
+        mUserLocation = (TextView) headerView.findViewById(R.id.user_location);
+        mUserTime = (TextView) headerView.findViewById(R.id.user_time);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.color.guide_divider));
         mRecyclerView.setAdapter(mHotWorkAdapter);
@@ -152,7 +153,7 @@ public class MainFragment extends BaseTitleFragment implements MainContract.View
         mBannerAdapter.setWorkListener(new HotWorkBannerAdapter.OnWorkListener() {
             @Override
             public void onWorkListener(WorkBean workBean) {
-                if(workBean == null){
+                if (workBean == null) {
                     return;
                 }
                 mPresenter.openProduct(workBean.getUserId(), workBean.getWorksId());

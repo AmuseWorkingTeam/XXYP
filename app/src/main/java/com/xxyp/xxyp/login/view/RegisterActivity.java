@@ -7,7 +7,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xxyp.xxyp.R;
@@ -45,6 +47,12 @@ public class RegisterActivity extends BaseTitleActivity implements RegisterContr
     private RelativeLayout mRlAvatar;
 
     private UserInfo mUserInfo;
+    private LinearLayout llCustomer;
+    private LinearLayout llCameraman;
+
+    private int checkType = UserConfig.UserType.CUSTOMER;
+    private TextView tvCustomer;
+    private TextView tvCameraman;
 
     @Override
     protected Header onCreateHeader(RelativeLayout headerContainer) {
@@ -66,15 +74,23 @@ public class RegisterActivity extends BaseTitleActivity implements RegisterContr
     @Override
     protected View onCreateView() {
         View view = View.inflate(this, R.layout.activity_register, null);
-        mRlAvatar = ((RelativeLayout)view.findViewById(R.id.rl_avatar));
-        mIvChooseAvatar = ((ImageView)view.findViewById(R.id.iv_choose_avatar));
-        mIvAvatar = ((SimpleDraweeView)view.findViewById(R.id.iv_avatar));
-        mNameEt = ((EditText)view.findViewById(R.id.et_input_name));
-        mDescEt = ((EditText)view.findViewById(R.id.et_input_desc));
-        mPhoneEt = ((EditText)view.findViewById(R.id.et_input_phone));
-        mEmailEt = ((EditText)view.findViewById(R.id.et_input_email));
+        mRlAvatar = ((RelativeLayout) view.findViewById(R.id.rl_avatar));
+        mIvChooseAvatar = ((ImageView) view.findViewById(R.id.iv_choose_avatar));
+        mIvAvatar = ((SimpleDraweeView) view.findViewById(R.id.iv_avatar));
+        llCustomer = (LinearLayout) view.findViewById(R.id.ll_customer);
+        tvCustomer = (TextView) view.findViewById(R.id.tv_customer);
+        llCameraman = (LinearLayout) view.findViewById(R.id.ll_cameraman);
+        tvCameraman = (TextView) view.findViewById(R.id.tv_cameraman);
+        mNameEt = ((EditText) view.findViewById(R.id.et_input_name));
+        mDescEt = ((EditText) view.findViewById(R.id.et_input_desc));
+        mPhoneEt = ((EditText) view.findViewById(R.id.et_input_phone));
+        mEmailEt = ((EditText) view.findViewById(R.id.et_input_email));
         mConfig = new ImageRequestConfig.Builder().build();
         mPresenter = new RegisterPresenter(this);
+        llCustomer.setBackgroundColor(getResources().getColor(R.color.c8));
+        llCameraman.setBackgroundColor(getResources().getColor(R.color.c3));
+        tvCustomer.setTextColor(getResources().getColor(R.color.c3));
+        tvCameraman.setTextColor(getResources().getColor(R.color.color_7f7f7f));
         return view;
     }
 
@@ -83,7 +99,7 @@ public class RegisterActivity extends BaseTitleActivity implements RegisterContr
         if (intent == null) {
             return;
         }
-        mUserInfo = ((UserInfo)intent.getSerializableExtra(UserConfig.USER_INFO));
+        mUserInfo = ((UserInfo) intent.getSerializableExtra(UserConfig.USER_INFO));
     }
 
     @Override
@@ -91,6 +107,26 @@ public class RegisterActivity extends BaseTitleActivity implements RegisterContr
         mRlAvatar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mPresenter.onGoGallery();
+            }
+        });
+        llCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkType = UserConfig.UserType.CUSTOMER;
+                llCustomer.setBackgroundColor(getResources().getColor(R.color.c8));
+                llCameraman.setBackgroundColor(getResources().getColor(R.color.c3));
+                tvCustomer.setTextColor(getResources().getColor(R.color.c3));
+                tvCameraman.setTextColor(getResources().getColor(R.color.color_7f7f7f));
+            }
+        });
+        llCameraman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkType = UserConfig.UserType.CAMERAMER;
+                llCustomer.setBackgroundColor(getResources().getColor(R.color.c3));
+                llCameraman.setBackgroundColor(getResources().getColor(R.color.c8));
+                tvCustomer.setTextColor(getResources().getColor(R.color.color_7f7f7f));
+                tvCameraman.setTextColor(getResources().getColor(R.color.c3));
             }
         });
     }
@@ -154,6 +190,11 @@ public class RegisterActivity extends BaseTitleActivity implements RegisterContr
     @Override
     public void cancelRegisterLoading() {
         dismissLoadingDialog();
+    }
+
+    @Override
+    public int getCheckType() {
+        return checkType;
     }
 
     @Override

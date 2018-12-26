@@ -15,7 +15,7 @@ import com.xxyp.xxyp.common.utils.gallery.GalleryActivity;
 import com.xxyp.xxyp.common.utils.gallery.GalleryProvider;
 import com.xxyp.xxyp.common.utils.qiniu.QiNiuManager;
 import com.xxyp.xxyp.common.utils.qiniu.QiNiuUploadCallback;
-import com.xxyp.xxyp.user.contract.PersonalSettingContract;
+import com.xxyp.xxyp.user.contract.PersonalInfoContract;
 import com.xxyp.xxyp.user.provider.UserProvider;
 import com.xxyp.xxyp.user.utils.FrameConfig;
 
@@ -33,20 +33,20 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Description : 个人设置presenter
+ * Description : 用户信息presenter
  * Created by sunpengfei on 2017/8/28.
  * Person in charge : sunpengfei
  */
-public class PersonalSettingPresenter implements PersonalSettingContract.Presenter {
+public class PersonalInfoPresenter implements PersonalInfoContract.Presenter {
 
-    private PersonalSettingContract.View mView;
+    private PersonalInfoContract.View mView;
 
     private CompositeSubscription mSubscription;
 
     private final int CHOOSE_IMAGE_REQUEST_CODE = 1000;
-    
+
     private final int CHOOSE_LOCATION_REQUEST_CODE = 1001;
-    
+
     /* 当前userInfo */
     private UserInfo mUserInfo;
 
@@ -55,19 +55,19 @@ public class PersonalSettingPresenter implements PersonalSettingContract.Present
      */
     private String mImagePath;
 
-    public PersonalSettingPresenter(PersonalSettingContract.View view){
+    public PersonalInfoPresenter(PersonalInfoContract.View view) {
         mView = view;
         mSubscription = new CompositeSubscription();
     }
 
     @Override
     public void setHeadImage() {
-        GalleryProvider.openGalley((Activity)mView.getContext(), 1, CHOOSE_IMAGE_REQUEST_CODE);
+        GalleryProvider.openGalley((Activity) mView.getContext(), 1, CHOOSE_IMAGE_REQUEST_CODE);
     }
 
     @Override
     public void onChooseLocation() {
-        UserProvider.openLocation((Activity)mView.getContext(), CHOOSE_LOCATION_REQUEST_CODE);
+        UserProvider.openLocation((Activity) mView.getContext(), CHOOSE_LOCATION_REQUEST_CODE);
     }
 
     @Override
@@ -79,13 +79,13 @@ public class PersonalSettingPresenter implements PersonalSettingContract.Present
 
     @Override
     public void updateUserInfo(String name, String address, String introduction) {
-        if(!TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(name)) {
             mUserInfo.setUserName(name);
         }
-        if(!TextUtils.isEmpty(introduction)){
+        if (!TextUtils.isEmpty(introduction)) {
             mUserInfo.setUserIntroduction(introduction);
         }
-        if(mUserInfo.getStatus() == 0){
+        if (mUserInfo.getStatus() == 0) {
             mUserInfo.setStatus(1);
         }
         uploadImage();
@@ -118,7 +118,7 @@ public class PersonalSettingPresenter implements PersonalSettingContract.Present
                         if (mView != null) {
                             mView.cancelSettingDialog();
                         }
-                        XXLog.log_e("PersonalSettingPresenter",
+                        XXLog.log_e("PersonalInfoPresenter",
                                 "updateUserInfo is failed" + e.getMessage());
                     }
 
@@ -129,7 +129,7 @@ public class PersonalSettingPresenter implements PersonalSettingContract.Present
                             Intent intent = new Intent();
                             intent.setAction(FrameConfig.REFRESH_PERSONAL_CENTER_ACTION);
                             RxBus.getInstance().send(intent);
-                            ((Activity)mView.getContext()).finish();
+                            ((Activity) mView.getContext()).finish();
                         }
                     }
                 });
@@ -173,7 +173,7 @@ public class PersonalSettingPresenter implements PersonalSettingContract.Present
                                     @Override
                                     public void onError(int errorCode, String msg) {
                                         ToastUtil.showTextViewPrompt("上传图片失败");
-                                        XXLog.log_e("PersonalSettingPresenter", "uploadImage is failed" + msg);
+                                        XXLog.log_e("PersonalInfoPresenter", "uploadImage is failed" + msg);
                                         pairEmitter.onError(new Throwable(msg));
                                     }
                                 });
@@ -191,17 +191,17 @@ public class PersonalSettingPresenter implements PersonalSettingContract.Present
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK ||data == null) {
+        if (resultCode != Activity.RESULT_OK || data == null) {
             return;
         }
-        if(requestCode == CHOOSE_IMAGE_REQUEST_CODE){
+        if (requestCode == CHOOSE_IMAGE_REQUEST_CODE) {
             //头像返回
             List<String> picPaths = data.getStringArrayListExtra(GalleryActivity.PHOTOS);
             if (picPaths != null && picPaths.size() > 0) {
                 mImagePath = picPaths.get(0);
                 mView.setImage(mImagePath);
             }
-        }else if(requestCode == CHOOSE_LOCATION_REQUEST_CODE){
+        } else if (requestCode == CHOOSE_LOCATION_REQUEST_CODE) {
             String address = data.getStringExtra(FrameConfig.LOCATION_INFO);
             mView.setLocation(address);
         }
@@ -210,7 +210,7 @@ public class PersonalSettingPresenter implements PersonalSettingContract.Present
     @Override
     public void onDestroyPresenter() {
         mView = null;
-        if(mSubscription != null){
+        if (mSubscription != null) {
             mSubscription.unsubscribe();
             mSubscription = null;
         }

@@ -15,7 +15,8 @@ import com.xxyp.xxyp.user.model.PersonalModel;
 import com.xxyp.xxyp.user.provider.UserProvider;
 import com.xxyp.xxyp.user.utils.FrameConfig;
 import com.xxyp.xxyp.user.view.MyDatingShotActivity;
-import com.xxyp.xxyp.user.view.PersonalSettingActivity;
+import com.xxyp.xxyp.user.view.PersonalInfoActivity;
+import com.xxyp.xxyp.user.view.SettingActivity;
 
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class PersonalCenterPresenter implements PersonalCenterContract.Presenter
     /**
      * 接受RxBus
      */
-    private void receiveRxBus(){
+    private void receiveRxBus() {
         Subscription refresh = RxBus.getInstance().toObservable(Intent.class)
                 .subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Intent>() {
@@ -73,7 +74,7 @@ public class PersonalCenterPresenter implements PersonalCenterContract.Presenter
                 });
         mSubscription.add(refresh);
     }
-    
+
     @Override
     public void getFansCount() {
         String userId = SharePreferenceUtils.getInstance().getUserId();
@@ -128,8 +129,8 @@ public class PersonalCenterPresenter implements PersonalCenterContract.Presenter
     }
 
     @Override
-    public void openPersonalSetting() {
-        Intent intent = new Intent(mView.getContext(), PersonalSettingActivity.class);
+    public void openPersonalInfo() {
+        Intent intent = new Intent(mView.getContext(), PersonalInfoActivity.class);
         mView.getContext().startActivity(intent);
     }
 
@@ -141,14 +142,20 @@ public class PersonalCenterPresenter implements PersonalCenterContract.Presenter
 
     @Override
     public void openMyFans() {
-        UserProvider.openFans((Activity)mView.getContext(),
+        UserProvider.openFans((Activity) mView.getContext(),
                 SharePreferenceUtils.getInstance().getUserId());
     }
 
     @Override
     public void openMyFocus() {
-        UserProvider.openFocus((Activity)mView.getContext(),
+        UserProvider.openFocus((Activity) mView.getContext(),
                 SharePreferenceUtils.getInstance().getUserId());
+    }
+
+    @Override
+    public void openSetting() {
+        Intent intent = new Intent(mView.getContext(), SettingActivity.class);
+        mView.getContext().startActivity(intent);
     }
 
     @Override

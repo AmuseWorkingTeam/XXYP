@@ -64,6 +64,8 @@ public interface RegisterContract {
          * 取消加载框
          */
         void cancelRegisterLoading();
+
+        int getCheckType();
     }
 
     /**

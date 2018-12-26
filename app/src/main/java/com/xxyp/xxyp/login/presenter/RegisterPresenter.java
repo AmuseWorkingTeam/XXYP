@@ -52,6 +52,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         String desc = mView.getDesc();
         String phone = mView.getPhone();
         String email = mView.getEmail();
+        int checkType = mView.getCheckType();
         if (TextUtils.isEmpty(nick)) {
             return;
         }
@@ -59,7 +60,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         mUserInfo.setUserIntroduction(desc);
         mUserInfo.setMobile(phone);
         mUserInfo.setEmail(email);
-        mUserInfo.setUserIdentity(UserConfig.UserType.CAMERAMER);
+        mUserInfo.setUserIdentity(checkType);
         mView.showRegisterLoading(true);
         Subscription subscription = mModel.createUserInfo(mUserInfo)
                 .subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
@@ -71,7 +72,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(mView != null){
+                        if (mView != null) {
                             mView.cancelRegisterLoading();
                             ToastUtil.showTextViewPrompt(R.string.net_error);
                         }
@@ -79,11 +80,11 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
                     @Override
                     public void onNext(UserInfo userInfo) {
-                        if(mView != null){
+                        if (mView != null) {
                             mView.cancelRegisterLoading();
                             Intent intent = new Intent();
-                            ((Activity)mView.getContext()).setResult(Activity.RESULT_OK, intent);
-                            ((Activity)mView.getContext()).finish();
+                            ((Activity) mView.getContext()).setResult(Activity.RESULT_OK, intent);
+                            ((Activity) mView.getContext()).finish();
                         }
                     }
                 });
@@ -105,7 +106,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void onGoGallery() {
-        GalleryProvider.openGalley((Activity)mView.getContext(), 1, OPEN_GALLERY);
+        GalleryProvider.openGalley((Activity) mView.getContext(), 1, OPEN_GALLERY);
     }
 
     @Override

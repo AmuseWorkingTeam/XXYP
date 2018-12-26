@@ -4,19 +4,18 @@ package com.xxyp.xxyp.common.utils.qiniu;
 import org.json.JSONException;
 
 /**
- * Description : 七牛上传云存储所需配置 Created by wxh on 2016/6/1. Job number：138746 Phone
- * ：15233620521 Email：wangxiaohui@syswin.com Person in charge : 王晓辉 Leader：王晓辉
- */
-
+ * Description : 七牛上传云存储所需配置
+ *
+ * */
 public class QiNiuConfig {
 
-    public static final String QI_NIU_AK = "y1yO7Xj5suDG7zQid_v-bJlLrWUNmGUWtjPFxN44";
+    public static final String QI_NIU_AK = "_sHam75_uL6qvfvd8FyblLgsU-MWxHeubWeDg4Dk";
 
-    public static final String QI_NIU_SK = "3Evf8prG_F6-eHYH9-Jp9QQcgzC4cyiW85tliW4B";
+    public static final String QI_NIU_SK = "fMXH6AhK7A7tPSPxU_w0zh9epXZ8Ps1VyghA3xpJ";
 
-    public static final String QI_NIU_BUCK_NAME = "xxyuepai";
+    public static final String QI_NIU_BUCK_NAME = "liuyibo-bucket";
 
-    public static final String QI_NIU_DNS_PREFIX = "http://opcse4yv1.bkt.clouddn.com/";
+    public static final String QI_NIU_DNS_PREFIX = "http://pkbog7zq7.bkt.clouddn.com/";
 
     /**
      * 有效期

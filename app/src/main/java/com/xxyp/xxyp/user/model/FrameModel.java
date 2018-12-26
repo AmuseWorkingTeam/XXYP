@@ -40,8 +40,8 @@ public class FrameModel implements FrameContract.Model {
 
     @Override
     public Observable<Map<String, Integer>> getFansCount(String useId) {
-        if(TextUtils.isEmpty(useId)){
-            return null;
+        if (TextUtils.isEmpty(useId)) {
+            return Observable.just(null);
         }
         return UserServiceManager.getFansCount(useId)
                 .map(new Func1<Object, Map<String, Integer>>() {
