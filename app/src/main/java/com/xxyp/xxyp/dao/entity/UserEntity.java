@@ -32,11 +32,13 @@ public class UserEntity {
 
     private Integer status;
 
-    @Generated(hash = 1136393107)
+    private String gender;
+
+    @Generated(hash = 1307733816)
     public UserEntity(Long id, @NotNull String userId, Integer userIdentity,
             String userName, String userIntroduction, String userImage,
             Integer userSource, String userSourceId, String email, String mobile,
-            Integer status) {
+            Integer status, String gender) {
         this.id = id;
         this.userId = userId;
         this.userIdentity = userIdentity;
@@ -48,6 +50,7 @@ public class UserEntity {
         this.email = email;
         this.mobile = mobile;
         this.status = status;
+        this.gender = gender;
     }
 
     @Generated(hash = 1433178141)
@@ -140,5 +143,13 @@ public class UserEntity {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getGender() {
+        return this.gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

@@ -177,6 +177,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         userInfo.setUserSourceId(map.get("uid"));
         userInfo.setUserName(map.get("name"));
         userInfo.setUserImage(map.get("iconurl"));
+        userInfo.setGender(map.get("gender"));
         return userInfo;
     }
 

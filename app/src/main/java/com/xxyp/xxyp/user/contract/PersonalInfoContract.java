@@ -74,12 +74,12 @@ public interface PersonalInfoContract {
 
         /**
          * 更新用户信息
-         *
-         * @param name 用户名称
+         *  @param name 用户名称
          * @param address 用户地址
          * @param introduction 用户简介
+         * @param getGender
          */
-        void updateUserInfo(String name, String address, String introduction);
+        void updateUserInfo(String name, String address, String introduction, String getGender);
 
 
         /**

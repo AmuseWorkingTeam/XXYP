@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="@dimen/dimen_25"
-              android:layout_marginLeft="@dimen/dimen_6"
-              android:layout_marginRight="@dimen/dimen_6"
-              android:background="@drawable/publish_camera_bg"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/dimen_23"
-              android:paddingTop="@dimen/dimen_16">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dimen_25"
+    android:layout_marginLeft="@dimen/dimen_6"
+    android:layout_marginRight="@dimen/dimen_6"
+    android:background="@drawable/publish_camera_bg"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dimen_23"
+    android:paddingTop="@dimen/dimen_16">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:text="约摄影师"
                 android:textColor="@color/color_737373"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
 
             <View
                 android:id="@+id/choose_camera"
@@ -41,7 +41,7 @@
                 android:layout_alignRight="@id/find_camera"
                 android:layout_below="@id/find_camera"
                 android:layout_marginTop="@dimen/dimen_4"
-                android:background="@color/c2"/>
+                android:background="@color/c2" />
 
         </RelativeLayout>
 
@@ -58,7 +58,7 @@
                 android:gravity="center"
                 android:text="约模特"
                 android:textColor="@color/color_737373"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
 
             <View
                 android:id="@+id/choose_model"
@@ -69,7 +69,7 @@
                 android:layout_below="@id/find_model"
                 android:layout_marginTop="@dimen/dimen_4"
                 android:background="@color/c2"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -95,7 +95,7 @@
                 android:gravity="center"
                 android:text="收款"
                 android:textColor="@color/color_737373"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
 
             <View
                 android:id="@+id/choose_gather"
@@ -106,7 +106,7 @@
                 android:layout_below="@id/tv_gather"
                 android:layout_marginTop="@dimen/dimen_4"
                 android:background="@color/c2"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -123,7 +123,7 @@
                 android:gravity="center"
                 android:text="双方互免"
                 android:textColor="@color/color_737373"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
 
             <View
                 android:id="@+id/choose_free"
@@ -133,7 +133,7 @@
                 android:layout_alignRight="@id/tv_free"
                 android:layout_below="@id/tv_free"
                 android:layout_marginTop="@dimen/dimen_4"
-                android:background="@color/c2"/>
+                android:background="@color/c2" />
 
         </RelativeLayout>
 
@@ -150,7 +150,7 @@
                 android:gravity="center"
                 android:text="付款"
                 android:textColor="@color/color_737373"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
 
             <View
                 android:id="@+id/choose_pay"
@@ -161,32 +161,63 @@
                 android:layout_below="@id/tv_pay"
                 android:layout_marginTop="@dimen/dimen_4"
                 android:background="@color/c2"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dimen_31"
-        android:gravity="center"
-        android:text="时间"
-        android:textColor="@color/color_737373"
-        android:textSize="@dimen/dimen_12"/>
 
-    <TextView
-        android:id="@+id/tv_address"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dimen_31"
-        android:gravity="center"
-        android:text="地点"
-        android:textColor="@color/color_737373"
-        android:textSize="@dimen/dimen_12"/>
+        android:layout_marginTop="@dimen/dimen_23">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="@dimen/dimen_8"
+            android:text="时间"
+            android:textColor="@color/color_737373"
+            android:textSize="@dimen/dimen_12" />
+
+        <View
+            android:layout_width="@dimen/dimen_40"
+            android:layout_height="@dimen/dimen_2"
+            android:layout_below="@id/tv_time"
+            android:layout_centerHorizontal="true"
+            android:background="@color/color_D6D6D6" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_13">
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="@dimen/dimen_8"
+            android:text="地点"
+            android:textColor="@color/color_737373"
+            android:textSize="@dimen/dimen_12" />
+
+        <View
+            android:layout_width="@dimen/dimen_40"
+            android:layout_height="@dimen/dimen_2"
+            android:layout_below="@id/tv_address"
+            android:layout_centerHorizontal="true"
+            android:background="@color/color_D6D6D6" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>

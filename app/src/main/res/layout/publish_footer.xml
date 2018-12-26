@@ -13,6 +13,7 @@
         android:background="@color/c1"/>
 
     <TextView
+        android:id="@+id/tv_publish_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen_32"
@@ -22,7 +23,6 @@
         android:gravity="end|center"
         android:maxLines="1"
         android:paddingTop="@dimen/dimen_7"
-        android:text="简单描述一下你的作品"
         android:textColor="@color/color_D6D6D6"
         android:textSize="@dimen/dimen_12"/>
 

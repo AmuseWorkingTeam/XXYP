@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.xxyp.xxyp.R;
 import com.xxyp.xxyp.common.base.BaseTitleActivity;
+import com.xxyp.xxyp.common.utils.amap.GpsBean;
+import com.xxyp.xxyp.common.utils.amap.LocationChangeListener;
+import com.xxyp.xxyp.common.utils.amap.LocationUtils;
 import com.xxyp.xxyp.common.view.Header;
 import com.xxyp.xxyp.common.view.recyclerView.layoutManager.HeaderFooterGridLayoutManager;
 import com.xxyp.xxyp.publish.adapter.PublishAdapter;
@@ -47,6 +50,7 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
 
     /* 发布类型 */
     private int mPublishType;
+    private TextView tvPbulishHint;
 
     @Override
     protected Header onCreateHeader(RelativeLayout headerContainer) {
@@ -70,16 +74,17 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
     @Override
     protected View onCreateView() {
         View view = View.inflate(this, R.layout.activity_publish, null);
-        mRecyclerView = ((RecyclerView)view.findViewById(R.id.publish_recycler));
+        mRecyclerView = ((RecyclerView) view.findViewById(R.id.publish_recycler));
         mAdapter = new PublishAdapter(this);
 
         View headerView = View.inflate(this, R.layout.publish_header, null);
-        mEtPublishTitle = ((EditText)headerView.findViewById(R.id.et_publish_title));
-        mEtPublishDes = ((EditText)headerView.findViewById(R.id.et_publish_des));
+        mEtPublishTitle = ((EditText) headerView.findViewById(R.id.et_publish_title));
+        mEtPublishDes = ((EditText) headerView.findViewById(R.id.et_publish_des));
         mAdapter.addHeaderView(headerView);
 
         View footerView = View.inflate(this, R.layout.publish_footer, null);
-        mTvPublish = ((TextView)footerView.findViewById(R.id.tv_publish));
+        mTvPublish = ((TextView) footerView.findViewById(R.id.tv_publish));
+        tvPbulishHint = ((TextView) footerView.findViewById(R.id.tv_publish_hint));
         mPublishChoose = (PublishChooseView) footerView.findViewById(R.id.publish_choose_extra);
         mAdapter.addFooterView(footerView);
 
@@ -101,7 +106,8 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
             mEtPublishDes.setVisibility(View.GONE);
             mPublishChoose.setVisibility(View.VISIBLE);
             mEtPublishTitle.setHint(R.string.publish_shot_desc_hint);
-        }else{
+            tvPbulishHint.setText(R.string.publish_shot_intro);
+        } else {
             //上传作品
             mHeader.setTitle(R.string.upload_work);
             mTvPublish.setBackgroundResource(R.drawable.publish_green_bg);
@@ -109,6 +115,13 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
             mPublishChoose.setVisibility(View.GONE);
             mEtPublishTitle.setHint(R.string.upload_work_title_hint);
             mEtPublishDes.setHint(R.string.upload_work_desc_hint);
+            new LocationUtils().startLocation(this, new LocationChangeListener() {
+                @Override
+                public void mapLocation(GpsBean var1, int var2) {
+                    tvPbulishHint.setText(var1.getCity() + "." + var1.getDistrict());
+                }
+            }, -1);
+
         }
     }
 
@@ -123,11 +136,11 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
         });
         mEtPublishTitle.setOnFocusChangeListener(
                 new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                mEtPublishTitle.setCursorVisible(hasFocus);
-            }
-        });
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        mEtPublishTitle.setCursorVisible(hasFocus);
+                    }
+                });
         mEtPublishDes.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -163,7 +176,7 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
                     mPresenter.uploadWorks(mAdapter.getPics(),
                             mEtPublishTitle.getText().toString(),
                             mEtPublishDes.getText().toString(), "");
-                }else if(mPublishType == PublishConfig.PublishType.PUBLISH_SHOT){
+                } else if (mPublishType == PublishConfig.PublishType.PUBLISH_SHOT) {
                     //发布约拍
                     String purpose = mPublishChoose.getPurpose();
                     String payMethod = mPublishChoose.getPayMethod();
@@ -183,7 +196,7 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
 
             @Override
             public void onSetLocationListener() {
-                if(mPresenter != null){
+                if (mPresenter != null) {
                     mPresenter.onChooseLocation();
                 }
             }

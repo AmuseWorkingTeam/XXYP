@@ -78,12 +78,15 @@ public class PersonalInfoPresenter implements PersonalInfoContract.Presenter {
     }
 
     @Override
-    public void updateUserInfo(String name, String address, String introduction) {
+    public void updateUserInfo(String name, String address, String introduction, String getGender) {
         if (!TextUtils.isEmpty(name)) {
             mUserInfo.setUserName(name);
         }
         if (!TextUtils.isEmpty(introduction)) {
             mUserInfo.setUserIntroduction(introduction);
+        }
+        if (!TextUtils.isEmpty(getGender)) {
+            mUserInfo.setGender(getGender);
         }
         if (mUserInfo.getStatus() == 0) {
             mUserInfo.setStatus(1);

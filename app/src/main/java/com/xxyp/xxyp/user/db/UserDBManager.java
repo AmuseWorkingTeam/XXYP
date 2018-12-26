@@ -26,8 +26,8 @@ public class UserDBManager extends BaseDao {
 
     public static UserDBManager getInstance() {
         if (mInstance == null) {
-            synchronized (UserDBManager.class){
-                if(mInstance == null){
+            synchronized (UserDBManager.class) {
+                if (mInstance == null) {
                     mInstance = new UserDBManager();
                 }
                 mInstance.connectionDB();
@@ -43,8 +43,9 @@ public class UserDBManager extends BaseDao {
 
     /**
      * 插入用户数据到数据库
-     * @param db   db
-     * @param userInfo  用户信息
+     *
+     * @param db       db
+     * @param userInfo 用户信息
      * @return long
      */
     public long addUserInfo(SQLiteDatabase db, UserInfo userInfo) {
@@ -81,7 +82,8 @@ public class UserDBManager extends BaseDao {
 
     /**
      * 插入用户数据到数据库
-     * @param userInfos  用户信息列表
+     *
+     * @param userInfos 用户信息列表
      */
     public void addOrUpdateUserInfos(List<UserInfo> userInfos) {
         if (userInfos == null || userInfos.size() == 0) {
@@ -90,10 +92,10 @@ public class UserDBManager extends BaseDao {
         SQLiteDatabase db = getDatabase();
         try {
             db.beginTransaction();
-            for(UserInfo userInfo : userInfos){
-                if(isExistUserInfo(userInfo.getUserId())){
+            for (UserInfo userInfo : userInfos) {
+                if (isExistUserInfo(userInfo.getUserId())) {
                     updateUserInfo(userInfo);
-                }else{
+                } else {
                     addUserInfo(db, userInfo);
                 }
             }
@@ -106,7 +108,7 @@ public class UserDBManager extends BaseDao {
     }
 
     public UserInfo getUserById(String userId) {
-        if(TextUtils.isEmpty(userId)){
+        if (TextUtils.isEmpty(userId)) {
             return null;
         }
         StringBuilder where = new StringBuilder(" where ");
@@ -145,11 +147,12 @@ public class UserDBManager extends BaseDao {
 
     /**
      * 批量获取本地用户数据
-     * @param userIds   用户id集合
+     *
+     * @param userIds 用户id集合
      * @return List<UserInfo>
      */
     public List<UserInfo> getUsersByIds(List<String> userIds) {
-        if(userIds == null || userIds.size() == 0){
+        if (userIds == null || userIds.size() == 0) {
             return null;
         }
         StringBuilder where = new StringBuilder(" where ");
@@ -173,7 +176,7 @@ public class UserDBManager extends BaseDao {
             cursor = db.rawQuery(selectSql, null);
             if (cursor != null) {
                 List<UserInfo> userInfos = new ArrayList<>();
-                while (cursor.moveToNext()){
+                while (cursor.moveToNext()) {
                     userInfos.add(cursor2Bean(cursor));
                 }
                 return userInfos;
@@ -227,6 +230,9 @@ public class UserDBManager extends BaseDao {
             if (!TextUtils.isEmpty(userInfo.getMobile())) {
                 values.put(UserEntityDao.Properties.Mobile.columnName, userInfo.getMobile());
             }
+            if (!TextUtils.isEmpty(userInfo.getGender())) {
+                values.put(UserEntityDao.Properties.Gender.columnName, userInfo.getGender());
+            }
             return getDatabase().update(UserEntityDao.TABLENAME, values, updateSql, null);
         } catch (Exception e) {
             XXLog.log_e("UserDBManager", "updateUserInfo is failed:" + e.getMessage());
@@ -267,6 +273,7 @@ public class UserDBManager extends BaseDao {
 
     /**
      * 为SQLiteStatement绑定值
+     *
      * @param statement statement
      * @param userInfo  用户信息
      * @return SQLiteStatement
@@ -305,6 +312,7 @@ public class UserDBManager extends BaseDao {
 
     /**
      * cursor转换数据
+     *
      * @param cursor cursor
      * @return UserInfo
      */
@@ -323,6 +331,7 @@ public class UserDBManager extends BaseDao {
         userInfo.setUserIntroduction(cursor.getString(7));
         userInfo.setEmail(cursor.getString(8));
         userInfo.setMobile(cursor.getString(9));
+        userInfo.setGender(cursor.getString(10));
         return userInfo;
     }
 

@@ -21,7 +21,7 @@
     <string name="works">作品</string>
 
     <string name="publish_shot">发布约拍</string>
-    <string name="publish_shot_desc_hint">简单描述一下你的需求，让大家了解一下!</string>
+    <string name="publish_shot_desc_hint">简单描述一下你的需求，让大家了解一下！</string>
     <string name="publish_shot_intro">上传一些你想表现的相似风格的作品吧~</string>
     <string name="publish_shot_fail">发布约拍失败~</string>
 

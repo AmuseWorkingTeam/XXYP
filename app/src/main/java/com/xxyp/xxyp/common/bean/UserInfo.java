@@ -28,6 +28,8 @@ public class UserInfo extends BaseBean {
 
     private String userSourceId;
 
+    private String gender;
+
     public String getEmail() {
         return email;
     }
@@ -106,5 +108,13 @@ public class UserInfo extends BaseBean {
 
     public void setUserSourceId(String userSourceId) {
         this.userSourceId = userSourceId;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

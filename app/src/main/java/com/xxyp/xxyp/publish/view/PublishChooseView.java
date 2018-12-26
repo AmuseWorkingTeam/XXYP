@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.xxyp.xxyp.R;
 import com.xxyp.xxyp.common.utils.TimeUtils;
+import com.xxyp.xxyp.common.utils.amap.GpsBean;
+import com.xxyp.xxyp.common.utils.amap.LocationChangeListener;
+import com.xxyp.xxyp.common.utils.amap.LocationUtils;
 import com.xxyp.xxyp.publish.utils.PublishConfig;
 
 /**
@@ -43,6 +46,8 @@ public class PublishChooseView extends LinearLayout {
 
     private OnPublishChooseListener mListener;
 
+    private Context context;
+
     public PublishChooseView(Context context) {
         this(context, null);
     }
@@ -57,16 +62,17 @@ public class PublishChooseView extends LinearLayout {
     }
 
     private void initView(Context context) {
+        this.context = context;
         View view = inflate(context, R.layout.publish_camera_view, this);
-        mFindCamera = (TextView)view.findViewById(R.id.find_camera);
+        mFindCamera = (TextView) view.findViewById(R.id.find_camera);
         mSelectCamera = view.findViewById(R.id.choose_camera);
-        mFindModel = (TextView)view.findViewById(R.id.find_model);
+        mFindModel = (TextView) view.findViewById(R.id.find_model);
         mSelectModel = view.findViewById(R.id.choose_model);
-        mGather = (TextView)view.findViewById(R.id.tv_gather);
+        mGather = (TextView) view.findViewById(R.id.tv_gather);
         mSelectGather = view.findViewById(R.id.choose_gather);
-        mFree = (TextView)view.findViewById(R.id.tv_free);
+        mFree = (TextView) view.findViewById(R.id.tv_free);
         mSelectFree = view.findViewById(R.id.choose_free);
-        mPay = (TextView)view.findViewById(R.id.tv_pay);
+        mPay = (TextView) view.findViewById(R.id.tv_pay);
         mSelectPay = view.findViewById(R.id.choose_pay);
 
         mTvTime = (TextView) view.findViewById(R.id.tv_time);
@@ -106,6 +112,9 @@ public class PublishChooseView extends LinearLayout {
             }
         });
         //时间
+//        mTime = System.currentTimeMillis();
+//        String time = TimeUtils.day2String(mTime);
+//        mTvTime.setText(TextUtils.isEmpty(time) ? "" : time);
         mTvTime.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,15 +139,16 @@ public class PublishChooseView extends LinearLayout {
 
     /**
      * 设置监听
-     * @param listener  监听
+     *
+     * @param listener 监听
      */
-    public void setOnPublishChooseListener(OnPublishChooseListener listener){
+    public void setOnPublishChooseListener(OnPublishChooseListener listener) {
         mListener = listener;
     }
 
     /**
      * 选择约拍目的
-     * 
+     *
      * @param purpose 目的
      */
     private void chooseFind(String purpose) {
@@ -161,7 +171,7 @@ public class PublishChooseView extends LinearLayout {
 
     /**
      * 选择付款类型
-     * 
+     *
      * @param payMethod 类型
      */
     private void choosePay(String payMethod) {
@@ -192,41 +202,44 @@ public class PublishChooseView extends LinearLayout {
 
     /**
      * 设置地址
-     * @param address  地址
+     *
+     * @param address 地址
      */
-    public void setAddress(String address){
+    public void setAddress(String address) {
         mAddress = address;
         mTvAddress.setText(!TextUtils.isEmpty(address) ? address : "");
     }
 
     /**
      * 获取约拍目的
+     *
      * @return String
      */
-    public String getPurpose(){
+    public String getPurpose() {
         return mPurpose;
     }
 
     /**
      * 获取约拍付款类型
+     *
      * @return String
      */
-    public String getPayMethod(){
+    public String getPayMethod() {
         return mPayMethod;
     }
 
-    public long getTime(){
+    public long getTime() {
         return mTime;
     }
 
-    public String getAddress(){
+    public String getAddress() {
         return mAddress;
     }
 
     /**
      * 发布监听
      */
-    public interface OnPublishChooseListener{
+    public interface OnPublishChooseListener {
 
         /**
          * 设置时间

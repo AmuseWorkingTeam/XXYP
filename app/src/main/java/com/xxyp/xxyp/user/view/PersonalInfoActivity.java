@@ -41,6 +41,7 @@ public class PersonalInfoActivity extends BaseTitleActivity implements PersonalI
     private PersonalInfoContract.Presenter mPresenter;
 
     private ImageRequestConfig mConfig;
+    private EditText etGender;
 
     @Override
     protected Header onCreateHeader(RelativeLayout headerContainer) {
@@ -60,6 +61,7 @@ public class PersonalInfoActivity extends BaseTitleActivity implements PersonalI
         mIvAvatar = (ShapeImageView) view.findViewById(R.id.iv_avatar);
         mIvSetHeadImage = (ImageView) view.findViewById(R.id.iv_set_head_image);
         mEtName = (EditText) view.findViewById(R.id.et_set_name);
+        etGender = (EditText) view.findViewById(R.id.et_set_gender);
         mEtAddress = (TextView) view.findViewById(R.id.et_set_address);
         mEtIntroduction = (EditText) view.findViewById(R.id.et_set_desc);
         mTvConfirm = (TextView) view.findViewById(R.id.tv_set_confirm);
@@ -83,7 +85,8 @@ public class PersonalInfoActivity extends BaseTitleActivity implements PersonalI
                 String name = mEtName.getEditableText().toString().trim();
                 String address = mEtAddress.getText().toString();
                 String intro = mEtIntroduction.getEditableText().toString().trim();
-                mPresenter.updateUserInfo(name, address, intro);
+                String gender = etGender.getEditableText().toString().trim();
+                mPresenter.updateUserInfo(name, address, intro, gender);
             }
         });
         //跳转位置
