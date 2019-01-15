@@ -9,6 +9,8 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.xxyp.xxyp.R;
+import com.xxyp.xxyp.common.base.XXApplication;
+import com.xxyp.xxyp.common.bean.LoginInfo;
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.common.net.ErrorCodeConfig;
 import com.xxyp.xxyp.common.net.RxError;
@@ -18,6 +20,7 @@ import com.xxyp.xxyp.login.contract.LoginContract;
 import com.xxyp.xxyp.login.model.LoginModel;
 import com.xxyp.xxyp.login.provider.RegisterProvider;
 import com.xxyp.xxyp.main.view.MainActivity;
+import com.xxyp.xxyp.user.provider.UserProvider;
 
 import java.util.Map;
 
@@ -51,9 +54,10 @@ public class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void checkIsLogin() {
         String userId = SharePreferenceUtils.getInstance().getUserId();
+        String token = SharePreferenceUtils.getInstance().getToken();
         boolean isLogin = SharePreferenceUtils.getInstance().getLoginStatus();
         //如果本地已经有用户数据 并且已经登陆过  则直接跳转首页
-        if(!TextUtils.isEmpty(userId) && isLogin){
+        if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(token) && isLogin) {
             openMainActivity();
         }
     }
@@ -63,14 +67,14 @@ public class LoginPresenter implements LoginContract.Presenter {
         UMShareAPI.get(mView.getContext()).getPlatformInfo((Activity) mView.getContext(), shareMedia, new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
-                if(mView != null){
+                if (mView != null) {
                     mView.showLoginLoading(true);
                 }
             }
 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                if(mView != null){
+                if (mView != null) {
                     mView.cancelLoginLoading();
                 }
                 login(shareMedia, map);
@@ -78,7 +82,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-                if(mView != null){
+                if (mView != null) {
                     mView.cancelLoginLoading();
                     ToastUtil.showTextViewPrompt(R.string.net_error);
                 }
@@ -86,7 +90,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
             @Override
             public void onCancel(SHARE_MEDIA share_media, int i) {
-                if(mView != null){
+                if (mView != null) {
                     mView.cancelLoginLoading();
                 }
             }
@@ -95,23 +99,18 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     /**
      * 第三方获取到数据后登陆
-     * @param shareMedia   第三方类型
-     * @param paramMap     数据
+     *
+     * @param shareMedia 第三方类型
+     * @param paramMap   数据
      */
     private void login(SHARE_MEDIA shareMedia, Map<String, String> paramMap) {
-        String userId = SharePreferenceUtils.getInstance().getUserId();
         final UserInfo userInfo = buildUserInfo(shareMedia, paramMap);
-        //本地无数据  则直接跳转注册
-        if (TextUtils.isEmpty(userId)) {
-            RegisterProvider.openRegisterActivity((Activity)mView.getContext(), userInfo, REGISTER_REQUEST);
-            return;
-        }
         mView.showLoginLoading(true);
         final Subscription subscription = mModel
                 .login(userInfo.getUserName(), userInfo.getUserSource() + "",
                         userInfo.getUserSourceId())
                 .subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Object>() {
+                .subscribe(new Subscriber<LoginInfo>() {
                     @Override
                     public void onCompleted() {
 
@@ -119,7 +118,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(mView == null){
+                        if (mView == null) {
                             return;
                         }
                         mView.cancelLoginLoading();
@@ -129,7 +128,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                         }
                         if (errorCode == ErrorCodeConfig.USER_NOT_EXIST) {
                             // 用户不存在 直接跳到注册页面 可能场景是在切换账号或者切换第三方工具(如微信切换到微博)
-                            RegisterProvider.openRegisterActivity((Activity)mView.getContext(),
+                            RegisterProvider.openRegisterActivity((Activity) mView.getContext(),
                                     userInfo, REGISTER_REQUEST);
                         } else {
                             ToastUtil.showTextViewPrompt(R.string.net_error);
@@ -137,12 +136,19 @@ public class LoginPresenter implements LoginContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(Object o) {
-                        if (mView == null) {
+                    public void onNext(LoginInfo result) {
+                        if (mView == null || result == null || result.getUserInfo() == null) {
                             return;
                         }
                         mView.cancelLoginLoading();
-                        openMainActivity();
+//                        SharePreferenceUtils.getInstance().putUserId(result.getUserInfo().getUserId());
+//                        SharePreferenceUtils.getInstance().putToken(result.getToken());
+//                        XXApplication.getInstance().initDB();
+//                        XXApplication.getInstance().initAVOSCloud();
+//                        UserProvider.addOrUpdateUserInfo(result.getUserInfo());
+//                        openMainActivity();
+                        RegisterProvider.openRegisterActivity((Activity) mView.getContext(),
+                                userInfo, REGISTER_REQUEST);
                     }
                 });
         mSubscription.add(subscription);
@@ -150,7 +156,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REGISTER_REQUEST && resultCode == Activity.RESULT_OK){
+        if (requestCode == REGISTER_REQUEST && resultCode == Activity.RESULT_OK) {
             //注册成功直接跳转首页
             openMainActivity();
         }
@@ -158,6 +164,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     /**
      * 构造用户信息
+     *
      * @param shareMedia
      * @param map
      * @return UserInfo
@@ -184,11 +191,11 @@ public class LoginPresenter implements LoginContract.Presenter {
     /**
      * 跳转首页
      */
-    private void openMainActivity(){
+    private void openMainActivity() {
         Intent intent = new Intent(mView.getContext(),
                 MainActivity.class);
         mView.getContext().startActivity(intent);
-        ((Activity)mView.getContext()).finish();
+        ((Activity) mView.getContext()).finish();
     }
 
     @Override

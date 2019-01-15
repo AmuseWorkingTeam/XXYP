@@ -1,6 +1,8 @@
 
 package com.xxyp.xxyp.login.model;
 
+import com.xxyp.xxyp.common.bean.LoginInfo;
+import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 import com.xxyp.xxyp.login.contract.LoginContract;
 import com.xxyp.xxyp.login.service.RegisterServiceManager;
@@ -15,13 +17,12 @@ import rx.functions.Func1;
 public class LoginModel implements LoginContract.Model {
 
     @Override
-    public Observable<Object> login(String userName, String userSource, String userSourceId) {
-        return RegisterServiceManager.login(userName, userSource, userSourceId).map(new Func1<Object, Object>() {
+    public Observable<LoginInfo> login(String userName, String userSource, String userSourceId) {
+        return RegisterServiceManager.login(userName, userSource, userSourceId).map(new Func1<LoginInfo, LoginInfo>() {
             @Override
-            public Object call(Object o) {
-                //设置登陆状态为true
+            public LoginInfo call(LoginInfo userInfo) {
                 SharePreferenceUtils.getInstance().putLoginStatus(true);
-                return o;
+                return userInfo;
             }
         });
     }

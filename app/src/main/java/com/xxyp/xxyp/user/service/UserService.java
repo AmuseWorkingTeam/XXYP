@@ -3,6 +3,7 @@ package com.xxyp.xxyp.user.service;
 
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.user.bean.CreateFansInput;
+import com.xxyp.xxyp.user.bean.LogoutInput;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -86,4 +87,7 @@ public interface UserService {
     @POST(UPDATE_USER_INFO)
     Observable<ResponseBody> updateUserInfo(@Body UserInfo userInfo);
 
+    String LOGOUT = "logout";
+    @POST(LOGOUT)
+    Observable<ResponseBody> logout(@Body LogoutInput input);
 }

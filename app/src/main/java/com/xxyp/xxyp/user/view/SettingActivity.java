@@ -17,7 +17,9 @@ import com.xxyp.xxyp.find.provider.FindProvider;
 import com.xxyp.xxyp.main.bean.ShotBean;
 import com.xxyp.xxyp.user.adapter.MyDatingShotAdapter;
 import com.xxyp.xxyp.user.contract.MyDatingShotContract;
+import com.xxyp.xxyp.user.contract.SettingContract;
 import com.xxyp.xxyp.user.presenter.MyDatingShotPresenter;
+import com.xxyp.xxyp.user.presenter.SettingPresenter;
 
 import java.util.List;
 
@@ -26,9 +28,9 @@ import java.util.List;
  * Created by sunpengfei on 2017/8/10.
  * Person in charge : sunpengfei
  */
-public class SettingActivity extends BaseTitleActivity implements MyDatingShotContract.View, View.OnClickListener {
+public class SettingActivity extends BaseTitleActivity implements SettingContract.View, View.OnClickListener {
 
-    private MyDatingShotContract.Presenter mPresenter;
+    private SettingContract.Presenter mPresenter;
     private View tvAbout;
     private View tvSuggestions;
     private View tvClear;
@@ -54,7 +56,7 @@ public class SettingActivity extends BaseTitleActivity implements MyDatingShotCo
         tvSuggestions = view.findViewById(R.id.tv_suggestions);
         tvClear = view.findViewById(R.id.tv_clear);
         tvLogout = view.findViewById(R.id.tv_logout);
-        mPresenter = new MyDatingShotPresenter(this);
+        mPresenter = new SettingPresenter(this);
         return view;
     }
 
@@ -68,11 +70,6 @@ public class SettingActivity extends BaseTitleActivity implements MyDatingShotCo
 
     @Override
     protected void initDataForActivity() {
-        mPresenter.getMyDatingShot();
-    }
-
-    @Override
-    public void showMyShot(List<ShotBean> shotBeans) {
     }
 
     @Override
@@ -81,7 +78,7 @@ public class SettingActivity extends BaseTitleActivity implements MyDatingShotCo
     }
 
     @Override
-    public void setPresenter(MyDatingShotContract.Presenter presenter) {
+    public void setPresenter(SettingContract.Presenter presenter) {
 
     }
 
@@ -89,16 +86,16 @@ public class SettingActivity extends BaseTitleActivity implements MyDatingShotCo
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_about:
-                ToastUtil.showTextViewPrompt(this, "关于");
+                ToastUtil.showTextViewPrompt(this, "敬请期待");
                 break;
             case R.id.tv_suggestions:
-                ToastUtil.showTextViewPrompt(this, "建议与鼓励");
+                ToastUtil.showTextViewPrompt(this, "敬请期待");
                 break;
             case R.id.tv_clear:
-                ToastUtil.showTextViewPrompt(this, "清除缓存");
+                mPresenter.clearData();
                 break;
             case R.id.tv_logout:
-                ToastUtil.showTextViewPrompt(this, "注销");
+                mPresenter.logout();
                 break;
             default:
                 break;

@@ -25,7 +25,7 @@ public class RetrofitServiceManager {
 
     private static RetrofitServiceManager mInstance;
 
-    private static String mBaseUrl = "http://172.31.238.29:8080";
+    private static String mBaseUrl = "http://172.31.238.63:8090";
 
     private Retrofit mRetrofit;
 

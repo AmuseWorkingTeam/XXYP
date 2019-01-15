@@ -6,6 +6,7 @@ import com.xxyp.xxyp.common.service.BaseServiceManager;
 import com.xxyp.xxyp.user.bean.CreateFansInput;
 import com.xxyp.xxyp.user.bean.FansFocusBean;
 import com.xxyp.xxyp.user.bean.FansFocusListBean;
+import com.xxyp.xxyp.user.bean.LogoutInput;
 import com.xxyp.xxyp.user.bean.UserInfoList;
 import com.xxyp.xxyp.user.bean.UserShotListBean;
 import com.xxyp.xxyp.user.bean.UserWorkListBean;
@@ -25,6 +26,7 @@ public class UserServiceManager extends BaseServiceManager {
 
     /**
      * 获取粉丝点赞数目
+     *
      * @return Observable
      */
     public static Observable<Object> getFansCount(String userId) {
@@ -38,6 +40,7 @@ public class UserServiceManager extends BaseServiceManager {
 
     /**
      * 获取用户作品
+     *
      * @param userId 用户id
      * @param workId 作品id  如果不穿则获取所有
      * @return Observable
@@ -54,6 +57,7 @@ public class UserServiceManager extends BaseServiceManager {
 
     /**
      * 获取用户约拍
+     *
      * @param userId 用户id
      * @param shotId 约拍id  如果不穿则获取所有
      * @return Observable
@@ -70,6 +74,7 @@ public class UserServiceManager extends BaseServiceManager {
 
     /**
      * 获取单个用户信息
+     *
      * @param userId 用户id
      * @return Observable
      */
@@ -94,18 +99,19 @@ public class UserServiceManager extends BaseServiceManager {
 
     /**
      * 批量获取用户信息
+     *
      * @param userIds 用户id列表
      * @return Observable
      */
     public static Observable<List<UserInfo>> selectUserInfos(List<String> userIds) {
-        if(userIds == null || userIds.size() == 0){
+        if (userIds == null || userIds.size() == 0) {
             return Observable.empty();
         }
         StringBuilder result = new StringBuilder();
         int size = userIds.size();
         for (int i = 0; i < size; i++) {
             result.append(userIds.get(i));
-            if(size != i + 1){
+            if (size != i + 1) {
                 result.append(",");
             }
         }
@@ -128,7 +134,8 @@ public class UserServiceManager extends BaseServiceManager {
 
     /**
      * 关注某用户
-     * @param input  创建粉丝入参
+     *
+     * @param input 创建粉丝入参
      * @return Observable
      */
     public static Observable<Object> createFans(CreateFansInput input) {
@@ -143,8 +150,9 @@ public class UserServiceManager extends BaseServiceManager {
 
     /**
      * 获取用户下的粉丝或关注
-     * @param fromUserId  如果传入from 获取此用户下的关注
-     * @param toUserId    如果传入to 获取此用户下的粉丝
+     *
+     * @param fromUserId 如果传入from 获取此用户下的关注
+     * @param toUserId   如果传入to 获取此用户下的粉丝
      * @return Observable
      */
     public static Observable<List<FansFocusBean>> getFans(String fromUserId, String toUserId) {
@@ -164,11 +172,26 @@ public class UserServiceManager extends BaseServiceManager {
 
     /**
      * 更新用户信息
+     *
      * @param userInfo 用户信息
      * @return Observable
      */
     public static Observable<Object> updateUserInfo(UserInfo userInfo) {
         return mManager.create(UserService.class).updateUserInfo(userInfo).flatMap(new Func1<ResponseBody, Observable<Object>>() {
+            @Override
+            public Observable<Object> call(ResponseBody responseBody) {
+                return toObservable(responseBody, Object.class);
+            }
+        });
+    }
+
+    /**
+     * 退出登录
+     *
+     * @return Observable
+     */
+    public static Observable<Object> logout(LogoutInput input) {
+        return mManager.create(UserService.class).logout(input).flatMap(new Func1<ResponseBody, Observable<Object>>() {
             @Override
             public Observable<Object> call(ResponseBody responseBody) {
                 return toObservable(responseBody, Object.class);

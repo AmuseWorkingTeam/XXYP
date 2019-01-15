@@ -1,6 +1,7 @@
 
 package com.xxyp.xxyp.login.service;
 
+import com.xxyp.xxyp.common.bean.LoginInfo;
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.common.service.BaseServiceManager;
 import com.xxyp.xxyp.login.bean.RegisterResultBean;
@@ -44,18 +45,18 @@ public class RegisterServiceManager extends BaseServiceManager {
      * @param userSourceId 平台id
      * @return Observable<Object>
      */
-    public static Observable<Object> login(String userName, String userSource,
+    public static Observable<LoginInfo> login(String userName, String userSource,
             String userSourceId) {
-        Map<String, String> map = new HashMap();
+        Map<String, String> map = new HashMap<>();
         map.put("userName", userName);
         map.put("userSource", userSource);
         map.put("userSourceId", userSourceId);
 
-        return mManager.create(RegisterService.class).login(map).flatMap(new Func1<ResponseBody, Observable<Object>>() {
+        return mManager.create(RegisterService.class).login(map).flatMap(new Func1<ResponseBody, Observable<LoginInfo>>() {
             @Override
-            public Observable<Object> call(ResponseBody responseBody) {
+            public Observable<LoginInfo> call(ResponseBody responseBody) {
                 return RegisterServiceManager.toObservable(responseBody,
-                        Object.class);
+                        LoginInfo.class);
             }
         });
     }

@@ -5,8 +5,11 @@ import android.text.TextUtils;
 
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
+import com.xxyp.xxyp.user.bean.LogoutInput;
 import com.xxyp.xxyp.user.contract.PersonalCenterContract;
+import com.xxyp.xxyp.user.contract.SettingContract;
 import com.xxyp.xxyp.user.provider.UserProvider;
+import com.xxyp.xxyp.user.service.UserServiceManager;
 
 import rx.Observable;
 
@@ -15,7 +18,7 @@ import rx.Observable;
  * Phone ：18510428121 Email：sunpengfei@syswin.com Person in charge : sunpengfei
  * Leader：wangxiaohui
  */
-public class PersonalModel implements PersonalCenterContract.Model {
+public class PersonalModel implements PersonalCenterContract.Model, SettingContract.Model {
 
     @Override
     public Observable<UserInfo> getMyUserInfo() {
@@ -26,4 +29,17 @@ public class PersonalModel implements PersonalCenterContract.Model {
         return UserProvider.obtainUserInfo(userId);
     }
 
+
+    @Override
+    public Observable<Object> logout() {
+        String userId = SharePreferenceUtils.getInstance().getUserId();
+        String token = SharePreferenceUtils.getInstance().getToken();
+        if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(token)) {
+            return Observable.just(null);
+        }
+        LogoutInput input = new LogoutInput();
+        input.setUserId(userId);
+        input.setToken(token);
+        return UserServiceManager.logout(input);
+    }
 }

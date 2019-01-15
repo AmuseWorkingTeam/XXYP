@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.xxyp.xxyp.common.base.IBasePresenter;
 import com.xxyp.xxyp.common.base.IBaseView;
+import com.xxyp.xxyp.common.bean.LoginInfo;
 
 import rx.Observable;
 
@@ -70,8 +71,8 @@ public interface LoginContract {
          * @param userSourceId 平台id
          * @return Observable<Object>
          */
-        Observable<Object> login(String userName, String userSource,
-                                 String userSourceId);
+        Observable<LoginInfo> login(String userName, String userSource,
+                                    String userSourceId);
     }
 
 }

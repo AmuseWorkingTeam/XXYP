@@ -12,6 +12,7 @@ import com.xxyp.xxyp.common.log.XXLog;
 import com.xxyp.xxyp.common.utils.DBUtils;
 import com.xxyp.xxyp.dao.BaseDao;
 import com.xxyp.xxyp.dao.UserEntityDao;
+import com.xxyp.xxyp.dao.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,8 @@ public class UserDBManager extends BaseDao {
                     UserEntityDao.Properties.UserImage.columnName,
                     UserEntityDao.Properties.UserIntroduction.columnName,
                     UserEntityDao.Properties.Email.columnName,
-                    UserEntityDao.Properties.Mobile.columnName).toString();
+                    UserEntityDao.Properties.Mobile.columnName,
+                    UserEntityDao.Properties.Gender.columnName).toString();
             statement = db.compileStatement(insertSql);
             return bindValues(statement, userInfo).executeInsert();
         } catch (Exception e) {
@@ -114,7 +116,7 @@ public class UserDBManager extends BaseDao {
         StringBuilder where = new StringBuilder(" where ");
         DBUtils.buildColumn(where, UserEntityDao.TABLENAME,
                 UserEntityDao.Properties.UserId.columnName);
-        where.append(" = ").append(userId);
+        where.append(" = '").append(userId).append("'");
         Cursor cursor = null;
         try {
             SQLiteDatabase db = getDatabase();
@@ -128,7 +130,8 @@ public class UserDBManager extends BaseDao {
                     UserEntityDao.Properties.UserImage.columnName,
                     UserEntityDao.Properties.UserIntroduction.columnName,
                     UserEntityDao.Properties.Email.columnName,
-                    UserEntityDao.Properties.Mobile.columnName).toString();
+                    UserEntityDao.Properties.Mobile.columnName,
+                    UserEntityDao.Properties.Gender.columnName).toString();
             cursor = db.rawQuery(selectSql, null);
             if (cursor != null && cursor.moveToFirst()) {
                 return cursor2Bean(cursor);
@@ -172,7 +175,8 @@ public class UserDBManager extends BaseDao {
                     UserEntityDao.Properties.UserImage.columnName,
                     UserEntityDao.Properties.UserIntroduction.columnName,
                     UserEntityDao.Properties.Email.columnName,
-                    UserEntityDao.Properties.Mobile.columnName).toString();
+                    UserEntityDao.Properties.Mobile.columnName,
+                    UserEntityDao.Properties.Gender.columnName).toString();
             cursor = db.rawQuery(selectSql, null);
             if (cursor != null) {
                 List<UserInfo> userInfos = new ArrayList<>();
@@ -304,8 +308,11 @@ public class UserDBManager extends BaseDao {
         if (!TextUtils.isEmpty(userInfo.getEmail())) {
             statement.bindString(9, userInfo.getEmail());
         }
-        if (!TextUtils.isEmpty(userInfo.getEmail())) {
-            statement.bindString(10, userInfo.getEmail());
+        if (!TextUtils.isEmpty(userInfo.getMobile())) {
+            statement.bindString(10, userInfo.getMobile());
+        }
+        if (!TextUtils.isEmpty(userInfo.getGender())) {
+            statement.bindString(11, userInfo.getGender());
         }
         return statement;
     }
