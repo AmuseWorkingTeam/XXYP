@@ -25,6 +25,7 @@ import com.xxyp.xxyp.main.bean.WorkBean;
 import com.xxyp.xxyp.user.adapter.FrameAdapter;
 import com.xxyp.xxyp.user.contract.FrameContract;
 import com.xxyp.xxyp.user.presenter.FramePresenter;
+import com.xxyp.xxyp.user.service.UserServiceManager;
 import com.xxyp.xxyp.user.utils.FrameConfig;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
     private TextView mIntro;
 
     private TextView mName;
-    
+
     /* 关注粉丝 */
     private TextView mTvFollowCount, mTvFansCount;
 
@@ -54,7 +55,7 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
 
     private TextView mTvConnect;
 
-    private String mUserId;
+    private String otherUserId;
 
     private ImageView mUserIdentity;
 
@@ -63,6 +64,8 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
 
     /* 关注 */
     private ImageView mIvFocus;
+
+    private boolean isFocus;
 
     @Override
     protected Header onCreateHeader(RelativeLayout headerContainer) {
@@ -74,7 +77,7 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         hideTitleHeader();
         View view = View.inflate(this, R.layout.activity_frame, null);
         mTvConnect = (TextView) view.findViewById(R.id.frame_communication);
-        mRecyclerView = ((RecyclerView)view.findViewById(R.id.frame_recycler));
+        mRecyclerView = ((RecyclerView) view.findViewById(R.id.frame_recycler));
         mRecyclerView
                 .setLayoutManager(new HeaderFooterGridLayoutManager(this, 3, true, false));
         mRecyclerView.setHasFixedSize(true);
@@ -83,12 +86,12 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         View headerView = View.inflate(this, R.layout.frame_header, null);
         mIvFrameBack = (ImageView) headerView.findViewById(R.id.frame_back_icon);
         mIvFocus = (ImageView) headerView.findViewById(R.id.frame_focus_icon);
-        mAvatar = ((SimpleDraweeView)headerView.findViewById(R.id.frame_user_avatar));
-        mName = ((TextView)headerView.findViewById(R.id.frame_user_name));
-        mIntro = ((TextView)headerView.findViewById(R.id.frame_user_desc));
-        mTvFollowCount = ((TextView)headerView.findViewById(R.id.tv_follow_count));
-        mTvFansCount = ((TextView)headerView.findViewById(R.id.tv_fans_count));
-        mUserIdentity = ((ImageView)headerView.findViewById(R.id.frame_user_identity));
+        mAvatar = ((SimpleDraweeView) headerView.findViewById(R.id.frame_user_avatar));
+        mName = ((TextView) headerView.findViewById(R.id.frame_user_name));
+        mIntro = ((TextView) headerView.findViewById(R.id.frame_user_desc));
+        mTvFollowCount = ((TextView) headerView.findViewById(R.id.tv_follow_count));
+        mTvFansCount = ((TextView) headerView.findViewById(R.id.tv_fans_count));
+        mUserIdentity = ((ImageView) headerView.findViewById(R.id.frame_user_identity));
         mAdapter.addHeaderView(headerView);
 
         mRecyclerView.setAdapter(mAdapter);
@@ -101,14 +104,15 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         if (intent == null) {
             return;
         }
-        mUserId = intent.getStringExtra(FrameConfig.USER_ID);
+        otherUserId = intent.getStringExtra(FrameConfig.USER_ID);
     }
 
     @Override
     protected void initDataForActivity() {
-        mPresenter.getUserInfo(mUserId);
-        mPresenter.obtainUserWorks(mUserId);
-        mPresenter.getFansFollowCount(mUserId);
+        mPresenter.getUserInfo(otherUserId);
+        mPresenter.obtainUserWorks(otherUserId);
+        mPresenter.getFansFollowCount(otherUserId);
+        mPresenter.getUserHasFansAndFollow(SharePreferenceUtils.getInstance().getUserId(), otherUserId);
     }
 
     @Override
@@ -125,14 +129,18 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         mIvFocus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.focusUser(mUserId);
+                if (isFocus) {
+                    mPresenter.cancelFocus(otherUserId);
+                } else {
+                    mPresenter.focusUser(otherUserId);
+                }
             }
         });
         //跳转关注列表
         mTvFollowCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.openFocus(mUserId);
+                mPresenter.openFocus(otherUserId);
             }
         });
 
@@ -140,7 +148,7 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         mTvFansCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.openFans(mUserId);
+                mPresenter.openFans(otherUserId);
             }
         });
 
@@ -154,7 +162,7 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         mTvConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.openChat(mUserId);
+                mPresenter.openChat(otherUserId);
             }
         });
     }
@@ -181,12 +189,23 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         ImageLoader.getInstance().display(mAvatar, userInfo.getUserImage(), mConfig);
         if (userInfo.getUserIdentity() == UserConfig.UserType.CAMERAMER) {
             mUserIdentity.setBackgroundResource(R.drawable.cameraman_icon);
-        }else{
+        } else {
             mUserIdentity.setBackgroundResource(R.drawable.customer_icon);
         }
         //TODO
         mTvConnect.setVisibility(TextUtils.equals(userInfo.getUserId(),
                 SharePreferenceUtils.getInstance().getUserId()) ? View.GONE : View.VISIBLE);
+        // TODO: 2019/1/17 获取关注状态
+        showFocus(false);
+    }
+
+    public void showFocus(boolean isFocus) {
+        this.isFocus = isFocus;
+        if (isFocus) {
+            mIvFocus.setImageDrawable(getResources().getDrawable(R.drawable.heart_icon_selector));
+        } else {
+            mIvFocus.setImageDrawable(getResources().getDrawable(R.drawable.heart_icon_nromal));
+        }
     }
 
     @Override
@@ -200,9 +219,9 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
     @Override
     public void showFansFollowCount(int followCount, int fansCount) {
         mTvFollowCount
-                .setText(String.format(getResources().getString(R.string.focus), followCount+""));
+                .setText(String.format(getResources().getString(R.string.focus), followCount + ""));
         mTvFansCount
-                .setText(String.format(getResources().getString(R.string.fans), fansCount+""));
+                .setText(String.format(getResources().getString(R.string.fans), fansCount + ""));
     }
 
     @Override

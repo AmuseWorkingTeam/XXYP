@@ -72,8 +72,14 @@ public class PersonalCenterFragment extends BaseTitleFragment
         return view;
     }
 
+//    @Override
+//    protected void initDataForActivity() {
+//
+//    }
+
     @Override
-    protected void initDataForActivity() {
+    public void onResume() {
+        super.onResume();
         mPresenter.getMyUserInfo();
         mPresenter.getFansCount();
     }

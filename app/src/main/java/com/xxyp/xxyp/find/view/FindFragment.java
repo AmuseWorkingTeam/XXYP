@@ -37,9 +37,9 @@ public class FindFragment extends BaseTitleFragment {
     @Override
     protected Header onCreateHeader(RelativeLayout headerContainer) {
         View view = View.inflate(getActivity(), R.layout.fragment_find_header, null);
-        mTvShot = ((TextView)view.findViewById(R.id.tv_shot));
+        mTvShot = ((TextView) view.findViewById(R.id.tv_shot));
         mSelectShot = view.findViewById(R.id.select_shot);
-        mTvWorks = ((TextView)view.findViewById(R.id.tv_works));
+        mTvWorks = ((TextView) view.findViewById(R.id.tv_works));
         mSelectWorks = view.findViewById(R.id.select_works);
         return new Header.Builder(getActivity(), headerContainer).setDefineView(view)
                 .build();
@@ -48,7 +48,7 @@ public class FindFragment extends BaseTitleFragment {
     @Override
     protected View onCreateView() {
         View view = View.inflate(getActivity(), R.layout.fragment_find, null);
-        mViewPager = ((ViewPager)view.findViewById(R.id.find_view_pager));
+        mViewPager = ((ViewPager) view.findViewById(R.id.find_view_pager));
         mAdapter = new FindPagerAdapter(getFragmentManager());
         mViewPager.setAdapter(mAdapter);
         return view;
@@ -87,12 +87,17 @@ public class FindFragment extends BaseTitleFragment {
         });
     }
 
+    @Override
+    protected void initDataForActivity() {
+        super.initDataForActivity();
+    }
+
     private void selectFragment(int index) {
         mViewPager.setCurrentItem(index);
         if (index == 0) {
             mSelectShot.setVisibility(View.VISIBLE);
             mSelectWorks.setVisibility(View.GONE);
-        }else{
+        } else {
             mSelectShot.setVisibility(View.GONE);
             mSelectWorks.setVisibility(View.VISIBLE);
         }

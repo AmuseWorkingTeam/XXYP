@@ -31,4 +31,14 @@ public interface FrameConfig {
      * 粉丝的人数
      */
     String FANS_COUNT = "fansCount";
+
+    /**
+     * 是否是关注
+     */
+    String IS_FOLLOW = "hasFollow";
+
+    /**
+     * 是否是粉丝
+     */
+    String IS_FANS = "hasFans";
 }

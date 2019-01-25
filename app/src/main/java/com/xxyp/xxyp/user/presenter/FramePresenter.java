@@ -44,7 +44,7 @@ public class FramePresenter implements FrameContract.Presenter {
 
     @Override
     public void getUserInfo(String userId) {
-        if(TextUtils.isEmpty(userId)){
+        if (TextUtils.isEmpty(userId)) {
             return;
         }
         Subscription subscription = UserProvider.obtainUserInfo(userId).subscribeOn(Schedulers.computation())
@@ -70,7 +70,7 @@ public class FramePresenter implements FrameContract.Presenter {
 
     @Override
     public void getFansFollowCount(String userId) {
-        if(TextUtils.isEmpty(userId)){
+        if (TextUtils.isEmpty(userId)) {
             return;
         }
         Subscription subscription = mModel.getFansCount(userId)
@@ -100,7 +100,7 @@ public class FramePresenter implements FrameContract.Presenter {
 
     @Override
     public void obtainUserWorks(final String userId) {
-        if(TextUtils.isEmpty(userId)){
+        if (TextUtils.isEmpty(userId)) {
             return;
         }
         mView.showFrameDialog(true);
@@ -114,14 +114,14 @@ public class FramePresenter implements FrameContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(mView != null){
+                        if (mView != null) {
                             mView.cancelFrameDialog();
                         }
                     }
 
                     @Override
                     public void onNext(UserWorkListBean userWorkListBean) {
-                        if(mView == null){
+                        if (mView == null) {
                             return;
                         }
                         mView.cancelFrameDialog();
@@ -135,7 +135,7 @@ public class FramePresenter implements FrameContract.Presenter {
 
     @Override
     public void openProduct(String userId, String workId) {
-        if(TextUtils.isEmpty(userId)){
+        if (TextUtils.isEmpty(userId)) {
             return;
         }
         FindProvider.openProduct((Activity) mView.getContext(), userId, workId);
@@ -143,7 +143,7 @@ public class FramePresenter implements FrameContract.Presenter {
 
     @Override
     public void openChat(String userId) {
-        ChatProvider.openChatActivity((Activity)mView.getContext(),
+        ChatProvider.openChatActivity((Activity) mView.getContext(),
                 MessageConfig.MessageCatalog.CHAT_SINGLE, userId);
     }
 
@@ -169,7 +169,7 @@ public class FramePresenter implements FrameContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(mView != null){
+                        if (mView != null) {
                             mView.cancelFrameDialog();
                             ToastUtil.showTextViewPrompt(R.string.net_error);
                         }
@@ -177,9 +177,69 @@ public class FramePresenter implements FrameContract.Presenter {
 
                     @Override
                     public void onNext(Object o) {
-                        if(mView != null){
+                        if (mView != null) {
                             mView.cancelFrameDialog();
                             ToastUtil.showTextViewPrompt("关注成功");
+                            mView.showFocus(true);
+                        }
+                    }
+                });
+        mSubscription.add(subscription);
+    }
+
+    @Override
+    public void cancelFocus(String userId) {
+        mView.showFrameDialog(true);
+        Subscription subscription = mModel.cancelFocus(userId).subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (mView != null) {
+                            mView.cancelFrameDialog();
+                            ToastUtil.showTextViewPrompt(R.string.net_error);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+                        if (mView != null) {
+                            mView.cancelFrameDialog();
+                            ToastUtil.showTextViewPrompt("取消成功");
+                            mView.showFocus(false);
+                        }
+                    }
+                });
+        mSubscription.add(subscription);
+    }
+
+    @Override
+    public void getUserHasFansAndFollow(String userId, String otherUserId) {
+        if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(otherUserId)) {
+            return;
+        }
+        Subscription subscription = mModel.getUserHasFansAndFollow(userId, otherUserId)
+                .subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Map<String, Integer>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Map<String, Integer> stringIntegerMap) {
+                        if (stringIntegerMap != null) {
+                            Integer isFollow = stringIntegerMap.get(FrameConfig.IS_FOLLOW);
+                            mView.showFocus(isFollow == 1);
                         }
                     }
                 });

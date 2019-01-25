@@ -31,8 +31,8 @@ public class RetrofitServiceManager {
 
     public static RetrofitServiceManager getInstance() {
         if (mInstance == null) {
-            synchronized (RetrofitServiceManager.class){
-                if(mInstance == null){
+            synchronized (RetrofitServiceManager.class) {
+                if (mInstance == null) {
                     mInstance = new RetrofitServiceManager();
                 }
             }

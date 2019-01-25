@@ -136,7 +136,8 @@ public class TotalFansFocusActivity extends BaseTitleActivity implements TotalFa
     }
 
     @Override
-    protected void initDataForActivity() {
+    protected void onResume() {
+        super.onResume();
         switch (mType){
             case UserConfig.UserFansType.FANS_TYPE:
                 mPresenter.obtainTotalFans(mUserId);

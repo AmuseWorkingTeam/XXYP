@@ -4,6 +4,7 @@ package com.xxyp.xxyp.user.service;
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.user.bean.CreateFansInput;
 import com.xxyp.xxyp.user.bean.LogoutInput;
+import com.xxyp.xxyp.user.bean.UpdateFansInput;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -23,16 +24,28 @@ public interface UserService {
 
     /**
      * 获取点赞粉丝人数
+     *
      * @return Observable
      */
     @GET(GET_FANS_AND_FOLLOW_COUNT)
     Observable<ResponseBody> getFansCount(@Query("userId") String userId);
 
+    String GET_HAS_FANS_AND_FOLLOW = "getUserHasFansAndFollow";
+
+    /**
+     * 获取关注/粉丝人数
+     *
+     * @return Observable
+     */
+    @GET(GET_HAS_FANS_AND_FOLLOW)
+    Observable<ResponseBody> getUserHasFansAndFollow(@Query("myUserId") String myUserId, @Query("otherUserId") String otherUserId);
+
     String SELECT_USER_INFO = "selectUserInfo";
 
     /**
      * 查询用户信息
-     * @param userIds  用户id列表  批量为","隔开
+     *
+     * @param userIds 用户id列表  批量为","隔开
      * @return Observable
      */
     @GET(SELECT_USER_INFO)
@@ -42,17 +55,17 @@ public interface UserService {
 
     /**
      * 获取作品信息
-     * 
+     *
      * @param userId 用户id
      * @param workId 作品id 如果不传则获取所有
      * @return Observable
      */
     @GET(GET_WORKS)
     Observable<ResponseBody> getWorks(@Query("userId") String userId,
-            @Query("worksId") String workId);
+                                      @Query("worksId") String workId);
 
 
-    String GET_DATING_SHOT= "getDatingShot";
+    String GET_DATING_SHOT = "getDatingShot";
 
     /**
      * 获取作约拍信息
@@ -63,31 +76,43 @@ public interface UserService {
      */
     @GET(GET_DATING_SHOT)
     Observable<ResponseBody> getDatingShot(@Query("userId") String userId,
-            @Query("datingShotId") String shotId);
+                                           @Query("datingShotId") String shotId);
 
     /**
      * 创建粉丝
      */
     String CREATE_FANS = "createFans";
+
     @POST(CREATE_FANS)
     Observable<ResponseBody> createFans(@Body CreateFansInput input);
+
+    /**
+     * 修改粉丝
+     */
+    String UPDATE_FANS = "updateFans";
+
+    @POST(CREATE_FANS)
+    Observable<ResponseBody> updateFans(@Body UpdateFansInput input);
 
     /**
      * 获取粉丝或关注
      */
     String GET_FANS = "getFans";
+
     @POST(GET_FANS)
     Observable<ResponseBody> getFans(@Query("fromUserId") String fromUserId,
-            @Query("toUserId") String toUserId);
+                                     @Query("toUserId") String toUserId);
 
     /**
      * 更新userInfo
      */
     String UPDATE_USER_INFO = "updateUserInfo";
+
     @POST(UPDATE_USER_INFO)
     Observable<ResponseBody> updateUserInfo(@Body UserInfo userInfo);
 
     String LOGOUT = "logout";
+
     @POST(LOGOUT)
     Observable<ResponseBody> logout(@Body LogoutInput input);
 }

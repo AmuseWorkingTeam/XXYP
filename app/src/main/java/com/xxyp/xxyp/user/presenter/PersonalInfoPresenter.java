@@ -78,16 +78,22 @@ public class PersonalInfoPresenter implements PersonalInfoContract.Presenter {
     }
 
     @Override
-    public void updateUserInfo(String name, String address, String introduction, String getGender) {
+    public void updateUserInfo(String name, String address, String introduction,  int getGender) {
+        if (mUserInfo == null) {
+            ToastUtil.showTextViewPrompt("用户信息获取失败");
+            return;
+        }
         if (!TextUtils.isEmpty(name)) {
             mUserInfo.setUserName(name);
         }
         if (!TextUtils.isEmpty(introduction)) {
             mUserInfo.setUserIntroduction(introduction);
         }
-        if (!TextUtils.isEmpty(getGender)) {
-            mUserInfo.setGender(getGender);
+        if (!TextUtils.isEmpty(address)) {
+            mUserInfo.setAddress(address);
         }
+        mUserInfo.setGender(getGender);
+        // todo 这事干什么的
         if (mUserInfo.getStatus() == 0) {
             mUserInfo.setStatus(1);
         }

@@ -27,16 +27,16 @@ import rx.subscriptions.CompositeSubscription;
  * Person in charge : sunpengfei
  */
 public class ProductDetailPresenter implements ProductDetailContract.Presenter {
-    
+
     /* 作品详情view */
     private ProductDetailContract.View mView;
 
     /* 作品详情model */
     private ProductDetailContract.Model mModel;
-    
+
     private CompositeSubscription mSubscription;
-    
-    public ProductDetailPresenter(ProductDetailContract.View view){
+
+    public ProductDetailPresenter(ProductDetailContract.View view) {
         mView = view;
         mModel = new ProductDetailModel();
         mSubscription = new CompositeSubscription();
@@ -44,7 +44,7 @@ public class ProductDetailPresenter implements ProductDetailContract.Presenter {
 
     @Override
     public void obtainWorks(String userId, String workId) {
-        if(TextUtils.isEmpty(userId)){
+        if (TextUtils.isEmpty(userId)) {
             return;
         }
         mView.showProductLoading(true);
@@ -58,14 +58,14 @@ public class ProductDetailPresenter implements ProductDetailContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(mView != null){
+                        if (mView != null) {
                             mView.cancelProductLoading();
                         }
                     }
 
                     @Override
                     public void onNext(UserWorkListBean userWorkListBean) {
-                        if(mView != null){
+                        if (mView != null) {
                             mView.cancelProductLoading();
                             if (userWorkListBean != null && userWorkListBean.getWorks() != null
                                     && userWorkListBean.getWorks().size() > 0) {
@@ -79,7 +79,7 @@ public class ProductDetailPresenter implements ProductDetailContract.Presenter {
 
     @Override
     public void openFrame(String userId) {
-        UserProvider.openFrame((Activity)mView.getContext(), userId);
+        UserProvider.openFrame((Activity) mView.getContext(), userId);
     }
 
     @Override
@@ -93,14 +93,14 @@ public class ProductDetailPresenter implements ProductDetailContract.Presenter {
             bean.setHttpUrl(workBean.getWorksPhoto());
             photos.add(bean);
         }
-        FindProvider.openPhotoDetail((Activity)mView.getContext(), index, userId, photos);
+        FindProvider.openPhotoDetail((Activity) mView.getContext(), index, userId, photos);
     }
 
     @Override
     public void onDestroyPresenter() {
         mView = null;
         mModel = null;
-        if(mSubscription != null){
+        if (mSubscription != null) {
             mSubscription.unsubscribe();
             mSubscription = null;
         }

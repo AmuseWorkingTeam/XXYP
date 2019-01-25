@@ -141,14 +141,12 @@ public class LoginPresenter implements LoginContract.Presenter {
                             return;
                         }
                         mView.cancelLoginLoading();
-//                        SharePreferenceUtils.getInstance().putUserId(result.getUserInfo().getUserId());
-//                        SharePreferenceUtils.getInstance().putToken(result.getToken());
-//                        XXApplication.getInstance().initDB();
-//                        XXApplication.getInstance().initAVOSCloud();
-//                        UserProvider.addOrUpdateUserInfo(result.getUserInfo());
-//                        openMainActivity();
-                        RegisterProvider.openRegisterActivity((Activity) mView.getContext(),
-                                userInfo, REGISTER_REQUEST);
+                        SharePreferenceUtils.getInstance().putUserId(result.getUserInfo().getUserId());
+                        SharePreferenceUtils.getInstance().putToken(result.getToken());
+                        XXApplication.getInstance().initDB();
+                        XXApplication.getInstance().initAVOSCloud();
+                        UserProvider.addOrUpdateUserInfo(result.getUserInfo());
+                        openMainActivity();
                     }
                 });
         mSubscription.add(subscription);
@@ -184,7 +182,9 @@ public class LoginPresenter implements LoginContract.Presenter {
         userInfo.setUserSourceId(map.get("uid"));
         userInfo.setUserName(map.get("name"));
         userInfo.setUserImage(map.get("iconurl"));
-        userInfo.setGender(map.get("gender"));
+        userInfo.setAddress(map.get("city") + "·" + map.get("province"));
+        userInfo.setGender(TextUtils.equals("女", map.get("gender")) ? 1 : 0);
+
         return userInfo;
     }
 

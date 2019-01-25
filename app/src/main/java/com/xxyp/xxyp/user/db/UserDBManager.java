@@ -12,7 +12,6 @@ import com.xxyp.xxyp.common.log.XXLog;
 import com.xxyp.xxyp.common.utils.DBUtils;
 import com.xxyp.xxyp.dao.BaseDao;
 import com.xxyp.xxyp.dao.UserEntityDao;
-import com.xxyp.xxyp.dao.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +68,8 @@ public class UserDBManager extends BaseDao {
                     UserEntityDao.Properties.UserIntroduction.columnName,
                     UserEntityDao.Properties.Email.columnName,
                     UserEntityDao.Properties.Mobile.columnName,
-                    UserEntityDao.Properties.Gender.columnName).toString();
+                    UserEntityDao.Properties.Gender.columnName,
+                    UserEntityDao.Properties.Location.columnName).toString();
             statement = db.compileStatement(insertSql);
             return bindValues(statement, userInfo).executeInsert();
         } catch (Exception e) {
@@ -131,7 +131,8 @@ public class UserDBManager extends BaseDao {
                     UserEntityDao.Properties.UserIntroduction.columnName,
                     UserEntityDao.Properties.Email.columnName,
                     UserEntityDao.Properties.Mobile.columnName,
-                    UserEntityDao.Properties.Gender.columnName).toString();
+                    UserEntityDao.Properties.Gender.columnName,
+                    UserEntityDao.Properties.Location.columnName).toString();
             cursor = db.rawQuery(selectSql, null);
             if (cursor != null && cursor.moveToFirst()) {
                 return cursor2Bean(cursor);
@@ -176,7 +177,8 @@ public class UserDBManager extends BaseDao {
                     UserEntityDao.Properties.UserIntroduction.columnName,
                     UserEntityDao.Properties.Email.columnName,
                     UserEntityDao.Properties.Mobile.columnName,
-                    UserEntityDao.Properties.Gender.columnName).toString();
+                    UserEntityDao.Properties.Gender.columnName,
+                    UserEntityDao.Properties.Location.columnName).toString();
             cursor = db.rawQuery(selectSql, null);
             if (cursor != null) {
                 List<UserInfo> userInfos = new ArrayList<>();
@@ -234,8 +236,9 @@ public class UserDBManager extends BaseDao {
             if (!TextUtils.isEmpty(userInfo.getMobile())) {
                 values.put(UserEntityDao.Properties.Mobile.columnName, userInfo.getMobile());
             }
-            if (!TextUtils.isEmpty(userInfo.getGender())) {
-                values.put(UserEntityDao.Properties.Gender.columnName, userInfo.getGender());
+            values.put(UserEntityDao.Properties.Gender.columnName, userInfo.getGender());
+            if (!TextUtils.isEmpty(userInfo.getAddress())) {
+                values.put(UserEntityDao.Properties.Location.columnName, userInfo.getAddress());
             }
             return getDatabase().update(UserEntityDao.TABLENAME, values, updateSql, null);
         } catch (Exception e) {
@@ -311,8 +314,9 @@ public class UserDBManager extends BaseDao {
         if (!TextUtils.isEmpty(userInfo.getMobile())) {
             statement.bindString(10, userInfo.getMobile());
         }
-        if (!TextUtils.isEmpty(userInfo.getGender())) {
-            statement.bindString(11, userInfo.getGender());
+        statement.bindLong(11, userInfo.getGender());
+        if (!TextUtils.isEmpty(userInfo.getAddress())) {
+            statement.bindString(12, userInfo.getAddress());
         }
         return statement;
     }
@@ -338,7 +342,8 @@ public class UserDBManager extends BaseDao {
         userInfo.setUserIntroduction(cursor.getString(7));
         userInfo.setEmail(cursor.getString(8));
         userInfo.setMobile(cursor.getString(9));
-        userInfo.setGender(cursor.getString(10));
+        userInfo.setGender(cursor.getInt(10));
+        userInfo.setAddress(cursor.getString(11));
         return userInfo;
     }
 

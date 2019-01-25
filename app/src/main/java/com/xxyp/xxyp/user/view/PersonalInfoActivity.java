@@ -20,6 +20,9 @@ import com.xxyp.xxyp.common.view.ImageLoader;
 import com.xxyp.xxyp.common.view.ShapeImageView;
 import com.xxyp.xxyp.user.contract.PersonalInfoContract;
 import com.xxyp.xxyp.user.presenter.PersonalInfoPresenter;
+import com.xxyp.xxyp.user.utils.CheckListener;
+import com.xxyp.xxyp.user.utils.IWheelDataChangeCallback;
+import com.xxyp.xxyp.user.utils.SingleCheckListener;
 
 /**
  * Description : 用户信息页面 Created by sunpengfei on 2017/8/3. Person in charge :
@@ -41,7 +44,9 @@ public class PersonalInfoActivity extends BaseTitleActivity implements PersonalI
     private PersonalInfoContract.Presenter mPresenter;
 
     private ImageRequestConfig mConfig;
-    private EditText etGender;
+    private TextView tvGender;
+    private int gender;
+    private View rootView;
 
     @Override
     protected Header onCreateHeader(RelativeLayout headerContainer) {
@@ -57,16 +62,23 @@ public class PersonalInfoActivity extends BaseTitleActivity implements PersonalI
 
     @Override
     protected View onCreateView() {
-        View view = View.inflate(this, R.layout.activity_personal_setting, null);
-        mIvAvatar = (ShapeImageView) view.findViewById(R.id.iv_avatar);
-        mIvSetHeadImage = (ImageView) view.findViewById(R.id.iv_set_head_image);
-        mEtName = (EditText) view.findViewById(R.id.et_set_name);
-        etGender = (EditText) view.findViewById(R.id.et_set_gender);
-        mEtAddress = (TextView) view.findViewById(R.id.et_set_address);
-        mEtIntroduction = (EditText) view.findViewById(R.id.et_set_desc);
-        mTvConfirm = (TextView) view.findViewById(R.id.tv_set_confirm);
+        rootView = View.inflate(this, R.layout.activity_personal_setting, null);
+        mIvAvatar = (ShapeImageView) rootView.findViewById(R.id.iv_avatar);
+        mIvSetHeadImage = (ImageView) rootView.findViewById(R.id.iv_set_head_image);
+        mEtName = (EditText) rootView.findViewById(R.id.et_set_name);
+        tvGender = (TextView) rootView.findViewById(R.id.tv_set_gender);
+        mEtAddress = (TextView) rootView.findViewById(R.id.et_set_address);
+        mEtIntroduction = (EditText) rootView.findViewById(R.id.et_set_desc);
+        mTvConfirm = (TextView) rootView.findViewById(R.id.tv_set_confirm);
         mPresenter = new PersonalInfoPresenter(this);
-        return view;
+        return rootView;
+    }
+
+    @Override
+    protected void initDataFromFront(Intent intent) {
+        super.initDataFromFront(intent);
+        mConfig = new ImageRequestConfig.Builder().setLoadWidth(ScreenUtils.dp2px(104))
+                .setLoadHeight(ScreenUtils.dp2px(104)).build();
     }
 
     @Override
@@ -85,7 +97,6 @@ public class PersonalInfoActivity extends BaseTitleActivity implements PersonalI
                 String name = mEtName.getEditableText().toString().trim();
                 String address = mEtAddress.getText().toString();
                 String intro = mEtIntroduction.getEditableText().toString().trim();
-                String gender = etGender.getEditableText().toString().trim();
                 mPresenter.updateUserInfo(name, address, intro, gender);
             }
         });
@@ -94,6 +105,24 @@ public class PersonalInfoActivity extends BaseTitleActivity implements PersonalI
             @Override
             public void onClick(View v) {
                 mPresenter.onChooseLocation();
+            }
+        });
+        tvGender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CheckListener checkListener = new SingleCheckListener(PersonalInfoActivity.this);
+                checkListener.handleCheck(rootView, tvGender, new IWheelDataChangeCallback() {
+                    @Override
+                    public void wheelDataChangeCallback(String wheelData) {
+                        if (TextUtils.equals(wheelData, "男")) {
+                            gender = 0;
+                            tvGender.setText(wheelData);
+                        } else if (TextUtils.equals(wheelData, "女")) {
+                            gender = 1;
+                            tvGender.setText(wheelData);
+                        }
+                    }
+                }, "男", "女");
             }
         });
     }
@@ -118,14 +147,12 @@ public class PersonalInfoActivity extends BaseTitleActivity implements PersonalI
         if (userInfo == null) {
             return;
         }
-        if (mConfig == null) {
-            mConfig = new ImageRequestConfig.Builder().setLoadWidth(ScreenUtils.dp2px(104))
-                    .setLoadHeight(ScreenUtils.dp2px(104)).build();
-        }
         ImageLoader.getInstance().display(mIvAvatar, userInfo.getUserImage(),
                 mConfig);
-        mEtName.setHint(userInfo.getUserName());
-        mEtIntroduction.setHint(userInfo.getUserIntroduction());
+        mEtName.setText(userInfo.getUserName());
+        mEtIntroduction.setText(userInfo.getUserIntroduction());
+        mEtAddress.setText(userInfo.getAddress());
+        tvGender.setText(userInfo.getGender() == 0 ? "男" : "女");
     }
 
     @Override

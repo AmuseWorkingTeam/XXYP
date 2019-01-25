@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 import com.xxyp.xxyp.user.bean.CreateFansInput;
+import com.xxyp.xxyp.user.bean.UpdateFansInput;
 import com.xxyp.xxyp.user.bean.UserWorkListBean;
 import com.xxyp.xxyp.user.contract.FrameContract;
 import com.xxyp.xxyp.user.service.UserServiceManager;
@@ -39,6 +40,13 @@ public class FrameModel implements FrameContract.Model {
     }
 
     @Override
+    public Observable<Object> cancelFocus(String userId) {
+        UpdateFansInput input = new UpdateFansInput();
+        input.setFansId(userId);
+        return UserServiceManager.updateFans(input);
+    }
+
+    @Override
     public Observable<Map<String, Integer>> getFansCount(String useId) {
         if (TextUtils.isEmpty(useId)) {
             return Observable.just(null);
@@ -60,6 +68,38 @@ public class FrameModel implements FrameContract.Model {
                             if (jsonObject.has(FrameConfig.FANS_COUNT)) {
                                 map.put(FrameConfig.FANS_COUNT,
                                         jsonObject.getInt(FrameConfig.FANS_COUNT));
+                            }
+                            return map;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                });
+    }
+
+    @Override
+    public Observable<Map<String, Integer>> getUserHasFansAndFollow(String myUserId, String otherUserId) {
+        if (TextUtils.isEmpty(myUserId) || TextUtils.isEmpty(otherUserId)) {
+            return Observable.just(null);
+        }
+        return UserServiceManager.getUserHasFansAndFollow(myUserId, otherUserId)
+                .map(new Func1<Object, Map<String, Integer>>() {
+                    @Override
+                    public Map<String, Integer> call(Object o) {
+                        if (o == null) {
+                            return null;
+                        }
+                        try {
+                            Map<String, Integer> map = new HashMap<>();
+                            JSONObject jsonObject = new JSONObject(o.toString());
+                            if (jsonObject.has(FrameConfig.IS_FOLLOW)) {
+                                map.put(FrameConfig.IS_FOLLOW,
+                                        jsonObject.getInt(FrameConfig.IS_FOLLOW));
+                            }
+                            if (jsonObject.has(FrameConfig.IS_FANS)) {
+                                map.put(FrameConfig.IS_FANS,
+                                        jsonObject.getInt(FrameConfig.IS_FANS));
                             }
                             return map;
                         } catch (JSONException e) {

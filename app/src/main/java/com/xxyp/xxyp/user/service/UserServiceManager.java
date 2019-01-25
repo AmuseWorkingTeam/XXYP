@@ -7,6 +7,7 @@ import com.xxyp.xxyp.user.bean.CreateFansInput;
 import com.xxyp.xxyp.user.bean.FansFocusBean;
 import com.xxyp.xxyp.user.bean.FansFocusListBean;
 import com.xxyp.xxyp.user.bean.LogoutInput;
+import com.xxyp.xxyp.user.bean.UpdateFansInput;
 import com.xxyp.xxyp.user.bean.UserInfoList;
 import com.xxyp.xxyp.user.bean.UserShotListBean;
 import com.xxyp.xxyp.user.bean.UserWorkListBean;
@@ -31,6 +32,20 @@ public class UserServiceManager extends BaseServiceManager {
      */
     public static Observable<Object> getFansCount(String userId) {
         return mManager.create(UserService.class).getFansCount(userId).flatMap(new Func1<ResponseBody, Observable<Object>>() {
+            @Override
+            public Observable<Object> call(ResponseBody responseBody) {
+                return toObservable(responseBody, Object.class);
+            }
+        });
+    }
+
+    /**
+     * 获取粉丝点赞数目
+     *
+     * @return Observable
+     */
+    public static Observable<Object> getUserHasFansAndFollow(String myUserId, String otherUserId) {
+        return mManager.create(UserService.class).getUserHasFansAndFollow(myUserId, otherUserId).flatMap(new Func1<ResponseBody, Observable<Object>>() {
             @Override
             public Observable<Object> call(ResponseBody responseBody) {
                 return toObservable(responseBody, Object.class);
@@ -140,6 +155,22 @@ public class UserServiceManager extends BaseServiceManager {
      */
     public static Observable<Object> createFans(CreateFansInput input) {
         return mManager.create(UserService.class).createFans(input)
+                .flatMap(new Func1<ResponseBody, Observable<Object>>() {
+                    @Override
+                    public Observable<Object> call(ResponseBody responseBody) {
+                        return toObservable(responseBody, Object.class);
+                    }
+                });
+    }
+
+    /**
+     * 修改关注
+     *
+     * @param input 创建粉丝入参
+     * @return Observable
+     */
+    public static Observable<Object> updateFans(UpdateFansInput input) {
+        return mManager.create(UserService.class).updateFans(input)
                 .flatMap(new Func1<ResponseBody, Observable<Object>>() {
                     @Override
                     public Observable<Object> call(ResponseBody responseBody) {
