@@ -17,9 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description : 聊天数据库
- * Created by sunpengfei on 2017/8/22.
- * Person in charge : sunpengfei
+ * Description : 聊天数据库 Created by sunpengfei on 2017/8/22. Person in charge :
+ * sunpengfei
  */
 public class ChatMessageDBManager extends BaseDao {
 
@@ -44,7 +43,8 @@ public class ChatMessageDBManager extends BaseDao {
 
     /**
      * 添加消息到数据库
-     * @param bean  消息数据
+     * 
+     * @param bean 消息数据
      * @return long
      */
     public long addChatMessage(ChatMessageBean bean) {
@@ -65,8 +65,7 @@ public class ChatMessageDBManager extends BaseDao {
             statement = getDatabase().compileStatement(insertSql);
             return bindValues(statement, bean).executeInsert();
         } catch (Exception e) {
-            XXLog.log_e("ChatMessageDBManager",
-                    "addChatMessage is failed" + e.getMessage());
+            XXLog.log_e("ChatMessageDBManager", "addChatMessage is failed" + e.getMessage());
             return -1;
         } finally {
             if (statement != null) {
@@ -77,10 +76,11 @@ public class ChatMessageDBManager extends BaseDao {
 
     /**
      * 获取聊天信息
-     * @param chatType  聊天类型
-     * @param chatId    会话id
+     * 
+     * @param chatType 聊天类型
+     * @param chatId 会话id
      * @param messageTime 消息时间
-     * @param pageSize  会话条目
+     * @param pageSize 会话条目
      * @return List
      */
     public List<ChatMessageBean> getChatMessageList(int chatType, String chatId, long messageTime,
@@ -112,8 +112,8 @@ public class ChatMessageDBManager extends BaseDao {
         where.append(" DESC LIMIT ");
         where.append(pageSize);
 
-        String tempTableName = DBUtils
-                .buildSelectSql(tableName, where.toString(), selectColumns).toString();
+        String tempTableName = DBUtils.buildSelectSql(tableName, where.toString(), selectColumns)
+                .toString();
 
         StringBuilder selectSql = DBUtils.buildSelectSql(" (", tempTableName + ") ", selectColumns);
         selectSql.append(" AS ").append("temptable").append(" ORDER BY ");
@@ -163,6 +163,33 @@ public class ChatMessageDBManager extends BaseDao {
             statement.bindString(2, msgId);
             return statement.executeUpdateDelete();
         } catch (Exception e) {
+            XXLog.log_e("database", "updateMessageContent is failed:" + e.getMessage());
+            return -1;
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
+
+    /**
+     * 根据消息id更新sendStatus
+     *
+     * @param msgId 消息id
+     * @return long
+     */
+    public long updateMessageStatus(int chatType, String msgId, int status) {
+        String tableName = getChatMessageTable(chatType);
+        SQLiteStatement statement = null;
+        try {
+            String updateSql = DBUtils.buildUpdateSql(tableName, new String[] {
+                    "MSG_ID"
+            }, "SEND_STATUS").toString();
+            statement = getDatabase().compileStatement(updateSql);
+            statement.bindLong(1, status);
+            statement.bindString(2, msgId);
+            return statement.executeUpdateDelete();
+        } catch (Exception e) {
             XXLog.log_e("database", "updateMessageStatus is failed:" + e.getMessage());
             return -1;
         } finally {
@@ -183,8 +210,7 @@ public class ChatMessageDBManager extends BaseDao {
         String tableName = getChatMessageTable(chatType);
         SQLiteStatement statement = null;
         try {
-            String deleteSql = DBUtils.buildDeleteSql(tableName, "CHAT_ID")
-                    .toString();
+            String deleteSql = DBUtils.buildDeleteSql(tableName, "CHAT_ID").toString();
             statement = getDatabase().compileStatement(deleteSql);
             statement.bindString(1, chatId);
             return statement.executeUpdateDelete();
@@ -218,8 +244,9 @@ public class ChatMessageDBManager extends BaseDao {
 
     /**
      * 为SQLiteStatement绑定值
+     * 
      * @param statement statement
-     * @param bean     聊天数据
+     * @param bean 聊天数据
      * @return SQLiteStatement
      */
     private SQLiteStatement bindValues(SQLiteStatement statement, ChatMessageBean bean) {
@@ -255,6 +282,7 @@ public class ChatMessageDBManager extends BaseDao {
 
     /**
      * cursor转换数据
+     * 
      * @param cursor cursor
      * @param chatType 聊天类型
      * @return UserInfo

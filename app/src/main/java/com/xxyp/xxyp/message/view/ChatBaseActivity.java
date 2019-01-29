@@ -215,7 +215,7 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
 
     @Override
     public void onReceiveMessage(ChatMessageBean bean) {
-        if(bean == null){
+        if (bean == null) {
             return;
         }
         if (TextUtils.equals(bean.getChatId(), mChatId)) {
@@ -229,12 +229,14 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
 
     @Override
     public void onSendSuccess(String chatId, int chatType, String msgId, String conversationId) {
-
+        mChatViewHelper.updateChatMessageStatus(msgId,
+                MessageConfig.MessageSendStatus.SEND_MSG_SUCCESS);
     }
 
     @Override
     public void onSendFail(String chatId, int chatType, String msgId, String conversationId) {
-
+        mChatViewHelper.updateChatMessageStatus(msgId,
+                MessageConfig.MessageSendStatus.SEND_NSG_FAIL);
     }
 
     @Override

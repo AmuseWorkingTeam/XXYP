@@ -14,15 +14,14 @@ import com.xxyp.xxyp.user.provider.UserProvider;
 import java.util.List;
 
 /**
- * Description : 会话model
- * Created by sunpengfei on 2017/8/24.
- * Person in charge : sunpengfei
+ * Description : 会话model Created by sunpengfei on 2017/8/24. Person in charge :
+ * sunpengfei
  */
 public class MessageModel implements MessageContract.Model {
 
     @Override
     public long addOrUpdateConversation(ChatMessageBean bean) {
-        if(bean == null){
+        if (bean == null) {
             return -1;
         }
         ConversationBean conversationBean = new ConversationBean();
@@ -71,7 +70,7 @@ public class MessageModel implements MessageContract.Model {
 
     @Override
     public int getUnReadCountByChatId(String chatId) {
-        if(TextUtils.isEmpty(chatId)){
+        if (TextUtils.isEmpty(chatId)) {
             return 0;
         }
         return ConversationDBManager.getInstance().getUnReadCountByChatId(chatId);
@@ -94,7 +93,7 @@ public class MessageModel implements MessageContract.Model {
 
     @Override
     public void clearUnReadCountByChatId(String chatId) {
-        if(TextUtils.isEmpty(chatId)){
+        if (TextUtils.isEmpty(chatId)) {
             return;
         }
         ConversationDBManager.getInstance().clearUnReadCountByChatId(chatId);

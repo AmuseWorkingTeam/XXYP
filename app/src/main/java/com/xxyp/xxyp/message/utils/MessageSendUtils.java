@@ -44,7 +44,8 @@ public class MessageSendUtils {
 
     /**
      * 发送文本
-     * @param text  文本内容
+     * 
+     * @param text 文本内容
      * @return ChatMessageBean
      */
     public ChatMessageBean sendText(String text) {
@@ -59,11 +60,12 @@ public class MessageSendUtils {
 
     /**
      * 发送单张图片
-     * @param localPath  图片路径
+     * 
+     * @param localPath 图片路径
      * @return ChatMessageBean
      */
-    public ChatMessageBean sendImage(String localPath){
-        if(TextUtils.isEmpty(localPath)){
+    public ChatMessageBean sendImage(String localPath) {
+        if (TextUtils.isEmpty(localPath)) {
             return null;
         }
         ChatMessageBean bean = getChatMessageBean();
@@ -78,15 +80,16 @@ public class MessageSendUtils {
 
     /**
      * 发送多张张图片
-     * @param localPaths  图片路径
+     * 
+     * @param localPaths 图片路径
      * @return ChatMessageBean
      */
-    public List<ChatMessageBean> sendImages(List<String> localPaths){
-        if(localPaths == null || localPaths.size() == 0){
+    public List<ChatMessageBean> sendImages(List<String> localPaths) {
+        if (localPaths == null || localPaths.size() == 0) {
             return null;
         }
         List<ChatMessageBean> beans = new ArrayList<>();
-        for(String path : localPaths){
+        for (String path : localPaths) {
             ChatMessageBean bean = getChatMessageBean();
             MessageImageBean imageBean = new MessageImageBean();
             imageBean.setLocalImagePath(path);
@@ -118,13 +121,14 @@ public class MessageSendUtils {
 
     /**
      * 发送语音
-     * @param voiceLocalPath  语音路径
-     * @param voiceUrl  语音url
-     * @param voiceTime  语音时间
+     * 
+     * @param voiceLocalPath 语音路径
+     * @param voiceUrl 语音url
+     * @param voiceTime 语音时间
      * @return ChatMessageBean
      */
-    public ChatMessageBean sendVoice(String voiceLocalPath, String voiceUrl, int voiceTime){
-        if(TextUtils.isEmpty(voiceLocalPath)){
+    public ChatMessageBean sendVoice(String voiceLocalPath, String voiceUrl, int voiceTime) {
+        if (TextUtils.isEmpty(voiceLocalPath)) {
             return null;
         }
         ChatMessageBean bean = getChatMessageBean();
@@ -147,13 +151,14 @@ public class MessageSendUtils {
 
     /**
      * 构造发送消息
-     * @param bean  消息体
+     * 
+     * @param bean 消息体
      * @return ChatMessageBean
      */
     private ChatMessageBean buildChatMessageBean(ChatMessageBean bean) {
-        //设置fromId为自己
+        // 设置fromId为自己
         bean.setFromId(mMyUserId);
-        //设置发送者id为自己
+        // 设置发送者id为自己
         bean.setSendId(mMyUserId);
         bean.setToId(mChatId);
         bean.setChatId(mChatId);
@@ -168,11 +173,12 @@ public class MessageSendUtils {
 
     /**
      * 发送消息到model
-     * @param bean  消息体
+     * 
+     * @param bean 消息体
      */
     private void handlerChatMessage(ChatMessageBean bean) {
-        switch (bean.getMsgType()){
-            //图片发送单独处理
+        switch (bean.getMsgType()) {
+            // 图片发送单独处理
             case MessageConfig.MessageType.MSG_IMAGE:
                 break;
             default:

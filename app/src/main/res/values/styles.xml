@@ -84,4 +84,8 @@
         <item name="android:divider">#dcdcdc</item>
     </style>
 
+    <style name="chat_progressbar_loading" parent="@android:style/Widget.ProgressBar.Small">
+        <item name="android:indeterminateDrawable">@anim/chat_send_message_anim</item>
+    </style>
+
 </resources>

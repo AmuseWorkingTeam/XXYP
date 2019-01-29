@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.xxyp.xxyp.R;
@@ -19,6 +21,7 @@ import com.xxyp.xxyp.common.view.ImageLoader;
 import com.xxyp.xxyp.common.view.ShapeImageView;
 import com.xxyp.xxyp.message.bean.ChatMessageBean;
 import com.xxyp.xxyp.message.interfaces.ChatActionListener;
+import com.xxyp.xxyp.message.utils.MessageConfig;
 import com.xxyp.xxyp.user.provider.UserProvider;
 
 /**
@@ -59,7 +62,13 @@ public abstract class MessageItemBaseView extends FrameLayout implements IItemCh
 
     private ShapeImageView mIconView;
 
-    public MessageItemBaseView(Context context, ChatActionListener listener, int itemPos){
+    /* 发送失败图片 */
+    private ImageView mSendFailImg;
+
+    /* 发送中图片 */
+    private ProgressBar mSendingImg;
+
+    public MessageItemBaseView(Context context, ChatActionListener listener, int itemPos) {
         super(context);
         mContext = context;
         mActionListener = listener;
@@ -72,11 +81,11 @@ public abstract class MessageItemBaseView extends FrameLayout implements IItemCh
     @Override
     public View obtainView(ViewGroup parent) {
         if (mItemPos == ITEM_LEFT) {
-            mItemView = LayoutInflater.from(mContext).inflate(R.layout.item_chat_base_left,
-                    parent, false);
+            mItemView = LayoutInflater.from(mContext).inflate(R.layout.item_chat_base_left, parent,
+                    false);
         } else if (mItemPos == ITEM_RIGHT) {
-            mItemView = LayoutInflater.from(mContext).inflate(R.layout.item_chat_base_right,
-                    parent, false);
+            mItemView = LayoutInflater.from(mContext).inflate(R.layout.item_chat_base_right, parent,
+                    false);
         } else {
             mItemView = LayoutInflater.from(mContext).inflate(R.layout.item_chat_base_center,
                     parent, false);
@@ -91,9 +100,9 @@ public abstract class MessageItemBaseView extends FrameLayout implements IItemCh
     @Override
     public void bindData(ChatMessageBean chatMessageBean) {
         mChatMessageBean = chatMessageBean;
-        mTxtMessageTime
-                .setText(TimeUtils.millis2String(mChatMessageBean.getMessageTime()));
+        mTxtMessageTime.setText(TimeUtils.millis2String(mChatMessageBean.getMessageTime()));
         showHead();
+        showSendStatus();
         bindData();
     }
 
@@ -102,7 +111,21 @@ public abstract class MessageItemBaseView extends FrameLayout implements IItemCh
      */
     private void bindCommonView() {
         mTxtMessageTime = ((TextView)mItemView.findViewById(R.id.message_time));
-        mIconView = (ShapeImageView) mItemView.findViewById(R.id.message_avatar);
+        mIconView = (ShapeImageView)mItemView.findViewById(R.id.message_avatar);
+        switch (mItemPos) {
+            case ITEM_RIGHT:
+                mSendFailImg = (ImageView)mItemView.findViewById(R.id.img_sendfail_right);
+                mSendFailImg.setVisibility(View.GONE);
+                mSendingImg = (ProgressBar)mItemView.findViewById(R.id.img_sending_right);
+                mSendingImg.setVisibility(View.GONE);
+                break;
+            case ITEM_LEFT:
+                break;
+            case ITEM_CENTER:
+                break;
+            default:
+                break;
+        }
     }
 
     protected abstract View initView(ViewGroup parent);
@@ -115,7 +138,7 @@ public abstract class MessageItemBaseView extends FrameLayout implements IItemCh
     public void showChatTime(boolean isShowTime) {
         if (isShowTime) {
             mTxtMessageTime.setVisibility(VISIBLE);
-        }else{
+        } else {
             mTxtMessageTime.setVisibility(GONE);
         }
     }
@@ -123,7 +146,7 @@ public abstract class MessageItemBaseView extends FrameLayout implements IItemCh
     /**
      * 展示头像
      */
-    private void showHead(){
+    private void showHead() {
         if (mItemPos == ITEM_CENTER || mChatMessageBean == null) {
             return;
         }
@@ -137,11 +160,32 @@ public abstract class MessageItemBaseView extends FrameLayout implements IItemCh
             mIconView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mActionListener != null){
+                    if (mActionListener != null) {
                         mActionListener.onGoToUserDetail(mChatMessageBean.getSendId());
                     }
                 }
             });
+        }
+    }
+
+    /**
+     * 展示发送消息的发送状态
+     */
+    private void showSendStatus() {
+        if (mSendFailImg == null || mSendingImg == null) {
+            return;
+        }
+        // 消息发送状态是否失败
+        if (mChatMessageBean.getSendStatus() == MessageConfig.MessageSendStatus.SEND_MSG_ING) {
+            mSendFailImg.setVisibility(View.GONE);
+            mSendingImg.setVisibility(View.VISIBLE);
+        } else if (mChatMessageBean
+                .getSendStatus() == MessageConfig.MessageSendStatus.SEND_NSG_FAIL) {
+            mSendFailImg.setVisibility(View.VISIBLE);
+            mSendingImg.setVisibility(View.GONE);
+        } else {
+            mSendFailImg.setVisibility(View.GONE);
+            mSendingImg.setVisibility(View.GONE);
         }
     }
 

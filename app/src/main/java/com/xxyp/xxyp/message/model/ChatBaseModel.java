@@ -14,19 +14,18 @@ import com.xxyp.xxyp.message.utils.MessageConfig;
 import java.util.List;
 
 /**
- * Description : 聊天基础model
- * Created by sunpengfei on 2017/8/22.
- * Person in charge : sunpengfei
+ * Description : 聊天基础model Created by sunpengfei on 2017/8/22. Person in charge
+ * : sunpengfei
  */
 public abstract class ChatBaseModel implements ChatBaseContract.Model {
 
     @Override
     public long addRelationResource(ChatMessageBean bean) {
-        if(bean == null){
+        if (bean == null) {
             return -1;
         }
         long relationSourceId = -1;
-        switch (bean.getMsgType()){
+        switch (bean.getMsgType()) {
             case MessageConfig.MessageType.MSG_VOICE:
                 relationSourceId = addMessageVoice(bean.getVoiceBean(), bean.getChatId());
                 if (bean.getVoiceBean() != null) {
@@ -47,7 +46,7 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
 
     @Override
     public long addMessageImage(MessageImageBean imageBean, String belongTo) {
-        if(imageBean == null){
+        if (imageBean == null) {
             return -1;
         }
         imageBean.setBelongTo(belongTo);
@@ -57,7 +56,7 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
 
     @Override
     public long updateMessageImage(MessageImageBean imageBean) {
-        if(imageBean == null){
+        if (imageBean == null) {
             return -1;
         }
         return RelationResourceDBManager.getInstance().updateMessageImage(imageBean);
@@ -65,7 +64,7 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
 
     @Override
     public List<MessageImageBean> getMessageImages(String belongTo) {
-        if(TextUtils.isEmpty(belongTo)){
+        if (TextUtils.isEmpty(belongTo)) {
             return null;
         }
         return RelationResourceDBManager.getInstance().getMessageImages(belongTo);
@@ -73,7 +72,7 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
 
     @Override
     public long addMessageVoice(MessageVoiceBean voiceBean, String belongTo) {
-        if(voiceBean == null){
+        if (voiceBean == null) {
             return -1;
         }
         voiceBean.setBelongTo(belongTo);
@@ -83,7 +82,7 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
 
     @Override
     public long updateMessageVoice(MessageVoiceBean voiceBean) {
-        if(voiceBean == null){
+        if (voiceBean == null) {
             return -1;
         }
         return RelationResourceDBManager.getInstance().updateMessageVoice(voiceBean);
@@ -91,10 +90,18 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
 
     @Override
     public long updateMessageContent(int chatType, String msgId, String content) {
-        if(TextUtils.isEmpty(content) || TextUtils.isEmpty(msgId)){
+        if (TextUtils.isEmpty(content) || TextUtils.isEmpty(msgId)) {
             return -1;
         }
         return ChatMessageDBManager.getInstance().updateMessageContent(chatType, msgId, content);
+    }
+
+    @Override
+    public long updateMessageSendStatus(int chatType, int status, String msgId) {
+        if (TextUtils.isEmpty(msgId)) {
+            return -1;
+        }
+        return ChatMessageDBManager.getInstance().updateMessageStatus(chatType, msgId, status);
     }
 
     @Override
@@ -123,9 +130,9 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
 
     @Override
     public int clearChatMessage(String chatId, int chatType) {
-        //清除聊天数据
+        // 清除聊天数据
         ChatMessageDBManager.getInstance().clearChatMessageByChatId(chatId, chatType);
-        //清除资源信息
+        // 清除资源信息
         removeMessageResource(chatId);
         return 0;
     }

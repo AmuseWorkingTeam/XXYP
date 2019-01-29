@@ -1,3 +1,4 @@
+
 package com.xxyp.xxyp.message.service;
 
 import android.text.TextUtils;
@@ -17,14 +18,13 @@ import com.xxyp.xxyp.message.utils.MessageUtils;
 import java.util.Arrays;
 
 /**
- * Description : 消息服务
- * Created by sunpengfei on 2017/8/14.
- * Person in charge : sunpengfei
+ * Description : 消息服务 Created by sunpengfei on 2017/8/14. Person in charge :
+ * sunpengfei
  */
 public class MsgServiceManager {
 
     private String TAG = getClass().getName();
-    
+
     private static MsgServiceManager mInstance;
 
     /**
@@ -50,7 +50,8 @@ public class MsgServiceManager {
 
     /**
      * 开启消息服务
-     * @param userId  用户id
+     * 
+     * @param userId 用户id
      */
     public void startMsgService(String userId) {
         if (TextUtils.isEmpty(userId)) {
@@ -94,22 +95,24 @@ public class MsgServiceManager {
 
     /**
      * 注册消息监听
-     * @param onMsgReceiveListener  收消息监听
-     * @param onMsgSendListener     发消息监听
+     * 
+     * @param onMsgReceiveListener 收消息监听
+     * @param onMsgSendListener 发消息监听
      */
     public void registerIMListener(MessageListenerManager.OnMsgReceiveListener onMsgReceiveListener,
-            MessageListenerManager.OnMsgSendListener onMsgSendListener)    {
+            MessageListenerManager.OnMsgSendListener onMsgSendListener) {
         MsgReceiveModel.getInstance().registerReceiveListener(onMsgReceiveListener);
         MsgSendModel.getInstance().registerSendListener(onMsgSendListener);
     }
 
     /**
      * 取消消息监听
-     * @param onMsgReceiveListener  收消息监听
-     * @param onMsgSendListener     发消息监听
+     * 
+     * @param onMsgReceiveListener 收消息监听
+     * @param onMsgSendListener 发消息监听
      */
     public void removeIMListener(MessageListenerManager.OnMsgReceiveListener onMsgReceiveListener,
-            MessageListenerManager.OnMsgSendListener onMsgSendListener)    {
+            MessageListenerManager.OnMsgSendListener onMsgSendListener) {
         MsgReceiveModel.getInstance().removeReceiveListener(onMsgReceiveListener);
         MsgSendModel.getInstance().removeSendListener(onMsgSendListener);
     }
@@ -141,7 +144,8 @@ public class MsgServiceManager {
 
     /**
      * 收到消息
-     * @param messageBean  消息体
+     * 
+     * @param messageBean 消息体
      */
     public void receiveMessage(MessageBean messageBean) {
         if (messageBean == null) {
@@ -150,13 +154,13 @@ public class MsgServiceManager {
         MsgReceiveModel.getInstance().receiveMessage(messageBean);
     }
 
-
     /**
      * 发送消息
+     * 
      * @param messageBean 消息体
      */
     public void sendMessage(final MessageBean messageBean) {
-        if(messageBean == null){
+        if (messageBean == null) {
             return;
         }
         XXLog.log_d(TAG, "send message content:" + messageBean.getContent());
@@ -175,13 +179,14 @@ public class MsgServiceManager {
                         new AVIMConversationCallback() {
                             public void done(AVIMException e) {
                                 if (e == null) {
-                                    handleSendSuccess(messageBean.getToId(), messageBean.getChatType(), messageBean.getMsgId(),
+                                    handleSendSuccess(messageBean.getToId(),
+                                            messageBean.getChatType(), messageBean.getMsgId(),
                                             messageBean.getConversationId());
                                     return;
                                 }
                                 XXLog.log_d(TAG, "send fail : " + e.getMessage());
-                                handleSendFail(messageBean.getToId(), messageBean.getChatType(), messageBean.getMsgId(),
-                                        messageBean.getConversationId());
+                                handleSendFail(messageBean.getToId(), messageBean.getChatType(),
+                                        messageBean.getMsgId(), messageBean.getConversationId());
                             }
                         });
                 return;
@@ -197,8 +202,8 @@ public class MsgServiceManager {
                         }
                         if (e != null) {
                             XXLog.log_d(TAG, "send fail : " + e.getMessage());
-                            handleSendFail(messageBean.getToId(), messageBean.getChatType(), messageBean.getMsgId(),
-                                    messageBean.getConversationId());
+                            handleSendFail(messageBean.getToId(), messageBean.getChatType(),
+                                    messageBean.getMsgId(), messageBean.getConversationId());
                             return;
                         }
                         avimConversation.sendMessage(MessageUtils.buildPacketMessage(messageBean),
@@ -206,12 +211,15 @@ public class MsgServiceManager {
                                     @Override
                                     public void done(AVIMException e) {
                                         if (e == null) {
-                                            handleSendSuccess(messageBean.getToId(), messageBean.getChatType(), messageBean.getMsgId(),
+                                            handleSendSuccess(messageBean.getToId(),
+                                                    messageBean.getChatType(),
+                                                    messageBean.getMsgId(),
                                                     messageBean.getConversationId());
                                             return;
                                         }
                                         XXLog.log_d(TAG, "send fail : " + e.getMessage());
-                                        handleSendFail(messageBean.getToId(), messageBean.getChatType(), messageBean.getMsgId(),
+                                        handleSendFail(messageBean.getToId(),
+                                                messageBean.getChatType(), messageBean.getMsgId(),
                                                 messageBean.getConversationId());
                                     }
                                 });

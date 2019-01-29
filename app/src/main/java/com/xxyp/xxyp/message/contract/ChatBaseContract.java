@@ -278,6 +278,15 @@ public interface ChatBaseContract {
         long updateMessageContent(int chatType, String content, String msgId);
 
         /**
+         * 根据msgId更新消息sendStatus
+         * @param chatType  聊天类型
+         * @param status   发送状态
+         * @param msgId     消息id
+         * @return long
+         */
+        long updateMessageSendStatus(int chatType, int status, String msgId);
+
+        /**
          * 更新语音状态
          *
          * @param status 0未读，1已读

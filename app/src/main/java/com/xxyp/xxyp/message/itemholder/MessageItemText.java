@@ -1,7 +1,6 @@
 
 package com.xxyp.xxyp.message.itemholder;
 
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
@@ -28,13 +27,12 @@ public class MessageItemText extends MessageItemBaseView {
         super(context, listener, itemPos);
     }
 
-
     @Override
     protected View initView(ViewGroup parent) {
         View view;
-        if(mItemPos == ITEM_LEFT){
+        if (mItemPos == ITEM_LEFT) {
             view = View.inflate(mContext, R.layout.item_chat_text_left, parent);
-        }else{
+        } else {
             view = View.inflate(mContext, R.layout.item_chat_text_right, parent);
         }
         mChatText = ((TextView)view.findViewById(R.id.txt_message));
@@ -61,25 +59,24 @@ public class MessageItemText extends MessageItemBaseView {
     /**
      * 展示文本数据
      */
-    private void showText(){
+    private void showText() {
         if (mChatMessageBean == null || mChatMessageBean.getBodyBean() == null) {
             mChatText.setText("");
             return;
         }
-        if(mChatMessageBean.getMsgType() != MessageConfig.MessageType.MSG_TEXT){
-            //非文本转为无法识别
+        if (mChatMessageBean.getMsgType() != MessageConfig.MessageType.MSG_TEXT) {
+            // 非文本转为无法识别
             mChatText.setText("未知消息");
             return;
         }
-        if(TextUtils.isEmpty(mChatMessageBean.getBodyBean().getText())){
+        if (TextUtils.isEmpty(mChatMessageBean.getBodyBean().getText())) {
             mChatText.setText("");
             return;
         }
         String text = mChatMessageBean.getBodyBean().getText();
         String zhengze = "\\[[^\\[\\]]{1,3}\\]"; // 正则表达式，用来判断消息内是否有表情
         try {
-            SpannableString spannable = EmojiUtils.getInstance().getExpressionString(
-                    text, zhengze);
+            SpannableString spannable = EmojiUtils.getInstance().getExpressionString(text, zhengze);
             mChatText.setText(spannable);
         } catch (Exception e) {
             e.printStackTrace();

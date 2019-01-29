@@ -71,6 +71,26 @@ public class MessageListHelper {
         }
     }
 
+    /**
+     * 更新消息状态
+     *
+     * @param msgId 消息id
+     * @param status 消息状态
+     */
+    void updateSendStatus(String msgId, int status) {
+        if (!TextUtils.isEmpty(msgId)) {
+            for (int i = 0; i < mMessages.size(); i++) {
+                ChatMessageBean bean = mMessages.get(i);
+                if (TextUtils.equals(bean.getMsgId(), msgId)) {
+                    bean.setSendStatus(status);
+                    mMessages.set(i, bean);
+                    mAdapter.notifyItemChanged(i, bean);
+                    return;
+                }
+            }
+        }
+    }
+
     public int getChatCount() {
         return mAdapter.getItemCount();
     }

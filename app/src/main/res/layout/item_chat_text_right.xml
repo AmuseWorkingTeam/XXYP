@@ -10,7 +10,6 @@
     android:lineSpacingExtra="@dimen/dimen_2"
     android:maxWidth="@dimen/dimen_250"
     android:minHeight="@dimen/dimen_36"
-    android:minWidth="@dimen/dimen_55"
     android:paddingBottom="@dimen/dimen_10"
     android:paddingLeft="@dimen/dimen_10"
     android:paddingRight="@dimen/dimen_20"

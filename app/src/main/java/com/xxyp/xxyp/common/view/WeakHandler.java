@@ -21,7 +21,7 @@ public class WeakHandler<T> extends Handler {
     @Override
     public final void handleMessage(Message msg) {
         super.handleMessage(msg);
-        if(mActivity.get() == null){
+        if (mActivity.get() == null) {
             return;
         }
         handlerWeakMessage(msg);

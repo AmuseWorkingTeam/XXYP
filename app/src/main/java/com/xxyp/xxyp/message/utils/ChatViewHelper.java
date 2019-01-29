@@ -34,6 +34,8 @@ public class ChatViewHelper implements ChatActionListener {
 
     private static final int UPDATE_CHAT_MESSAGES = 10006;
 
+    private static final int CHANGE_SEND_STATUS = 10007;
+
     private ChatRecyclerView mChatRecyclerView;
 
     private Activity mContext;
@@ -55,7 +57,7 @@ public class ChatViewHelper implements ChatActionListener {
         initHandler();
     }
 
-    public void setChatPresenter(ChatBaseContract.Presenter presenter){
+    public void setChatPresenter(ChatBaseContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
@@ -79,7 +81,7 @@ public class ChatViewHelper implements ChatActionListener {
                         mChatRecyclerView.scrollToPosition(mMessageListHelper.getChatCount() - 1);
                         break;
                     case ADD_CHAT_MESSAGES:
-                        List<ChatMessageBean> addBeans = (List<ChatMessageBean>) msg.obj;
+                        List<ChatMessageBean> addBeans = (List<ChatMessageBean>)msg.obj;
                         mMessageListHelper.addMessages(addBeans);
                         mChatRecyclerView.scrollToPosition(mMessageListHelper.getChatCount() - 1);
                         break;
@@ -89,13 +91,20 @@ public class ChatViewHelper implements ChatActionListener {
                         mChatRecyclerView.scrollToPosition(0);
                         break;
                     case ADD_CHAT_MESSAGES_TOP:
-                        List<ChatMessageBean> topBeans = (List<ChatMessageBean>) msg.obj;
+                        List<ChatMessageBean> topBeans = (List<ChatMessageBean>)msg.obj;
                         mMessageListHelper.addMessages(0, topBeans);
                         mChatRecyclerView.scrollToPosition(topBeans.size() - 1);
                         break;
                     case UPDATE_CHAT_MESSAGES:
                         ChatMessageBean updateBean = (ChatMessageBean)msg.obj;
                         mMessageListHelper.updateMessage(updateBean);
+                        break;
+                    case CHANGE_SEND_STATUS:
+                        String messageId = (String)msg.obj;
+                        if (null != messageId) {
+                            int status = msg.arg1;
+                            mMessageListHelper.updateSendStatus(messageId, status);
+                        }
                         break;
                     default:
                         break;
@@ -106,7 +115,8 @@ public class ChatViewHelper implements ChatActionListener {
 
     /**
      * 添加消息到列表
-     * @param bean  消息
+     * 
+     * @param bean 消息
      */
     public void addChatMessage(ChatMessageBean bean) {
         Message message = Message.obtain();
@@ -117,7 +127,8 @@ public class ChatViewHelper implements ChatActionListener {
 
     /**
      * 添加消息列表到列表
-     * @param beans  消息
+     * 
+     * @param beans 消息
      */
     public void addChatMessages(List<ChatMessageBean> beans) {
         Message message = Message.obtain();
@@ -128,7 +139,8 @@ public class ChatViewHelper implements ChatActionListener {
 
     /**
      * 添加消息到列表顶部
-     * @param bean  消息
+     * 
+     * @param bean 消息
      */
     public void addTopChatMessage(ChatMessageBean bean) {
         Message message = Message.obtain();
@@ -139,7 +151,8 @@ public class ChatViewHelper implements ChatActionListener {
 
     /**
      * 添加消息到列表顶部
-     * @param beans  消息
+     * 
+     * @param beans 消息
      */
     public void addTopChatMessages(List<ChatMessageBean> beans) {
         Message message = Message.obtain();
@@ -150,10 +163,11 @@ public class ChatViewHelper implements ChatActionListener {
 
     /**
      * 更新某条消息
+     * 
      * @param bean 消息
      */
-    public void updateChatMessage(ChatMessageBean bean){
-        if(bean == null){
+    public void updateChatMessage(ChatMessageBean bean) {
+        if (bean == null) {
             return;
         }
         Message message = Message.obtain();
@@ -163,7 +177,22 @@ public class ChatViewHelper implements ChatActionListener {
     }
 
     /**
+     * 更新消息发送状态
+     *
+     * @param msgId 消息
+     * @param status 消息状态
+     */
+    public void updateChatMessageStatus(String msgId, int status) {
+        Message msg = Message.obtain();
+        msg.what = CHANGE_SEND_STATUS;
+        msg.obj = msgId;
+        msg.arg1 = status;
+        mHandler.sendMessage(msg);
+    }
+
+    /**
      * 获取第一条消息
+     * 
      * @return ChatMessageBean
      */
     public ChatMessageBean getFirstMessage() {
@@ -182,21 +211,21 @@ public class ChatViewHelper implements ChatActionListener {
 
     @Override
     public void onGoToUserDetail(String userId) {
-        if(mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.onGoToUserDetail(userId);
         }
     }
 
     @Override
     public void onClickToBigImgListener(View view, ChatMessageBean chatBean) {
-        if(mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.onClickToBigImgListener(view, chatBean);
         }
     }
 
     @Override
     public void onPlayVoiceListener(ChatMessageBean chatBean) {
-        if(mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.onPlayVoiceListener(chatBean);
         }
     }
