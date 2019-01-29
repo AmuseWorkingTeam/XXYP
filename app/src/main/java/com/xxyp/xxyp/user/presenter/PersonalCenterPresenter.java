@@ -159,6 +159,12 @@ public class PersonalCenterPresenter implements PersonalCenterContract.Presenter
     }
 
     @Override
+    public void openMyPhoto() {
+        UserProvider.openMyPhoto((Activity) mView.getContext(),
+                SharePreferenceUtils.getInstance().getUserId());
+    }
+
+    @Override
     public void onDestroyPresenter() {
         mView = null;
         if (mSubscription != null) {

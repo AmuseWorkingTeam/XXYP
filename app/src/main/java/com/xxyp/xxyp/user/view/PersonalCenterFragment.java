@@ -134,6 +134,7 @@ public class PersonalCenterFragment extends BaseTitleFragment
                 break;
             case R.id.tv_my_photo:
                 // 我的相册
+                mPresenter.openMyPhoto();
                 break;
             case R.id.tv_setting:
                 //跳转个人设置

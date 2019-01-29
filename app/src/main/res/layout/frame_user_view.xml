@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@drawable/xx_title_bg"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/dimen_20"
-              android:paddingTop="@dimen/dimen_20">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/xx_title_bg"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dimen_20"
+    android:paddingTop="@dimen/dimen_20">
 
     <RelativeLayout
         android:layout_width="@dimen/dimen_104"
@@ -21,15 +21,14 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             fresco:placeholderImage="@color/c5"
-            fresco:roundAsCircle="true"/>
+            fresco:roundAsCircle="true" />
 
         <ImageView
             android:id="@+id/frame_user_identity"
             android:layout_width="@dimen/dimen_30"
             android:layout_height="@dimen/dimen_30"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/cameraman_icon"/>
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 
     <TextView
@@ -39,7 +38,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dimen_14"
         android:textColor="@color/c3"
-        android:textSize="@dimen/dimen_16"/>
+        android:textSize="@dimen/dimen_16" />
 
     <ImageView
         android:id="@+id/frame_user_sex"
@@ -48,7 +47,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dimen_10"
         android:src="@drawable/female_icon"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/frame_user_location"
@@ -58,7 +57,7 @@
         android:layout_marginTop="@dimen/dimen_4"
         android:textColor="@color/c3"
         android:textSize="@dimen/dimen_12"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/frame_user_desc"
@@ -67,7 +66,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dimen_7"
         android:textColor="@color/c3"
-        android:textSize="@dimen/dimen_12"/>
+        android:textSize="@dimen/dimen_12" />
 
     <LinearLayout
         android:id="@+id/frame_user_heart"
@@ -83,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/heart_icon_selector"/>
+            android:src="@drawable/heart_icon_selector" />
 
         <TextView
             android:id="@+id/frame_user_heart_count"
@@ -91,8 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:text="180"
+            android:text="0"
             android:textColor="@color/c3"
-            android:textSize="@dimen/dimen_16"/>
+            android:textSize="@dimen/dimen_16" />
     </LinearLayout>
 </LinearLayout>

@@ -115,6 +115,10 @@
             android:name=".user.view.TotalFansFocusActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".user.view.MyPhotoActivity"
+            android:screenOrientation="portrait" />
+
         <!--相册-->
         <activity
             android:name=".common.utils.gallery.GalleryActivity"

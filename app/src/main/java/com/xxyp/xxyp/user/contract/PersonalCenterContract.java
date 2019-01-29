@@ -59,6 +59,8 @@ public interface PersonalCenterContract {
         void openMyFocus();
 
         void openSetting();
+
+        void openMyPhoto();
     }
 
     /**

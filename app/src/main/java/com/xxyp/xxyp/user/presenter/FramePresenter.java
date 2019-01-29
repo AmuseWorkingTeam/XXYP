@@ -219,7 +219,7 @@ public class FramePresenter implements FrameContract.Presenter {
 
     @Override
     public void getUserHasFansAndFollow(String userId, String otherUserId) {
-        if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(otherUserId)) {
+        if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(otherUserId) || TextUtils.equals(userId, otherUserId)) {
             return;
         }
         Subscription subscription = mModel.getUserHasFansAndFollow(userId, otherUserId)

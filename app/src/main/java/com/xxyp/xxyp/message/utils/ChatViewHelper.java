@@ -64,7 +64,7 @@ public class ChatViewHelper implements ChatActionListener {
         mHandler = new WeakHandler(mContext) {
             @Override
             protected void handlerWeakMessage(Message msg) {
-                super.handleMessage(msg);
+                super.handlerWeakMessage(msg);
                 switch (msg.what) {
                     case SCROLL_TO_BOTTOM:
                         mChatRecyclerView.scrollToPosition(mMessageListHelper.getChatCount() - 1);

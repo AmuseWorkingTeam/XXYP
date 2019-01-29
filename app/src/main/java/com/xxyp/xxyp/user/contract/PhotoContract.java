@@ -16,7 +16,7 @@ import rx.Observable;
  * Description : frame Created by sunpengfei on 2017/8/2. Person in charge :
  * sunpengfei
  */
-public interface FrameContract {
+public interface PhotoContract {
 
     /**
      * frame页面view
@@ -45,6 +45,10 @@ public interface FrameContract {
          */
         void showFansFollowCount(int followCount, int fansCount);
 
+        void resetRefresh();
+
+        void resetLoadMore();
+
         /**
          * 展示加载框
          *
@@ -57,10 +61,6 @@ public interface FrameContract {
          */
         void cancelFrameDialog();
 
-        /**
-         * 显示关注
-         */
-        void showFocus(boolean isFocus);
     }
 
     /**
@@ -75,12 +75,6 @@ public interface FrameContract {
          */
         void getUserInfo(String userId);
 
-        /**
-         * 获取粉丝关注人数
-         *
-         * @param userId 用户id
-         */
-        void getFansFollowCount(String userId);
 
         /**
          * 获取用户作品
@@ -105,37 +99,12 @@ public interface FrameContract {
         void openChat(String userId);
 
         /**
-         * 打开粉丝
+         * 获取粉丝关注人数
          *
          * @param userId 用户id
          */
-        void openFans(String userId);
+        void getFansFollowCount(String userId);
 
-        /**
-         * 打开关注
-         *
-         * @param userId 用户id
-         */
-        void openFocus(String userId);
-
-        /**
-         * 关注此用户
-         *
-         * @param userId 被关注的userId
-         */
-        void focusUser(String userId);
-
-        /**
-         * 取消关注
-         *
-         * @param userId 被关注的userId
-         */
-        void cancelFocus(String userId);
-
-        /**
-         * 查询关注和粉丝关系
-         */
-        void getUserHasFansAndFollow(String userId, String otherUserId);
     }
 
     /**

@@ -4,39 +4,41 @@ package com.xxyp.xxyp.user.view;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xxyp.xxyp.R;
 import com.xxyp.xxyp.common.base.BaseTitleActivity;
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.common.utils.ImageRequestConfig;
 import com.xxyp.xxyp.common.utils.ScreenUtils;
-import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 import com.xxyp.xxyp.common.view.Header;
 import com.xxyp.xxyp.common.view.ImageLoader;
 import com.xxyp.xxyp.common.view.recyclerView.layoutManager.HeaderFooterGridLayoutManager;
 import com.xxyp.xxyp.login.utils.UserConfig;
 import com.xxyp.xxyp.main.bean.WorkBean;
-import com.xxyp.xxyp.user.adapter.FrameAdapter;
-import com.xxyp.xxyp.user.contract.FrameContract;
-import com.xxyp.xxyp.user.presenter.FramePresenter;
-import com.xxyp.xxyp.user.service.UserServiceManager;
+import com.xxyp.xxyp.user.adapter.MyPhotoAdapter;
+import com.xxyp.xxyp.user.contract.PhotoContract;
+import com.xxyp.xxyp.user.presenter.PhotoPresenter;
 import com.xxyp.xxyp.user.utils.FrameConfig;
 
 import java.util.List;
 
 /**
- * Description : frame页面 Created by sunpengfei on 2017/8/3. Person in charge :
- * sunpengfei
+ * <Li> Description : 我的相册
  */
-public class FrameActivity extends BaseTitleActivity implements FrameContract.View {
+public class MyPhotoActivity extends BaseTitleActivity implements PhotoContract.View {
 
-    private FrameAdapter mAdapter;
+    private PhotoContract.Presenter mPresenter;
+
+
+    private MyPhotoAdapter mAdapter;
 
     private SimpleDraweeView mAvatar;
 
@@ -47,25 +49,18 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
     private TextView mName;
 
     /* 关注粉丝 */
-    private TextView mTvFollowCount, mTvFansCount;
-
-    private FrameContract.Presenter mPresenter;
-
     private RecyclerView mRecyclerView;
 
-    private TextView mTvConnect;
-
-    private String otherUserId;
+    private String userId;
 
     private ImageView mUserIdentity;
 
     /* 返回icon */
     private ImageView mIvFrameBack;
 
-    /* 关注 */
-    private ImageView mIvFocus;
-
-    private boolean isFocus;
+    private View rootView;
+    private TextView tvHeartCount;
+    private SwipeToLoadLayout stllRoot;
 
     @Override
     protected Header onCreateHeader(RelativeLayout headerContainer) {
@@ -75,27 +70,27 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
     @Override
     protected View onCreateView() {
         hideTitleHeader();
-        View view = View.inflate(this, R.layout.activity_frame, null);
-        mTvConnect = (TextView) view.findViewById(R.id.frame_communication);
-        mRecyclerView = ((RecyclerView) view.findViewById(R.id.frame_recycler));
+        View view = View.inflate(this, R.layout.activity_my_photo, null);
+        stllRoot = (SwipeToLoadLayout) view.findViewById(R.id.container);
+        mRecyclerView = ((RecyclerView) view.findViewById(R.id.photo_recycler));
         mRecyclerView
                 .setLayoutManager(new HeaderFooterGridLayoutManager(this, 3, true, false));
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new FrameAdapter(this);
+        mAdapter = new MyPhotoAdapter(this);
 
-        View headerView = View.inflate(this, R.layout.frame_header, null);
+        View headerView = View.inflate(this, R.layout.photo_header, null);
         mIvFrameBack = (ImageView) headerView.findViewById(R.id.frame_back_icon);
-        mIvFocus = (ImageView) headerView.findViewById(R.id.frame_focus_icon);
         mAvatar = ((SimpleDraweeView) headerView.findViewById(R.id.frame_user_avatar));
         mName = ((TextView) headerView.findViewById(R.id.frame_user_name));
         mIntro = ((TextView) headerView.findViewById(R.id.frame_user_desc));
-        mTvFollowCount = ((TextView) headerView.findViewById(R.id.tv_follow_count));
-        mTvFansCount = ((TextView) headerView.findViewById(R.id.tv_fans_count));
         mUserIdentity = ((ImageView) headerView.findViewById(R.id.frame_user_identity));
+        LinearLayout llHeart = ((LinearLayout) headerView.findViewById(R.id.frame_user_heart));
+        llHeart.setVisibility(View.VISIBLE);
+        tvHeartCount = ((TextView) headerView.findViewById(R.id.frame_user_heart_count));
         mAdapter.addHeaderView(headerView);
 
         mRecyclerView.setAdapter(mAdapter);
-        mPresenter = new FramePresenter(this);
+        mPresenter = new PhotoPresenter(this);
         return view;
     }
 
@@ -104,15 +99,14 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         if (intent == null) {
             return;
         }
-        otherUserId = intent.getStringExtra(FrameConfig.USER_ID);
+        userId = intent.getStringExtra(FrameConfig.USER_ID);
     }
 
     @Override
     protected void initDataForActivity() {
-        mPresenter.getUserInfo(otherUserId);
-        mPresenter.obtainUserWorks(otherUserId);
-        mPresenter.getFansFollowCount(otherUserId);
-        mPresenter.getUserHasFansAndFollow(SharePreferenceUtils.getInstance().getUserId(), otherUserId);
+        mPresenter.getUserInfo(userId);
+        mPresenter.getFansFollowCount(userId);
+        mPresenter.obtainUserWorks(userId);
     }
 
     @Override
@@ -125,44 +119,18 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
             }
         });
 
-        //关注
-        mIvFocus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isFocus) {
-                    mPresenter.cancelFocus(otherUserId);
-                } else {
-                    mPresenter.focusUser(otherUserId);
-                }
-            }
-        });
-        //跳转关注列表
-        mTvFollowCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.openFocus(otherUserId);
-            }
-        });
-
-        //跳转粉丝列表
-        mTvFansCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.openFans(otherUserId);
-            }
-        });
-
-        mAdapter.setWorkListener(new FrameAdapter.OnWorkListener() {
+        mAdapter.setWorkListener(new MyPhotoAdapter.OnWorkListener() {
             @Override
             public void openProduct(String userId, String workId) {
                 mPresenter.openProduct(userId, workId);
             }
         });
 
-        mTvConnect.setOnClickListener(new View.OnClickListener() {
+        stllRoot.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onClick(View v) {
-                mPresenter.openChat(otherUserId);
+            public void onLoadMore() {
+                //上拉刷新
+                stllRoot.setLoadingMore(false);
             }
         });
     }
@@ -172,7 +140,9 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         return this;
     }
 
-    public void setPresenter(FrameContract.Presenter presenter) {
+    @Override
+    public void setPresenter(PhotoContract.Presenter presenter) {
+
     }
 
     @Override
@@ -192,23 +162,6 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
         } else {
             mUserIdentity.setBackgroundResource(R.drawable.customer_icon);
         }
-        if (TextUtils.equals(userInfo.getUserId(),
-                SharePreferenceUtils.getInstance().getUserId())) {
-            mTvConnect.setVisibility(View.GONE);
-            mIvFocus.setVisibility(View.GONE);
-        } else {
-            mTvConnect.setVisibility(View.VISIBLE);
-            mIvFocus.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void showFocus(boolean isFocus) {
-        this.isFocus = isFocus;
-        if (isFocus) {
-            mIvFocus.setImageDrawable(getResources().getDrawable(R.drawable.heart_icon_selector));
-        } else {
-            mIvFocus.setImageDrawable(getResources().getDrawable(R.drawable.heart_icon_nromal));
-        }
     }
 
     @Override
@@ -221,10 +174,17 @@ public class FrameActivity extends BaseTitleActivity implements FrameContract.Vi
 
     @Override
     public void showFansFollowCount(int followCount, int fansCount) {
-        mTvFollowCount
-                .setText(String.format(getResources().getString(R.string.focus), followCount + ""));
-        mTvFansCount
-                .setText(String.format(getResources().getString(R.string.fans), fansCount + ""));
+        tvHeartCount.setText(fansCount);
+    }
+
+    @Override
+    public void resetRefresh() {
+        stllRoot.setRefreshing(false);
+    }
+
+    @Override
+    public void resetLoadMore() {
+        stllRoot.setLoadingMore(false);
     }
 
     @Override

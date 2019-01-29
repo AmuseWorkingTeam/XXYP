@@ -13,6 +13,7 @@ import com.xxyp.xxyp.user.service.UserServiceManager;
 import com.xxyp.xxyp.user.utils.FrameConfig;
 import com.xxyp.xxyp.user.view.FrameActivity;
 import com.xxyp.xxyp.user.view.LocationActivity;
+import com.xxyp.xxyp.user.view.MyPhotoActivity;
 import com.xxyp.xxyp.user.view.TotalFansFocusActivity;
 
 import org.greenrobot.greendao.annotation.NotNull;
@@ -30,7 +31,8 @@ public class UserProvider {
 
     /**
      * 插入数据库
-     * @param userInfo  用户信息
+     *
+     * @param userInfo 用户信息
      * @return long
      */
     public static long addOrUpdateUserInfo(UserInfo userInfo) {
@@ -39,7 +41,8 @@ public class UserProvider {
 
     /**
      * 批量插入数据库
-     * @param userInfos  用户信息
+     *
+     * @param userInfos 用户信息
      */
     public static void addOrUpdateUserInfos(List<UserInfo> userInfos) {
         new UserModel().addOrUpdateUserInfos(userInfos);
@@ -47,7 +50,8 @@ public class UserProvider {
 
     /**
      * 获取本地userInfo
-     * @param userId  用户id
+     *
+     * @param userId 用户id
      * @return UserInfo
      */
     public static UserInfo getUserInfoByDB(String userId) {
@@ -59,7 +63,8 @@ public class UserProvider {
 
     /**
      * 批量获取本地userInfo
-     * @param userIds  用户id
+     *
+     * @param userIds 用户id
      * @return List<UserInfo>
      */
     private static List<UserInfo> getUserInfosByDB(List<String> userIds) {
@@ -71,7 +76,8 @@ public class UserProvider {
 
     /**
      * 网络获取用户信息
-     * @param userId  用户id
+     *
+     * @param userId 用户id
      * @return Observable<UserInfo>
      */
     public static Observable<UserInfo> getUserInfoByServer(String userId) {
@@ -89,7 +95,8 @@ public class UserProvider {
 
     /**
      * 获取用户信息
-     * @param userId  用户id
+     *
+     * @param userId 用户id
      * @return Observable<UserInfo>
      */
     public static Observable<UserInfo> obtainUserInfo(String userId) {
@@ -111,7 +118,8 @@ public class UserProvider {
 
     /**
      * 批量获取用户信息
-     * @param userIds  用户id
+     *
+     * @param userIds 用户id
      * @return Observable<UserInfo>
      */
     public static Observable<List<UserInfo>> obtainUserInfos(List<String> userIds) {
@@ -130,7 +138,8 @@ public class UserProvider {
 
     /**
      * 更新用户信息
-     * @param userInfo  用户信息
+     *
+     * @param userInfo 用户信息
      * @return Observable<Object>
      */
     public static Observable<Object> updateUserInfo(final UserInfo userInfo) {
@@ -149,8 +158,9 @@ public class UserProvider {
 
     /**
      * 打开frame
-     * @param activity  上下文
-     * @param userId    用户id
+     *
+     * @param activity 上下文
+     * @param userId   用户id
      */
     public static void openFrame(@NonNull Activity activity, String userId) {
         Intent intent = new Intent(activity, FrameActivity.class);
@@ -160,6 +170,7 @@ public class UserProvider {
 
     /**
      * 打开位置
+     *
      * @param activity 上下文
      */
     public static void openLocation(@NonNull Activity activity, int requestCode) {
@@ -169,8 +180,9 @@ public class UserProvider {
 
     /**
      * 打开粉丝列表
-     * @param activity  上下文
-     * @param userId    用户id
+     *
+     * @param activity 上下文
+     * @param userId   用户id
      */
     public static void openFans(@NotNull Activity activity, String userId) {
         Intent intent = new Intent(activity, TotalFansFocusActivity.class);
@@ -181,13 +193,26 @@ public class UserProvider {
 
     /**
      * 打开关注列表
-     * @param activity  上下文
-     * @param userId    用户id
+     *
+     * @param activity 上下文
+     * @param userId   用户id
      */
     public static void openFocus(@NotNull Activity activity, String userId) {
         Intent intent = new Intent(activity, TotalFansFocusActivity.class);
         intent.putExtra(FrameConfig.USER_ID, userId);
         intent.putExtra(UserConfig.USER_FANS_TYPE, UserConfig.UserFansType.FOCUS_TYPE);
         activity.startActivity(intent);
+    }
+
+    /**
+     * 打开我的相册
+     *
+     * @param context
+     * @param userId
+     */
+    public static void openMyPhoto(Activity context, String userId) {
+        Intent intent = new Intent(context, MyPhotoActivity.class);
+        intent.putExtra(FrameConfig.USER_ID, userId);
+        context.startActivity(intent);
     }
 }

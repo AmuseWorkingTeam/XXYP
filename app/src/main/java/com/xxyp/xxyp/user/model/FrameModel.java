@@ -8,6 +8,7 @@ import com.xxyp.xxyp.user.bean.CreateFansInput;
 import com.xxyp.xxyp.user.bean.UpdateFansInput;
 import com.xxyp.xxyp.user.bean.UserWorkListBean;
 import com.xxyp.xxyp.user.contract.FrameContract;
+import com.xxyp.xxyp.user.contract.PhotoContract;
 import com.xxyp.xxyp.user.service.UserServiceManager;
 import com.xxyp.xxyp.user.utils.FrameConfig;
 
@@ -24,7 +25,7 @@ import rx.functions.Func1;
  * Description : frame model Created by sunpengfei on 2017/8/2. Person in charge
  * : sunpengfei
  */
-public class FrameModel implements FrameContract.Model {
+public class FrameModel implements FrameContract.Model, PhotoContract.Model {
     @Override
     public Observable<UserWorkListBean> getWorks(String userId) {
         return UserServiceManager.getWorks(userId, null);

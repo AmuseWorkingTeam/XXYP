@@ -26,8 +26,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:paddingRight="@dimen/dimen_10"
-        android:paddingTop="@dimen/dimen_15"
-        android:src="@drawable/icon_frame_love" />
+        android:paddingTop="@dimen/dimen_15" />
 
     <LinearLayout
         android:id="@+id/ll_fans"

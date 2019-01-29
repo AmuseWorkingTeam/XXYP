@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:fresco="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginBottom="@dimen/dimen_11"
-             android:layout_marginTop="@dimen/dimen_11">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dimen_11"
+    android:layout_marginTop="@dimen/dimen_11">
 
 
     <RelativeLayout
@@ -21,11 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_12"
             android:layout_marginTop="@dimen/dimen_3"
-            android:text="15人预约"
             android:textColor="@color/c3"
-            android:textSize="@dimen/dimen_12"/>
+            android:textSize="@dimen/dimen_12" />
 
         <LinearLayout
             android:id="@+id/ll_dating_info"
@@ -33,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_dating_count"
             android:layout_marginRight="@dimen/dimen_5"
+            android:layout_marginTop="@dimen/dimen_12"
             android:background="@drawable/dating_shot_white_bg"
             android:orientation="vertical"
             android:padding="@dimen/dimen_5">
@@ -47,7 +46,7 @@
                 android:paddingLeft="@dimen/dimen_5"
                 android:text="约摄影师 双方互免"
                 android:textColor="@color/color_5a5a5a"
-                android:textSize="@dimen/dimen_16"/>
+                android:textSize="@dimen/dimen_16" />
 
             <TextView
                 android:id="@+id/tv_time"
@@ -60,7 +59,7 @@
                 android:paddingTop="@dimen/dimen_7"
                 android:text="时间:2017.5.1"
                 android:textColor="@color/color_868686"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
 
             <TextView
                 android:id="@+id/tv_address"
@@ -73,7 +72,7 @@
                 android:paddingLeft="@dimen/dimen_5"
                 android:text="地点"
                 android:textColor="@color/color_868686"
-                android:textSize="@dimen/dimen_12"/>
+                android:textSize="@dimen/dimen_12" />
 
         </LinearLayout>
 
@@ -85,7 +84,7 @@
             android:layout_alignTop="@id/ll_dating_info"
             android:layout_toRightOf="@id/ll_dating_info"
             fresco:fadeDuration="100"
-            fresco:roundedCornerRadius="@dimen/dimen_8"/>
+            fresco:roundedCornerRadius="@dimen/dimen_8" />
 
         <View
             android:id="@+id/dating_line"
@@ -96,7 +95,7 @@
             android:layout_below="@id/ll_dating_info"
             android:layout_marginBottom="@dimen/dimen_2"
             android:layout_marginTop="@dimen/dimen_7"
-            android:background="@color/c3"/>
+            android:background="@color/c3" />
 
         <TextView
             android:id="@+id/dating_status"
@@ -107,7 +106,7 @@
             android:gravity="center"
             android:text="进行中"
             android:textColor="@color/c3"
-            android:textSize="@dimen/dimen_12"/>
+            android:textSize="@dimen/dimen_12" />
     </RelativeLayout>
 
 </FrameLayout>
