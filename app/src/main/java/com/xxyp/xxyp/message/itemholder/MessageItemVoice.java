@@ -1,7 +1,6 @@
 
 package com.xxyp.xxyp.message.itemholder;
 
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -31,16 +30,15 @@ public class MessageItemVoice extends MessageItemBaseView {
         super(context, listener, itemPos);
     }
 
-
     @Override
     protected View initView(ViewGroup parent) {
         View view;
-        if(mItemPos == ITEM_LEFT){
+        if (mItemPos == ITEM_LEFT) {
             view = View.inflate(mContext, R.layout.item_chat_voice_left, parent);
-        }else{
+        } else {
             view = View.inflate(mContext, R.layout.item_chat_voice_right, parent);
         }
-        mFlChatVoice = (FrameLayout) view.findViewById(R.id.fl_voice_message);
+        mFlChatVoice = (FrameLayout)view.findViewById(R.id.fl_voice_message);
         mVoiceTime = ((TextView)view.findViewById(R.id.tv_voice_time));
         return view;
     }
@@ -55,7 +53,7 @@ public class MessageItemVoice extends MessageItemBaseView {
         mFlChatVoice.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mActionListener != null){
+                if (mActionListener != null) {
                     mActionListener.onPlayVoiceListener(mChatMessageBean);
                 }
             }
@@ -73,8 +71,9 @@ public class MessageItemVoice extends MessageItemBaseView {
     /**
      * 展示语音数据
      */
-    private void showVoice(){
-        if (mChatMessageBean == null || (mChatMessageBean.getVoiceBean() == null && mChatMessageBean.getBodyBean() == null)) {
+    private void showVoice() {
+        if (mChatMessageBean == null || (mChatMessageBean.getVoiceBean() == null
+                && mChatMessageBean.getBodyBean() == null)) {
             return;
         }
         MessageVoiceBean voiceInfo = mChatMessageBean.getVoiceBean();

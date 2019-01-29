@@ -35,6 +35,7 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
         implements View.OnClickListener, OnPanelItemListener {
 
     private static final String TAG = MessageInputBar.class.getSimpleName();
+
     private boolean isShowKeyBoard = false;
 
     private ChatEditText mChatEditText;
@@ -49,7 +50,7 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
 
     private TextView mSendView;
 
-    /* 切换语音 文本按钮*/
+    /* 切换语音 文本按钮 */
     private ImageView mKeyBoardView;
 
     /* 语音按钮 */
@@ -66,7 +67,7 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
 
     public static final int VOICE_TIME_OUT = 4;
 
-    public static final int VOICE_NORMAL= 5;
+    public static final int VOICE_NORMAL = 5;
 
     public static final int VOICE_OVER = 6;
 
@@ -103,7 +104,7 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
         mMoreView = ((ImageView)view.findViewById(R.id.control_more));
         mSendView = ((TextView)view.findViewById(R.id.view_send));
         mChatEditText = ((ChatEditText)view.findViewById(R.id.chat_edit_text));
-        mVoiceView = (TextView) view.findViewById(R.id.chat_voice_view);
+        mVoiceView = (TextView)view.findViewById(R.id.chat_voice_view);
         setViewListener();
     }
 
@@ -125,8 +126,7 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
             public boolean onTouch(View v, MotionEvent event) {
                 requestEditTextFocus();
                 showKeyboard(mPanel);
-                if (event.getAction() == 0
-                        && mListener != null) {
+                if (event.getAction() == 0 && mListener != null) {
                     mListener.onTagChanged(OnInputPanelListener.TAG_EMPTY);
                 }
                 return false;
@@ -155,13 +155,13 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s.toString().trim())) {
                     mSendView.setVisibility(GONE);
-                }else{
+                } else {
                     mSendView.setVisibility(VISIBLE);
                 }
             }
         });
 
-        //语音按钮
+        // 语音按钮
         mVoiceView.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -175,24 +175,24 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if(event.getY() < height){
-                            //超出范围抬起 返回录音取消
-                            if(mListener != null){
+                        if (event.getY() < height) {
+                            // 超出范围抬起 返回录音取消
+                            if (mListener != null) {
                                 mListener.onSendVoiceRequest(VOICE_OVER, mCurrentTime);
                             }
-                        }else{
+                        } else {
                             if (null != mListener) {
                                 mListener.onSendVoiceRequest(VOICE_NORMAL, mCurrentTime);
                             }
                         }
                         break;
                     case MotionEvent.ACTION_UP:
-                        if(event.getY() < height){
-                            //超出范围抬起 返回录音取消
-                            if(mListener != null){
+                        if (event.getY() < height) {
+                            // 超出范围抬起 返回录音取消
+                            if (mListener != null) {
                                 mListener.onSendVoiceRequest(VOICE_CANCEL, mCurrentTime);
                             }
-                        }else{
+                        } else {
                             if (null != mListener) {
                                 mListener.onSendVoiceRequest(VOICE_FINISH, mCurrentTime);
                             }
@@ -232,23 +232,23 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.view_send:
-                //发送文本
-                if(mListener != null){
+                // 发送文本
+                if (mListener != null) {
                     mListener.onSendTextRequest(mChatEditText.getText().toString());
                     mChatEditText.setText("");
                 }
                 break;
             case R.id.control_voice:
-                if(mListener != null){
+                if (mListener != null) {
                     mListener.onTagChanged(OnInputPanelListener.TAG_EMPTY);
                 }
                 changeEdit(!mIsChatEdit);
                 break;
             case R.id.control_emoji:
                 changeEdit(true);
-                if(mListener != null){
+                if (mListener != null) {
                     mListener.onTagChanged(OnInputPanelListener.TAG_EMPTY);
                 }
                 hideKeyboard();
@@ -256,7 +256,7 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
                 break;
             case R.id.control_more:
                 changeEdit(true);
-                if(mListener != null){
+                if (mListener != null) {
                     mListener.onTagChanged(OnInputPanelListener.TAG_EMPTY);
                 }
                 hideKeyboard();
@@ -277,13 +277,13 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
     /**
      * 切换输入框和语音
      */
-    private void changeEdit(boolean isChatEdit){
+    private void changeEdit(boolean isChatEdit) {
         mIsChatEdit = isChatEdit;
-        if(isChatEdit){
+        if (isChatEdit) {
             mKeyBoardView.setBackgroundResource(R.drawable.chat_keyboard_icon_selector);
             mVoiceView.setVisibility(GONE);
             mChatEditText.setVisibility(VISIBLE);
-        }else{
+        } else {
             mKeyBoardView.setBackgroundResource(R.drawable.chat_voice_icon_selector);
             mVoiceView.setVisibility(VISIBLE);
             mChatEditText.setVisibility(GONE);
@@ -295,17 +295,17 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
 
     @Override
     public void onPanelItemClick(int type, Object item) {
-        if(item == null){
+        if (item == null) {
             return;
         }
-        switch (type){
+        switch (type) {
             case PanelFactoryImp.TYPE_FUNCTION:
-                if(mListener != null){
-                    mListener.onFunctionRequest((Integer) item);
+                if (mListener != null) {
+                    mListener.onFunctionRequest((Integer)item);
                 }
                 break;
             case PanelFactoryImp.TYPE_EMOJI:
-                ItemEmoji emoji = (ItemEmoji) item;
+                ItemEmoji emoji = (ItemEmoji)item;
                 insertInEditText(emoji);
                 break;
             default:
@@ -368,7 +368,8 @@ public class MessageInputBar extends AutoComputerInputMethodHeightView
 
     /**
      * emoji插入输入框
-     * @param item  表情
+     * 
+     * @param item 表情
      */
     private void insertInEditText(ItemEmoji item) {
         Editable editable = mChatEditText.getText();

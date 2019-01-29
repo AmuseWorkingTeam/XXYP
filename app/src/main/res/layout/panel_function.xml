@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/dimen_20"
+    android:paddingBottom="@dimen/dimen_20">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -13,29 +15,37 @@
         <TextView
             android:id="@+id/function_camera"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1.0"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/input_camera_icon"
+            android:drawablePadding="@dimen/dimen_9"
             android:gravity="center"
-            android:text="拍照"/>
+            android:text="拍照"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/dimen_12" />
 
         <TextView
             android:id="@+id/function_image"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:drawableTop="@drawable/input_photo_icon"
+            android:drawablePadding="@dimen/dimen_9"
             android:gravity="center"
-            android:text="相册"/>
+            android:text="相册"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/dimen_12" />
     </LinearLayout>
 
     <View
         android:layout_width="@dimen/dimen_1"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/dimen_15"
         android:layout_marginTop="@dimen/dimen_15"
-        android:background="@color/c3"/>
+        android:layout_marginBottom="@dimen/dimen_15"
+        android:background="@color/c3" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -46,19 +56,27 @@
         <TextView
             android:id="@+id/function_create_shot"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:drawableTop="@drawable/input_create_yp_icon"
+            android:drawablePadding="@dimen/dimen_9"
             android:gravity="center"
-            android:text="创建约拍"/>
+            android:text="创建约拍"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/dimen_12" />
 
         <TextView
             android:id="@+id/function_choose_shot"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:drawableTop="@drawable/input_send_yp_icon"
+            android:drawablePadding="@dimen/dimen_9"
             android:gravity="center"
-            android:text="发送约拍"/>
+            android:text="发送约拍"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/dimen_12" />
     </LinearLayout>
 </LinearLayout>

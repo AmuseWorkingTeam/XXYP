@@ -37,7 +37,7 @@ public class ChatSingleActivity extends ChatBaseActivity implements ChatSingleCo
             public void onRefresh() {
                 //获取下拉历史消息
                 ChatMessageBean firstBean = mChatViewHelper.getFirstMessage();
-                mPresenter.getPullChatMessages(firstBean.getMessageTime(),
+                mPresenter.getPullChatMessages(firstBean == null ? 0 : firstBean.getMessageTime(),
                         MessageConfig.MessageCatalog.CHAT_SINGLE, mChatId);
             }
         });

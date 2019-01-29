@@ -81,6 +81,7 @@
             android:maxLength="5000"
             android:maxLines="5"
             android:minHeight="@dimen/dimen_32"
+            android:hint="输入内容"
             android:paddingLeft="@dimen/dimen_11"
             android:paddingRight="@dimen/dimen_11"
             android:textColor="@color/color_5c5c5c"

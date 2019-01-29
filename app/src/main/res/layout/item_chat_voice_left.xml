@@ -9,12 +9,13 @@
         android:id="@+id/fl_voice_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/message_item_voice_left_icon">
+        android:background="@drawable/message_item_voice_left_icon"
+        android:minHeight="@dimen/dimen_37">
 
         <ImageView
             android:id="@+id/iv_voice_play"
-            android:layout_width="@dimen/dimen_15"
-            android:layout_height="@dimen/dimen_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_marginLeft="@dimen/dimen_20"
             android:contentDescription="@string/app_name" />

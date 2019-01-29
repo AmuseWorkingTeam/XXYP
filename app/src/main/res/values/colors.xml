@@ -67,5 +67,6 @@
     <color name="guide_divider">#ffd9d9d9</color>
 
     <color name="transparent">#00000000</color>
+    <color name="color_white">#FFFFFFFF</color>
 
 </resources>
