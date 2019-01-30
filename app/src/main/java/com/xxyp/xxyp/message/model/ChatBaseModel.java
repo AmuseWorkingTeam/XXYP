@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.xxyp.xxyp.message.bean.ChatMessageBean;
 import com.xxyp.xxyp.message.bean.MessageImageBean;
+import com.xxyp.xxyp.message.bean.MessageShotBean;
 import com.xxyp.xxyp.message.bean.MessageVoiceBean;
 import com.xxyp.xxyp.message.contract.ChatBaseContract;
 import com.xxyp.xxyp.message.dao.ChatMessageDBManager;
@@ -36,6 +37,12 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
                 relationSourceId = addMessageImage(bean.getImageBean(), bean.getChatId());
                 if (bean.getImageBean() != null) {
                     bean.getImageBean().setImgId(relationSourceId);
+                }
+                break;
+            case MessageConfig.MessageType.MSG_APPOINTMENT:
+                relationSourceId = addMessageShot(bean.getShotBean(), bean.getChatId());
+                if (bean.getShotBean() != null) {
+                    bean.getShotBean().setDatingShotId(relationSourceId);
                 }
                 break;
             default:
@@ -86,6 +93,24 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
             return -1;
         }
         return RelationResourceDBManager.getInstance().updateMessageVoice(voiceBean);
+    }
+
+    @Override
+    public long addMessageShot(MessageShotBean shotBean, String belongTo) {
+        if (shotBean == null) {
+            return -1;
+        }
+        shotBean.setBelongTo(belongTo);
+        shotBean.setDatingShotId(-1);
+        return RelationResourceDBManager.getInstance().addMessageShot(shotBean);
+    }
+
+    @Override
+    public long updateMessageShot(MessageShotBean shotBean) {
+        if (shotBean == null) {
+            return -1;
+        }
+        return RelationResourceDBManager.getInstance().updateMessageShot(shotBean);
     }
 
     @Override

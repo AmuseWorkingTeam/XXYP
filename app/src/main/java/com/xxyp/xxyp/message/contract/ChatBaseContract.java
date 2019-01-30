@@ -8,6 +8,7 @@ import com.xxyp.xxyp.common.base.IBasePresenter;
 import com.xxyp.xxyp.common.base.IBaseView;
 import com.xxyp.xxyp.message.bean.ChatMessageBean;
 import com.xxyp.xxyp.message.bean.MessageImageBean;
+import com.xxyp.xxyp.message.bean.MessageShotBean;
 import com.xxyp.xxyp.message.bean.MessageVoiceBean;
 
 import java.util.List;
@@ -260,6 +261,21 @@ public interface ChatBaseContract {
          * @return long
          */
         long updateMessageVoice(MessageVoiceBean voiceBean);
+
+        /**
+         * 添加约拍消息入库
+         * @param shotBean  约拍信息
+         * @param belongTo   发送者id
+         * @return long
+         */
+        long addMessageShot(MessageShotBean shotBean, String belongTo);
+
+        /**
+         * 更新约拍消息
+         * @param shotBean  约拍信息
+         * @return long
+         */
+        long updateMessageShot(MessageShotBean shotBean);
 
         /**
          * 添加资源消息入库

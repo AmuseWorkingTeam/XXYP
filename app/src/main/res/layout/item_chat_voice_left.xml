@@ -14,11 +14,12 @@
 
         <ImageView
             android:id="@+id/iv_voice_play"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dimen_15"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_marginLeft="@dimen/dimen_20"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/voice_left_play_icon3" />
 
     </FrameLayout>
 

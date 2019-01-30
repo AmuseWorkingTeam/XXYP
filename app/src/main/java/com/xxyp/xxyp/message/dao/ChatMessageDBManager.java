@@ -315,6 +315,10 @@ public class ChatMessageDBManager extends BaseDao {
                 bean.setImageBean(
                         RelationResourceDBManager.getInstance().getMessageImage(relationSourceId));
                 break;
+            case MessageConfig.MessageType.MSG_APPOINTMENT:
+                bean.setShotBean(
+                        RelationResourceDBManager.getInstance().getMessageShot(relationSourceId));
+                break;
             default:
                 break;
         }

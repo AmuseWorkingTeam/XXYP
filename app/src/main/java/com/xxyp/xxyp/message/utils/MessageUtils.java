@@ -11,20 +11,21 @@ import com.xxyp.xxyp.message.bean.MessageBean;
 import com.xxyp.xxyp.message.bean.MessageBodyBean;
 import com.xxyp.xxyp.message.bean.MessageContentBean;
 import com.xxyp.xxyp.message.bean.MessageImageBean;
+import com.xxyp.xxyp.message.bean.MessageShotBean;
 import com.xxyp.xxyp.message.bean.MessageVoiceBean;
 import com.xxyp.xxyp.message.service.PacketMessage;
 
 import java.util.UUID;
 
 /**
- * Description : 消息构造工具类
- * Created by sunpengfei on 2017/8/14.
- * Person in charge : sunpengfei
+ * Description : 消息构造工具类 Created by sunpengfei on 2017/8/14. Person in charge :
+ * sunpengfei
  */
 public class MessageUtils {
 
     /**
      * 构造聊天消息体
+     * 
      * @param chatMessageBean
      */
     private static void buildChatMessageContent(ChatMessageBean chatMessageBean) {
@@ -53,6 +54,7 @@ public class MessageUtils {
 
     /**
      * 构造聊天消息体
+     * 
      * @param messageBean 消息体
      * @return ChatMessageBean
      */
@@ -63,10 +65,10 @@ public class MessageUtils {
         ChatMessageBean chatMessageBean = new ChatMessageBean(messageBean);
         if (isMySend(messageBean.getFromId())) {
             chatMessageBean.setSender(MessageConfig.MessageSender.MY_SEND);
-            //我发送的 chatId为对方
+            // 我发送的 chatId为对方
             chatMessageBean.setChatId(messageBean.getToId());
-        }else{
-            //别人发送的  chatId为发送者
+        } else {
+            // 别人发送的 chatId为发送者
             chatMessageBean.setSender(MessageConfig.MessageSender.OTHER_SEND);
             chatMessageBean.setChatId(messageBean.getFromId());
         }
@@ -78,8 +80,9 @@ public class MessageUtils {
 
     /**
      * 通过消息包构造消息体
-     * @param packetMessage  消息包
-     * @param avimMsgId      leanCloud的avimMsgId
+     * 
+     * @param packetMessage 消息包
+     * @param avimMsgId leanCloud的avimMsgId
      * @param conversationId leanCloud的conversationId
      * @return MessageBean
      */
@@ -105,11 +108,12 @@ public class MessageUtils {
 
     /**
      * 构造图片消息
+     * 
      * @param chatMessageBean
      * @param bodyBean
      */
     private static void buildMessageImage(ChatMessageBean chatMessageBean,
-                                          MessageBodyBean bodyBean) {
+            MessageBodyBean bodyBean) {
         if (chatMessageBean == null || bodyBean == null) {
             return;
         }
@@ -117,8 +121,7 @@ public class MessageUtils {
         if (!TextUtils.isEmpty(bodyBean.getUrl())) {
             String url = bodyBean.getUrl();
             imageBean.setImageUrl(url);
-            imageBean
-                    .setThumbImageUrl(QiNiuUtils.buildPicThumbUrl(url, 3, 300, 300, "webp"));
+            imageBean.setThumbImageUrl(QiNiuUtils.buildPicThumbUrl(url, 3, 300, 300, "webp"));
         }
         if (!TextUtils.isEmpty(bodyBean.getW())) {
             imageBean.setImageWidth(Integer.parseInt(bodyBean.getW()));
@@ -131,6 +134,7 @@ public class MessageUtils {
 
     /**
      * 构造语音消息
+     * 
      * @param chatMessageBean
      * @param bodyBean
      */
@@ -152,7 +156,8 @@ public class MessageUtils {
 
     /**
      * 构造发送的消息包
-     * @param messageBean  消息体
+     * 
+     * @param messageBean 消息体
      * @return PacketMessage
      */
     public static PacketMessage buildPacketMessage(MessageBean messageBean) {
@@ -164,17 +169,21 @@ public class MessageUtils {
         packetMessage.setMessage(messageBean.getContent());
         packetMessage.setFromId(messageBean.getFromId());
         packetMessage.setToId(messageBean.getToId());
-        packetMessage.setMsgTime(String.valueOf(messageBean.getMessageTime() != 0 ? messageBean.getMessageTime() : System.currentTimeMillis()));
-        packetMessage.setMsgId(!TextUtils.isEmpty(messageBean.getMsgId()) ? messageBean.getMsgId() : buildMsgId());
+        packetMessage.setMsgTime(
+                String.valueOf(messageBean.getMessageTime() != 0 ? messageBean.getMessageTime()
+                        : System.currentTimeMillis()));
+        packetMessage.setMsgId(
+                !TextUtils.isEmpty(messageBean.getMsgId()) ? messageBean.getMsgId() : buildMsgId());
         return packetMessage;
     }
 
     /**
      * 构造发送的消息体
-     * @param chatMessageBean  消息体
+     * 
+     * @param chatMessageBean 消息体
      */
     public static void buildSendMessage(ChatMessageBean chatMessageBean) {
-        if(chatMessageBean == null){
+        if (chatMessageBean == null) {
             return;
         }
         MessageBodyBean bodyBean = chatMessageBean.getBodyBean();
@@ -206,6 +215,10 @@ public class MessageUtils {
                 }
                 break;
             case MessageConfig.MessageType.MSG_APPOINTMENT:
+                MessageShotBean shotBean = chatMessageBean.getShotBean();
+                if (shotBean != null) {
+                    bodyBean.setUrl(shotBean.getDatingShotImage());
+                }
                 break;
             default:
                 break;
@@ -223,17 +236,17 @@ public class MessageUtils {
 
     /**
      * 处理PacketContent
-     * @param messageBean     消息体
-     * @param messageContent  消息content
+     * 
+     * @param messageBean 消息体
+     * @param messageContent 消息content
      */
     public static void handlePacketContent(MessageBean messageBean, String messageContent) {
         if (messageBean == null || TextUtils.isEmpty(messageContent)) {
             return;
         }
         MessageContentBean contentBean = messageBean.getContentBean();
-        if(contentBean == null){
-            contentBean = new Gson().fromJson(messageContent,
-                    MessageContentBean.class);
+        if (contentBean == null) {
+            contentBean = new Gson().fromJson(messageContent, MessageContentBean.class);
         }
         messageBean.setContentBean(contentBean);
         buildBodyBean(messageBean, contentBean);
@@ -241,6 +254,7 @@ public class MessageUtils {
 
     /**
      * 构造消息body
+     * 
      * @param messageBean
      * @param contentBean
      */
@@ -256,7 +270,8 @@ public class MessageUtils {
 
     /**
      * 是否是我发送的消息
-     * @param fromId  发送者id
+     * 
+     * @param fromId 发送者id
      * @return boolean
      */
     public static boolean isMySend(String fromId) {
@@ -265,6 +280,7 @@ public class MessageUtils {
 
     /**
      * 生成消息id
+     * 
      * @return String
      */
     public static String buildMsgId() {

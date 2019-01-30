@@ -2,6 +2,7 @@
 package com.xxyp.xxyp.user.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,9 +22,8 @@ import com.xxyp.xxyp.user.presenter.MyDatingShotPresenter;
 import java.util.List;
 
 /**
- * Description : 我的约拍页面
- * Created by sunpengfei on 2017/8/10.
- * Person in charge : sunpengfei
+ * Description : 我的约拍页面 Created by sunpengfei on 2017/8/10. Person in charge :
+ * sunpengfei
  */
 public class MyDatingShotActivity extends BaseTitleActivity implements MyDatingShotContract.View {
 
@@ -31,6 +31,12 @@ public class MyDatingShotActivity extends BaseTitleActivity implements MyDatingS
 
     /* 约拍adapter */
     private MyDatingShotAdapter mAdapter;
+
+    private boolean mIsChoose;
+
+    public final static String IS_CHOOSE = "isChoose";
+
+    public final static String MY_SHOT = "myShot";
 
     private MyDatingShotContract.Presenter mPresenter;
 
@@ -50,7 +56,7 @@ public class MyDatingShotActivity extends BaseTitleActivity implements MyDatingS
     @Override
     protected View onCreateView() {
         View view = View.inflate(this, R.layout.activity_my_dating_shot, null);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.dating_shot_recycler);
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.dating_shot_recycler);
         mAdapter = new MyDatingShotAdapter(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
@@ -59,12 +65,29 @@ public class MyDatingShotActivity extends BaseTitleActivity implements MyDatingS
     }
 
     @Override
+    protected void initDataFromFront(Intent intent) {
+        super.initDataFromFront(intent);
+        if (intent != null) {
+            mIsChoose = intent.getBooleanExtra(IS_CHOOSE, false);
+        }
+    }
+
+    @Override
     protected void setViewListener() {
         mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ShotBean bean = mAdapter.getItem(position);
-                if (bean != null) {
+                if (bean == null) {
+                    return;
+                }
+                if (mIsChoose) {
+                    // 选择
+                    Intent intent = new Intent();
+                    intent.putExtra(MY_SHOT, bean);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
                     String userId = SharePreferenceUtils.getInstance().getUserId();
                     FindProvider.openShot(MyDatingShotActivity.this, userId,
                             bean.getDatingShotId());

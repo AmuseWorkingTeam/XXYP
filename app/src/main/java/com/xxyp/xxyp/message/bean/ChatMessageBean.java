@@ -21,6 +21,8 @@ public class ChatMessageBean extends MessageBean {
 
     private MessageVoiceBean mVoiceBean;
 
+    private MessageShotBean mShotBean;
+
     private int sendStatus;
 
     private int sender;
@@ -87,6 +89,14 @@ public class ChatMessageBean extends MessageBean {
         mVoiceBean = voiceBean;
     }
 
+    public MessageShotBean getShotBean() {
+        return mShotBean;
+    }
+
+    public void setShotBean(MessageShotBean shotBean) {
+        mShotBean = shotBean;
+    }
+
     public int getSendStatus() {
         return sendStatus;
     }
@@ -114,6 +124,7 @@ public class ChatMessageBean extends MessageBean {
         setRelationSourceId(bean.getRelationSourceId());
         setImageBean(bean.getImageBean());
         setVoiceBean(bean.getVoiceBean());
+        setShotBean(bean.getShotBean());
         setSendStatus(bean.getSendStatus());
         setSender(bean.getSender());
     }

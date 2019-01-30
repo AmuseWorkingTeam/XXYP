@@ -2,10 +2,13 @@
 package com.xxyp.xxyp.message.itemholder;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,6 +16,7 @@ import com.xxyp.xxyp.R;
 import com.xxyp.xxyp.common.utils.ScreenUtils;
 import com.xxyp.xxyp.message.bean.MessageVoiceBean;
 import com.xxyp.xxyp.message.interfaces.ChatActionListener;
+import com.xxyp.xxyp.message.utils.MessageConfig;
 
 /**
  * Description : 消息语音类型 Created by sunpengfei on 2017/8/1. Person in charge :
@@ -22,6 +26,8 @@ public class MessageItemVoice extends MessageItemBaseView {
 
     /* 语音布局 */
     private FrameLayout mFlChatVoice;
+
+    private ImageView mPlayStatus;
 
     /* 语音时间 */
     private TextView mVoiceTime;
@@ -40,6 +46,7 @@ public class MessageItemVoice extends MessageItemBaseView {
         }
         mFlChatVoice = (FrameLayout)view.findViewById(R.id.fl_voice_message);
         mVoiceTime = ((TextView)view.findViewById(R.id.tv_voice_time));
+        mPlayStatus = ((ImageView)view.findViewById(R.id.iv_voice_play));
         return view;
     }
 
@@ -66,6 +73,32 @@ public class MessageItemVoice extends MessageItemBaseView {
     private void fillView() {
         setItemViewLongClick(mFlChatVoice);
         showVoice();
+        showVoiceAnimation();
+    }
+
+    /**
+     * 展示语音播放动画
+     */
+    private void showVoiceAnimation() {
+        if (mChatMessageBean == null || (mChatMessageBean.getVoiceBean() == null
+                && mChatMessageBean.getBodyBean() == null)) {
+            return;
+        }
+        MessageVoiceBean voiceInfo = mChatMessageBean.getVoiceBean();
+        Drawable voice = mPlayStatus.getDrawable();
+        if (voiceInfo.getStatus() == MessageConfig.VoiceStatus.VOICE_PLAY) {
+            // 正在播放
+            if (voice != null && !(voice instanceof AnimationDrawable)) {
+                mPlayStatus.setImageDrawable(mContext.getResources()
+                        .getDrawable(mItemPos == ITEM_LEFT ? R.drawable.voice_left_playanimation
+                                : R.drawable.voice_right_playanimation));
+                AnimationDrawable voiceAnimation = (AnimationDrawable)mPlayStatus.getDrawable();
+                voiceAnimation.start();
+            }
+        } else {
+            mPlayStatus.setImageResource(mItemPos == ITEM_LEFT ? R.drawable.voice_left_play_icon3
+                    : R.drawable.voice_right_play_icon3);
+        }
     }
 
     /**
@@ -84,8 +117,8 @@ public class MessageItemVoice extends MessageItemBaseView {
         if (width > ScreenUtils.dp2px(196)) {
             width = ScreenUtils.dp2px(196);
         }
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mFlChatVoice.getLayoutParams();
+        params.width = width;
         mFlChatVoice.setLayoutParams(params);
     }
 }

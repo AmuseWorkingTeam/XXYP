@@ -109,8 +109,8 @@ public class MessageBean extends BaseBean {
         mContentBean = contentBean;
     }
 
-    public void setMessageBean(MessageBean bean){
-        if(bean == null){
+    public void setMessageBean(MessageBean bean) {
+        if (bean == null) {
             return;
         }
         setAvimMsgId(bean.getAvimMsgId());

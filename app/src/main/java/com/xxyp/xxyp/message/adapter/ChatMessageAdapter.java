@@ -37,7 +37,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<BaseChatHolder> {
         mBeans = beans;
     }
 
-    public void setActionListener(ChatActionListener actionListener){
+    public void setActionListener(ChatActionListener actionListener) {
         mActionListener = actionListener;
     }
 
@@ -73,42 +73,49 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<BaseChatHolder> {
 
     /**
      * 根据类型获取holder
-     * @param parent   父布局
+     * 
+     * @param parent 父布局
      * @param viewType 类型
      * @return BaseChatHolder
      */
     private BaseChatHolder getChatItemHolder(ViewGroup parent, int viewType) {
         IItemChatPanel panel = null;
-        switch (viewType){
+        switch (viewType) {
             case MessageConfig.ChatListViewItemType.TEXT_LEFT:
-                //左文本
-                panel = new MessageItemText(mContext, mActionListener, MessageItemBaseView.ITEM_LEFT);
+                // 左文本
+                panel = new MessageItemText(mContext, mActionListener,
+                        MessageItemBaseView.ITEM_LEFT);
                 break;
             case MessageConfig.ChatListViewItemType.TEXT_RIGHT:
-                //右文本
-                panel = new MessageItemText(mContext, mActionListener, MessageItemBaseView.ITEM_RIGHT);
+                // 右文本
+                panel = new MessageItemText(mContext, mActionListener,
+                        MessageItemBaseView.ITEM_RIGHT);
                 break;
             case MessageConfig.ChatListViewItemType.VOICE_LEFT:
-                //左语音
-                panel = new MessageItemVoice(mContext, mActionListener, MessageItemBaseView.ITEM_LEFT);
+                // 左语音
+                panel = new MessageItemVoice(mContext, mActionListener,
+                        MessageItemBaseView.ITEM_LEFT);
                 break;
             case MessageConfig.ChatListViewItemType.VOICE_RIGHT:
-                //右语音
-                panel = new MessageItemVoice(mContext, mActionListener, MessageItemBaseView.ITEM_RIGHT);
+                // 右语音
+                panel = new MessageItemVoice(mContext, mActionListener,
+                        MessageItemBaseView.ITEM_RIGHT);
                 break;
             case MessageConfig.ChatListViewItemType.IMAGE_LEFT:
-                //左图片
-                panel = new MessageItemImage(mContext, mActionListener, MessageItemBaseView.ITEM_LEFT);
+                // 左图片
+                panel = new MessageItemImage(mContext, mActionListener,
+                        MessageItemBaseView.ITEM_LEFT);
                 break;
             case MessageConfig.ChatListViewItemType.IMAGE_RIGHT:
-                //右图片
-                panel = new MessageItemImage(mContext, mActionListener, MessageItemBaseView.ITEM_RIGHT);
+                // 右图片
+                panel = new MessageItemImage(mContext, mActionListener,
+                        MessageItemBaseView.ITEM_RIGHT);
                 break;
             default:
                 break;
         }
-        if(panel == null){
-            //无法识别的类型转为文本
+        if (panel == null) {
+            // 无法识别的类型转为文本
             panel = new MessageItemText(mContext, mActionListener, MessageItemBaseView.ITEM_RIGHT);
         }
         return new BaseChatHolder(panel.obtainView(parent), panel);
@@ -116,7 +123,8 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<BaseChatHolder> {
 
     /**
      * 获取消息对应的类型
-     * @param bean  消息体
+     * 
+     * @param bean 消息体
      * @return int
      */
     private int getChatItemType(ChatMessageBean bean) {
@@ -124,49 +132,49 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<BaseChatHolder> {
             return -1;
         }
         int itemType = -1;
-        switch (bean.getMsgType()){
+        switch (bean.getMsgType()) {
             case MessageConfig.MessageType.MSG_TEXT:
-                //文本
-                if(bean.getSender() == MessageConfig.MessageSender.MY_SEND){
-                    //我发送
+                // 文本
+                if (bean.getSender() == MessageConfig.MessageSender.MY_SEND) {
+                    // 我发送
                     itemType = MessageConfig.ChatListViewItemType.TEXT_RIGHT;
-                }else{
+                } else {
                     itemType = MessageConfig.ChatListViewItemType.TEXT_LEFT;
                 }
                 break;
             case MessageConfig.MessageType.MSG_VOICE:
-                //语音
-                if(bean.getSender() == MessageConfig.MessageSender.MY_SEND){
-                    //我发送
+                // 语音
+                if (bean.getSender() == MessageConfig.MessageSender.MY_SEND) {
+                    // 我发送
                     itemType = MessageConfig.ChatListViewItemType.VOICE_RIGHT;
-                }else{
+                } else {
                     itemType = MessageConfig.ChatListViewItemType.VOICE_LEFT;
                 }
                 break;
             case MessageConfig.MessageType.MSG_IMAGE:
-                //图片
-                if(bean.getSender() == MessageConfig.MessageSender.MY_SEND){
-                    //我发送
+                // 图片
+                if (bean.getSender() == MessageConfig.MessageSender.MY_SEND) {
+                    // 我发送
                     itemType = MessageConfig.ChatListViewItemType.IMAGE_RIGHT;
-                }else{
+                } else {
                     itemType = MessageConfig.ChatListViewItemType.IMAGE_LEFT;
                 }
                 break;
             case MessageConfig.MessageType.MSG_APPOINTMENT:
-                //约拍
-                if(bean.getSender() == MessageConfig.MessageSender.MY_SEND){
-                    //我发送
+                // 约拍
+                if (bean.getSender() == MessageConfig.MessageSender.MY_SEND) {
+                    // 我发送
                     itemType = MessageConfig.ChatListViewItemType.APPOINTMENT_RIGHT;
-                }else{
+                } else {
                     itemType = MessageConfig.ChatListViewItemType.APPOINTMENT_LEFT;
                 }
                 break;
             default:
-                //无法识别的类型转为文本
-                if(bean.getSender() == MessageConfig.MessageSender.MY_SEND){
-                    //我发送
+                // 无法识别的类型转为文本
+                if (bean.getSender() == MessageConfig.MessageSender.MY_SEND) {
+                    // 我发送
                     itemType = MessageConfig.ChatListViewItemType.TEXT_RIGHT;
-                }else{
+                } else {
                     itemType = MessageConfig.ChatListViewItemType.TEXT_LEFT;
                 }
                 break;
@@ -176,11 +184,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<BaseChatHolder> {
 
     /**
      * 是否展示时间
-     * @param position  当前位置
+     * 
+     * @param position 当前位置
      * @return boolean
      */
     private boolean isShowTime(int position) {
-        //聊天消息时间戳为毫秒级  目前为10分钟间隔  也就是10 * 60 * 1000
+        // 聊天消息时间戳为毫秒级 目前为10分钟间隔 也就是10 * 60 * 1000
         long timeOut = 10 * 60 * 1000;
         ChatMessageBean current = mBeans.get(position);
         boolean showtime = true;

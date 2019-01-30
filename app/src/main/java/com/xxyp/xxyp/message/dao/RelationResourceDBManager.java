@@ -10,8 +10,10 @@ import com.xxyp.xxyp.common.utils.DBUtils;
 import com.xxyp.xxyp.dao.BaseDao;
 import com.xxyp.xxyp.dao.ChatMsgEntityDao;
 import com.xxyp.xxyp.dao.MessageImageEntityDao;
+import com.xxyp.xxyp.dao.MessageShotEntityDao;
 import com.xxyp.xxyp.dao.MessageVoiceEntityDao;
 import com.xxyp.xxyp.message.bean.MessageImageBean;
+import com.xxyp.xxyp.message.bean.MessageShotBean;
 import com.xxyp.xxyp.message.bean.MessageVoiceBean;
 import com.xxyp.xxyp.message.utils.MessageConfig;
 
@@ -21,9 +23,8 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 /**
- * Description : 聊天资源数据
- * Created by sunpengfei on 2017/8/22.
- * Person in charge : sunpengfei
+ * Description : 聊天资源数据 Created by sunpengfei on 2017/8/22. Person in charge :
+ * sunpengfei
  */
 public class RelationResourceDBManager extends BaseDao {
 
@@ -219,8 +220,8 @@ public class RelationResourceDBManager extends BaseDao {
      */
     public long updateVoiceMessageStatus(int status, long voiceId) {
         String updateSql = "update " + MessageVoiceEntityDao.TABLENAME + " set "
-                + MessageVoiceEntityDao.Properties.Status.columnName + "=" + status
-                + " where " + MessageVoiceEntityDao.Properties.VoiceId.columnName + "=" + voiceId;
+                + MessageVoiceEntityDao.Properties.Status.columnName + "=" + status + " where "
+                + MessageVoiceEntityDao.Properties.VoiceId.columnName + "=" + voiceId;
         try {
             getDatabase().execSQL(updateSql);
             return 1;
@@ -232,7 +233,8 @@ public class RelationResourceDBManager extends BaseDao {
 
     /**
      * 添加语音
-     * @param voiceBean  语音
+     * 
+     * @param voiceBean 语音
      * @return long
      */
     public long addMessageVoice(MessageVoiceBean voiceBean) {
@@ -305,7 +307,8 @@ public class RelationResourceDBManager extends BaseDao {
 
     /**
      * 获取语音数据
-     * @param voiceId  语音id
+     * 
+     * @param voiceId 语音id
      * @return MessageVoiceBean
      */
     public MessageVoiceBean getMessageVoice(long voiceId) {
@@ -387,6 +390,125 @@ public class RelationResourceDBManager extends BaseDao {
     }
 
     /**
+     * 获取约拍数据
+     *
+     * @param shotId 约拍idid
+     * @return MessageShotBean
+     */
+    public MessageShotBean getMessageShot(long shotId) {
+        if (shotId < 0) {
+            return null;
+        }
+        StringBuilder where = new StringBuilder(" where ");
+        DBUtils.buildColumn(where, MessageImageEntityDao.TABLENAME,
+                MessageShotEntityDao.Properties.ShotId.columnName);
+        where.append("=").append(shotId);
+        Cursor cursor = null;
+        try {
+            cursor = getDatabase().rawQuery(
+                    DBUtils.buildSelectSql(MessageImageEntityDao.TABLENAME, where.toString(),
+                            MessageShotEntityDao.Properties.UserId.columnName,
+                            MessageShotEntityDao.Properties.DatingShotAddress.columnName,
+                            MessageShotEntityDao.Properties.Purpose.columnName,
+                            MessageShotEntityDao.Properties.PaymentMethod.columnName,
+                            MessageShotEntityDao.Properties.DatingShotIntroduction.columnName,
+                            MessageShotEntityDao.Properties.Description.columnName,
+                            MessageShotEntityDao.Properties.DatingUserId.columnName,
+                            MessageShotEntityDao.Properties.Status.columnName,
+                            MessageShotEntityDao.Properties.ShotId.columnName,
+                            MessageShotEntityDao.Properties.BelongTo.columnName,
+                            MessageShotEntityDao.Properties.DatingShotImage.columnName).toString(),
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor2Shot(cursor);
+            }
+            return null;
+        } catch (Exception e) {
+            XXLog.log_e("RelationResourceDBManager", "getMessageImage is failed:" + e.getMessage());
+            return null;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    /**
+     * 添加约拍
+     *
+     * @param shotBean 约拍
+     * @return long
+     */
+    public long addMessageShot(MessageShotBean shotBean) {
+        if (shotBean == null) {
+            return -1;
+        }
+        SQLiteStatement statement = null;
+        try {
+            String insertSql = DBUtils.buildInsertSql(MessageShotEntityDao.TABLENAME,
+                    MessageShotEntityDao.Properties.UserId.columnName,
+                    MessageShotEntityDao.Properties.DatingShotAddress.columnName,
+                    MessageShotEntityDao.Properties.Purpose.columnName,
+                    MessageShotEntityDao.Properties.PaymentMethod.columnName,
+                    MessageShotEntityDao.Properties.DatingShotIntroduction.columnName,
+                    MessageShotEntityDao.Properties.Description.columnName,
+                    MessageShotEntityDao.Properties.DatingUserId.columnName,
+                    MessageShotEntityDao.Properties.Status.columnName,
+                    MessageShotEntityDao.Properties.ShotId.columnName,
+                    MessageShotEntityDao.Properties.BelongTo.columnName,
+                    MessageShotEntityDao.Properties.DatingShotImage.columnName).toString();
+            statement = getDatabase().compileStatement(insertSql);
+            bindShotValues(statement, shotBean).executeInsert();
+            return shotBean.getDatingShotId();
+        } catch (Exception e) {
+            XXLog.log_e("RelationResourceDBManager", "addMessageShot is failed" + e.getMessage());
+            return -1;
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
+
+    /**
+     * 更新约拍
+     *
+     * @param shotBean 约拍
+     * @return long
+     */
+    public long updateMessageShot(MessageShotBean shotBean) {
+        if (shotBean == null) {
+            return -1;
+        }
+        SQLiteStatement statement = null;
+        try {
+            String updateSql = DBUtils.buildUpdateSql(MessageShotEntityDao.TABLENAME, new String[] {
+                    MessageShotEntityDao.Properties.ShotId.columnName
+            }, MessageShotEntityDao.Properties.UserId.columnName,
+                    MessageShotEntityDao.Properties.DatingShotAddress.columnName,
+                    MessageShotEntityDao.Properties.Purpose.columnName,
+                    MessageShotEntityDao.Properties.PaymentMethod.columnName,
+                    MessageShotEntityDao.Properties.DatingShotIntroduction.columnName,
+                    MessageShotEntityDao.Properties.Description.columnName,
+                    MessageShotEntityDao.Properties.DatingUserId.columnName,
+                    MessageShotEntityDao.Properties.Status.columnName,
+                    MessageShotEntityDao.Properties.BelongTo.columnName,
+                    MessageShotEntityDao.Properties.DatingShotImage.columnName).toString();
+            statement = getDatabase().compileStatement(updateSql);
+            bindShotValues(statement, shotBean).executeInsert();
+            return shotBean.getDatingShotId();
+        } catch (Exception e) {
+            XXLog.log_e("RelationResourceDBManager",
+                    "updateMessageShot is failed" + e.getMessage());
+            return -1;
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
+
+    /**
      * 为SQLiteStatement绑定语音数据
      * 
      * @param statement statement
@@ -439,8 +561,9 @@ public class RelationResourceDBManager extends BaseDao {
 
     /**
      * 为SQLiteStatement绑定图片数据
+     * 
      * @param statement statement
-     * @param imageBean  图片数据
+     * @param imageBean 图片数据
      * @return SQLiteStatement
      */
     private SQLiteStatement bindImageValues(SQLiteStatement statement, MessageImageBean imageBean) {
@@ -499,5 +622,76 @@ public class RelationResourceDBManager extends BaseDao {
         messageImageBean.setLastModifyTime(cursor.getLong(9));
         messageImageBean.setImgId(cursor.getLong(10));
         return messageImageBean;
+    }
+
+    /**
+     * 为SQLiteStatement绑定约拍数据
+     * 
+     * @param statement statement
+     * @param shotBean 约拍数据
+     * @return SQLiteStatement
+     */
+    private SQLiteStatement bindShotValues(SQLiteStatement statement, MessageShotBean shotBean) {
+        if (statement == null || shotBean == null) {
+            return null;
+        }
+        statement.clearBindings();
+        if (!TextUtils.isEmpty(shotBean.getUserId())) {
+            statement.bindString(1, shotBean.getUserId());
+        }
+        if (!TextUtils.isEmpty(shotBean.getDatingShotAddress())) {
+            statement.bindString(2, shotBean.getDatingShotAddress());
+        }
+        if (!TextUtils.isEmpty(shotBean.getPurpose())) {
+            statement.bindString(3, shotBean.getPurpose());
+        }
+        if (!TextUtils.isEmpty(shotBean.getPaymentMethod())) {
+            statement.bindString(4, shotBean.getPaymentMethod());
+        }
+        if (!TextUtils.isEmpty(shotBean.getDatingShotIntroduction())) {
+            statement.bindString(5, shotBean.getDatingShotIntroduction());
+        }
+        if (!TextUtils.isEmpty(shotBean.getDescription())) {
+            statement.bindString(6, shotBean.getDescription());
+        }
+        if (!TextUtils.isEmpty(shotBean.getDatingUserId())) {
+            statement.bindString(7, shotBean.getDatingUserId());
+        }
+        statement.bindLong(8, shotBean.getStatus());
+        if (shotBean.getDatingShotId() != -1) {
+            statement.bindLong(9, shotBean.getDatingShotId());
+        }
+        if (!TextUtils.isEmpty(shotBean.getBelongTo())) {
+            statement.bindString(10, shotBean.getBelongTo());
+        }
+        if (!TextUtils.isEmpty(shotBean.getDatingShotImage())) {
+            statement.bindString(11, shotBean.getDatingShotImage());
+        }
+        return statement;
+    }
+
+    /**
+     * cursor转图片数据
+     *
+     * @param cursor cursor
+     * @return MessageImageBean
+     */
+    private MessageShotBean cursor2Shot(Cursor cursor) {
+        if (cursor == null) {
+            return null;
+        }
+        MessageShotBean shotBean = new MessageShotBean();
+        shotBean.setUserId(cursor.getString(0));
+        shotBean.setDatingShotAddress(cursor.getString(1));
+        shotBean.setPurpose(cursor.getString(2));
+        shotBean.setPaymentMethod(cursor.getString(3));
+        shotBean.setDatingShotIntroduction(cursor.getString(4));
+        shotBean.setDescription(cursor.getString(5));
+        shotBean.setDatingUserId(cursor.getString(6));
+        shotBean.setStatus(cursor.getInt(7));
+        shotBean.setDatingShotId(cursor.getLong(8));
+        shotBean.setBelongTo(cursor.getString(9));
+        shotBean.setDatingShotImage(cursor.getString(10));
+        return shotBean;
     }
 }

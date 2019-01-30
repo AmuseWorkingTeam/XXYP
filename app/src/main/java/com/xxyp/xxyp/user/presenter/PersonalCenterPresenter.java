@@ -9,8 +9,6 @@ import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.common.log.XXLog;
 import com.xxyp.xxyp.common.utils.RxBus;
 import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
-import com.xxyp.xxyp.publish.db.PublishDBManager;
-import com.xxyp.xxyp.user.bean.UserShotListBean;
 import com.xxyp.xxyp.user.contract.PersonalCenterContract;
 import com.xxyp.xxyp.user.model.FrameModel;
 import com.xxyp.xxyp.user.model.PersonalModel;

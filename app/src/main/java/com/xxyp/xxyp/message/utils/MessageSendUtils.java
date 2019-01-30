@@ -3,10 +3,12 @@ package com.xxyp.xxyp.message.utils;
 
 import android.text.TextUtils;
 
+import com.xxyp.xxyp.main.bean.ShotBean;
 import com.xxyp.xxyp.message.bean.ChatMessageBean;
 import com.xxyp.xxyp.message.bean.MessageBodyBean;
 import com.xxyp.xxyp.message.bean.MessageContentBean;
 import com.xxyp.xxyp.message.bean.MessageImageBean;
+import com.xxyp.xxyp.message.bean.MessageShotBean;
 import com.xxyp.xxyp.message.bean.MessageVoiceBean;
 import com.xxyp.xxyp.message.service.MsgSendModel;
 
@@ -139,6 +141,37 @@ public class MessageSendUtils {
         voiceBean.setStatus(MessageConfig.VoiceStatus.VOICE_READED);
         bean.setVoiceBean(voiceBean);
         bean.setMsgType(MessageConfig.MessageType.MSG_VOICE);
+        return buildChatMessageBean(bean);
+    }
+
+    /**
+     * 发送约拍
+     * 
+     * @param shotBean 约拍
+     * @return ChatMessageBean
+     */
+    public ChatMessageBean sendShot(ShotBean shotBean) {
+        if (shotBean == null || shotBean.getDatingShotImages() == null
+                || shotBean.getDatingShotImages().isEmpty()) {
+            return null;
+        }
+        ChatMessageBean bean = getChatMessageBean();
+        MessageShotBean messageShotBean = new MessageShotBean();
+
+        messageShotBean.setDatingShotId(Long.valueOf(shotBean.getDatingShotId()));
+        messageShotBean.setUserId(shotBean.getUserId());
+        messageShotBean.setDatingShotAddress(shotBean.getDatingShotAddress());
+        messageShotBean.setPurpose(shotBean.getPurpose());
+        messageShotBean.setPaymentMethod(shotBean.getPaymentMethod());
+        messageShotBean.setDatingShotIntroduction(shotBean.getDatingShotIntroduction());
+        messageShotBean.setDescription(shotBean.getDescription());
+        messageShotBean.setDatingUserId(shotBean.getDatingUserId());
+        messageShotBean.setStatus(MessageConfig.VoiceStatus.VOICE_READED);
+        String url = shotBean.getDatingShotImages().get(0).getDatingShotPhoto();
+        messageShotBean.setDatingShotImage(url);
+
+        bean.setShotBean(messageShotBean);
+        bean.setMsgType(MessageConfig.MessageType.MSG_APPOINTMENT);
         return buildChatMessageBean(bean);
     }
 
