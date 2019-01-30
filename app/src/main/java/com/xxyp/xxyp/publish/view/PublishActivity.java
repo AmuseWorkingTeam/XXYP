@@ -118,7 +118,9 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
             new LocationUtils().startLocation(this, new LocationChangeListener() {
                 @Override
                 public void mapLocation(GpsBean var1, int var2) {
-                    tvPbulishHint.setText(var1.getCity() + "." + var1.getDistrict());
+                    if (var1 != null) {
+                        tvPbulishHint.setText(var1.getCity() + "·" + var1.getDistrict());
+                    }
                 }
             }, -1);
 
@@ -175,7 +177,7 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
                 if (mPublishType == PublishConfig.PublishType.PUBLISH_WORK) {
                     mPresenter.uploadWorks(mAdapter.getPics(),
                             mEtPublishTitle.getText().toString(),
-                            mEtPublishDes.getText().toString(), "");
+                            mEtPublishDes.getText().toString(), tvPbulishHint.getText().toString());
                 } else if (mPublishType == PublishConfig.PublishType.PUBLISH_SHOT) {
                     //发布约拍
                     String purpose = mPublishChoose.getPurpose();
@@ -189,10 +191,6 @@ public class PublishActivity extends BaseTitleActivity implements PublishContrac
         });
         //发布约拍监听
         mPublishChoose.setOnPublishChooseListener(new PublishChooseView.OnPublishChooseListener() {
-            @Override
-            public void onSetTimeListener() {
-
-            }
 
             @Override
             public void onSetLocationListener() {

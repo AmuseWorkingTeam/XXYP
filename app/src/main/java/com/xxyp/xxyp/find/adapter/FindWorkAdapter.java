@@ -24,10 +24,10 @@ import com.xxyp.xxyp.main.bean.WorkBean;
  * charge : sunpengfei
  */
 public class FindWorkAdapter extends BaseRecyclerAdapter<WorkBean> {
-    
+
     /* 头像展示配置 */
     private ImageRequestConfig mAvatarConfig;
-    
+
     /* 作品展示配置 */
     private ImageRequestConfig mWorkConfig;
 
@@ -64,18 +64,22 @@ public class FindWorkAdapter extends BaseRecyclerAdapter<WorkBean> {
         TextView title = holder.findViewById(R.id.tv_product_title);
         TextView desc = holder.findViewById(R.id.tv_product_desc);
         final WorkBean bean = getItem(position);
-        if(bean != null){
+        if (bean != null) {
             ImageLoader.getInstance().display(avatar, ImageUtils.getAvatarUrl(bean.getUserImage()),
                     mAvatarConfig);
             name.setText(!TextUtils.isEmpty(bean.getUserName()) ? bean.getUserName() : "");
-            address.setText(
-                    !TextUtils.isEmpty(bean.getWorksAddress()) ? bean.getWorksAddress() : "");
+            if (!TextUtils.isEmpty(bean.getWorksAddress())) {
+                address.setText(bean.getWorksAddress());
+                address.setVisibility(View.VISIBLE);
+            } else {
+                address.setVisibility(View.GONE);
+            }
             time.setText(bean.getReleaseTime() > 0 ? TimeUtils.millis2String(bean.getReleaseTime())
                     : "");
 
             String picUrl = bean.getList() != null && bean.getList().size() > 0
                     ? bean.getList().get(0).getWorksPhoto() : "";
-            if(!TextUtils.isEmpty(picUrl) && !picUrl.toUpperCase().startsWith("HTTP")){
+            if (!TextUtils.isEmpty(picUrl) && !picUrl.toUpperCase().startsWith("HTTP")) {
                 picUrl = "http://" + picUrl;
             }
             ImageLoader.getInstance().display(pic, picUrl, mWorkConfig);
@@ -85,7 +89,7 @@ public class FindWorkAdapter extends BaseRecyclerAdapter<WorkBean> {
             userContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mListener != null){
+                    if (mListener != null) {
                         mListener.onOpenFrame(bean.getUserId());
                     }
                 }
@@ -94,7 +98,7 @@ public class FindWorkAdapter extends BaseRecyclerAdapter<WorkBean> {
             workInfoContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mListener != null){
+                    if (mListener != null) {
                         mListener.onWorkListener(bean.getUserId(), bean.getWorksId());
                     }
                 }
@@ -103,7 +107,7 @@ public class FindWorkAdapter extends BaseRecyclerAdapter<WorkBean> {
             pic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mListener != null){
+                    if (mListener != null) {
                         mListener.onWorkListener(bean.getUserId(), bean.getWorksId());
                     }
                 }

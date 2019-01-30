@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 
+import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.common.log.XXLog;
 import com.xxyp.xxyp.common.utils.DBUtils;
 import com.xxyp.xxyp.common.utils.GsonUtils;
@@ -27,8 +28,8 @@ public class PublishDBManager extends BaseDao {
 
     public static PublishDBManager getInstance() {
         if (mInstance == null) {
-            synchronized (PublishDBManager.class){
-                if(mInstance == null){
+            synchronized (PublishDBManager.class) {
+                if (mInstance == null) {
                     mInstance = new PublishDBManager();
                 }
                 mInstance.connectionDB();
@@ -44,10 +45,11 @@ public class PublishDBManager extends BaseDao {
 
     /**
      * 插入约拍数据
-     * @param shotBean  约拍信息
+     *
+     * @param shotBean 约拍信息
      * @return long
      */
-    public long addShotInfo(SQLiteDatabase db, ShotBean shotBean){
+    public long addShotInfo(SQLiteDatabase db, ShotBean shotBean) {
         if (shotBean == null) {
             return -1;
         }
@@ -81,10 +83,133 @@ public class PublishDBManager extends BaseDao {
     }
 
     /**
+     * 插入约拍数据
+     *
+     * @param shotBeans 约拍信息
+     * @return long
+     */
+    public void addShotInfos(SQLiteDatabase db, List<ShotBean> shotBeans) {
+        if (shotBeans == null || shotBeans.isEmpty()) {
+            return;
+        }
+        if (db == null) {
+            db = getDatabase();
+        }
+        try {
+            db.beginTransaction();
+            for (ShotBean shotBean : shotBeans) {
+                if (isExist(shotBean.getDatingShotId())) {
+                    updateShotInfo(shotBean);
+                } else {
+                    addShotInfo(db, shotBean);
+                }
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            XXLog.log_e("UserDBManager", "addOrUpdateUserInfos is failed" + e.getMessage());
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    /**
+     * 修改约拍
+     */
+    public void updateShotInfo(ShotBean shotBean) {
+        if (shotBean == null) {
+            return;
+        }
+        SQLiteStatement statement = null;
+        SQLiteDatabase db = getDatabase();
+        try {
+            String insertSql = DBUtils.buildUpdateSql(ShotEntityDao.TABLENAME,
+                    new String[]{ShotEntityDao.Properties.DatingShotId.columnName},
+                    ShotEntityDao.Properties.Status.columnName,
+                    ShotEntityDao.Properties.UserId.columnName,
+                    ShotEntityDao.Properties.DatingUserId.columnName,
+                    ShotEntityDao.Properties.DatingShotId.columnName,
+                    ShotEntityDao.Properties.Purpose.columnName,
+                    ShotEntityDao.Properties.PaymentMethod.columnName,
+                    ShotEntityDao.Properties.DatingShotAddress.columnName,
+                    ShotEntityDao.Properties.DatingShotIntroduction.columnName,
+                    ShotEntityDao.Properties.Description.columnName,
+                    ShotEntityDao.Properties.DatingShotImages.columnName,
+                    ShotEntityDao.Properties.ReleaseTime.columnName).toString();
+            statement = db.compileStatement(insertSql);
+            SQLiteStatement sqLiteStatement = bindShotValues(statement, shotBean);
+            sqLiteStatement.bindString(12, shotBean.getDatingShotId());
+            sqLiteStatement.execute();
+        } catch (Exception e) {
+            XXLog.log_e("PublishDBManager", "addShotInfo is failed" + e.getMessage());
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
+
+    public ShotBean getShotInfoById(String datingShotId) {
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase db = getDatabase();
+            String selectSql = DBUtils.buildSelectSql(ShotEntityDao.TABLENAME,
+                    " where " + ShotEntityDao.Properties.DatingShotId.columnName + "='" + datingShotId + "' ",
+                    ShotEntityDao.Properties.Status.columnName,
+                    ShotEntityDao.Properties.UserId.columnName,
+                    ShotEntityDao.Properties.DatingUserId.columnName,
+                    ShotEntityDao.Properties.DatingShotId.columnName,
+                    ShotEntityDao.Properties.Purpose.columnName,
+                    ShotEntityDao.Properties.PaymentMethod.columnName,
+                    ShotEntityDao.Properties.DatingShotAddress.columnName,
+                    ShotEntityDao.Properties.DatingShotIntroduction.columnName,
+                    ShotEntityDao.Properties.Description.columnName,
+                    ShotEntityDao.Properties.DatingShotImages.columnName,
+                    ShotEntityDao.Properties.ReleaseTime.columnName).toString();
+            cursor = db.rawQuery(selectSql, null);
+            if (cursor != null) {
+                if (cursor.moveToNext()) {
+                    return cursor2ShotBean(cursor);
+                }
+            }
+        } catch (Exception e) {
+            XXLog.log_e("UserDBManager",
+                    "getUserInfoByDB is failed" + e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public boolean isExist(String datingShotId) {
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase db = getDatabase();
+            String selectSql = DBUtils.buildSelectSql(ShotEntityDao.TABLENAME,
+                    " where " + ShotEntityDao.Properties.DatingShotId.columnName + "='" + datingShotId + "' ",
+                    ShotEntityDao.Properties.UserId.columnName).toString();
+            cursor = db.rawQuery(selectSql, null);
+            if (cursor != null) {
+                return cursor.moveToNext();
+            }
+        } catch (Exception e) {
+            XXLog.log_e("UserDBManager",
+                    "getUserInfoByDB is failed" + e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return false;
+    }
+
+    /**
      * 获取所有约拍数据
+     *
      * @return ShotBean
      */
-    public List<ShotBean> getShotInfo(){
+    public List<ShotBean> getShotInfo() {
         Cursor cursor = null;
         try {
             SQLiteDatabase db = getDatabase();
@@ -103,9 +228,9 @@ public class PublishDBManager extends BaseDao {
             cursor = db.rawQuery(selectSql, null);
             if (cursor != null) {
                 List<ShotBean> shotBeans = new ArrayList<>();
-                while (cursor.moveToNext()){
+                while (cursor.moveToNext()) {
                     ShotBean bean = cursor2ShotBean(cursor);
-                    if(bean != null){
+                    if (bean != null) {
                         shotBeans.add(bean);
                     }
                 }
@@ -125,6 +250,7 @@ public class PublishDBManager extends BaseDao {
 
     /**
      * 为SQLiteStatement绑定值
+     *
      * @param statement statement
      * @param shotBean  约拍信息
      * @return SQLiteStatement
@@ -168,6 +294,7 @@ public class PublishDBManager extends BaseDao {
 
     /**
      * cursor转换数据
+     *
      * @param cursor cursor
      * @return ShotBean
      */

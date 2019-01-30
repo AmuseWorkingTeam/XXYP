@@ -16,8 +16,11 @@ import com.xxyp.xxyp.common.utils.ScreenUtils;
 import com.xxyp.xxyp.common.view.ImageLoader;
 import com.xxyp.xxyp.common.view.recyclerView.BaseViewHolder;
 import com.xxyp.xxyp.common.view.recyclerView.RecyclerWithHFAdapter;
+import com.xxyp.xxyp.main.bean.ShotPhotoBean;
 import com.xxyp.xxyp.main.bean.WorkBean;
+import com.xxyp.xxyp.main.bean.WorkPhotoBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,28 +33,34 @@ public class MyPhotoAdapter extends RecyclerWithHFAdapter {
 
     private Context mContext;
 
-    private List<WorkBean> mWorkBeans;
-
-    private OnWorkListener mListener;
+    /* 作品列表 */
+    private List<WorkPhotoBean> mShotPhotoList;
 
     public MyPhotoAdapter(Context context) {
         mContext = context;
         mConfig = new ImageRequestConfig.Builder().setLoadWidth(ScreenUtils.widthPixels / 3)
                 .setLoadHeight(ScreenUtils.widthPixels / 3).build();
     }
-    
-    public void setWorkListener(OnWorkListener listener){
-        mListener = listener;
-    }
 
-    public void setData(List<WorkBean> workBeans) {
-        mWorkBeans = workBeans;
+    public void setData(List<WorkPhotoBean> shotPhotoList) {
+        mShotPhotoList = shotPhotoList;
         notifyDataSetChanged();
     }
 
-    @Override
+    public List<WorkPhotoBean> getData() {
+        return mShotPhotoList;
+    }
+
+    public void addData(List<WorkPhotoBean> shotPhotoList) {
+        if (mShotPhotoList == null) {
+            mShotPhotoList = new ArrayList<>();
+        }
+        mShotPhotoList.addAll(shotPhotoList);
+        notifyDataSetChanged();
+    }
+
     protected int getAdapterCount() {
-        return mWorkBeans != null ? mWorkBeans.size() : 0;
+        return mShotPhotoList != null ? mShotPhotoList.size() : 0;
     }
 
     @Override
@@ -64,41 +73,21 @@ public class MyPhotoAdapter extends RecyclerWithHFAdapter {
     protected void onBindHolder(BaseViewHolder holder, int position) {
         SimpleDraweeView pic = holder
                 .findViewById(R.id.item_pic);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)pic
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pic
                 .getLayoutParams();
         params.width = (ScreenUtils.widthPixels / 3);
         params.height = (ScreenUtils.widthPixels / 3);
         pic.setLayoutParams(params);
-        if (mWorkBeans == null || mWorkBeans.size() == 0) {
+        if (mShotPhotoList == null || mShotPhotoList.size() == 0) {
             return;
         }
-        final WorkBean workBean = mWorkBeans.get(position);
-        String path = null;
-        if (workBean.getList() != null && workBean.getList().size() > 0) {
-            path = workBean.getList().get(0).getWorksPhoto();
-            if ((!TextUtils.isEmpty(path)) && (!path.startsWith("http"))) {
-                path = "http://" + path;
-            }
-        }
-        pic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener != null){
-                    mListener.openProduct(workBean.getUserId(), workBean.getWorksId());
-                }
-            }
-        });
-        ImageLoader.getInstance().display(pic, ImageUtils.getImgThumbUrl(path), mConfig);
-    }
-    
-    public interface OnWorkListener{
+        WorkPhotoBean bean = mShotPhotoList.get(position);
 
-        /**
-         * 进入作品详情
-         * @param userId   用户id
-         * @param workId   作品id
-         */
-        void openProduct(String userId, String workId);
+        String url = bean.getWorksPhoto();
+        if (!TextUtils.isEmpty(url) && !url.toUpperCase().startsWith("HTTP")) {
+            url = "http://" + url;
+        }
+        ImageLoader.getInstance().display(pic, ImageUtils.getImgThumbUrl(url), mConfig);
     }
 
 }

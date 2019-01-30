@@ -4,8 +4,11 @@ package com.xxyp.xxyp.user.contract;
 import com.xxyp.xxyp.common.base.IBasePresenter;
 import com.xxyp.xxyp.common.base.IBaseView;
 import com.xxyp.xxyp.main.bean.ShotBean;
+import com.xxyp.xxyp.user.bean.UserShotListBean;
 
 import java.util.List;
+
+import rx.Observable;
 
 /**
  * Description : 我的约拍contract
@@ -17,11 +20,12 @@ public interface MyDatingShotContract {
     /**
      * 我的约拍view
      */
-    interface View extends IBaseView<Presenter>{
+    interface View extends IBaseView<Presenter> {
 
         /**
          * 展示我的约拍数据
-         * @param shotBeans  约拍数据
+         *
+         * @param shotBeans 约拍数据
          */
         void showMyShot(List<ShotBean> shotBeans);
     }
@@ -29,7 +33,7 @@ public interface MyDatingShotContract {
     /**
      * 我的约拍presenter
      */
-    interface Presenter extends IBasePresenter<View>{
+    interface Presenter extends IBasePresenter<View> {
 
         /**
          * 获取我的约拍
@@ -40,13 +44,17 @@ public interface MyDatingShotContract {
     /**
      * 我的约拍model
      */
-    interface Model{
+    interface Model {
 
         /**
          * 获取我的约拍
+         *
          * @return List
          */
         List<ShotBean> getMyShotInfo();
+
+        Observable<UserShotListBean> getDatingShot();
+
     }
 
 }

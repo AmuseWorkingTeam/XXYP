@@ -4,6 +4,7 @@ package com.xxyp.xxyp.user.contract;
 import com.xxyp.xxyp.common.base.IBasePresenter;
 import com.xxyp.xxyp.common.base.IBaseView;
 import com.xxyp.xxyp.common.bean.UserInfo;
+import com.xxyp.xxyp.user.bean.UserShotListBean;
 
 import rx.Observable;
 
@@ -70,9 +71,11 @@ public interface PersonalCenterContract {
 
         /**
          * 获取我的信息
+         *
          * @return Observable
          */
         Observable<UserInfo> getMyUserInfo();
+
     }
 
 }

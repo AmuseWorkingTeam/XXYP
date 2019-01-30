@@ -70,4 +70,8 @@
     <string name="tip">提示</string>
     <string name="location_service_tip">定位服务未开启,请在设置中开启本应用的定位服务</string>
 
+    <string name="view_date_year">年</string>
+    <string name="view_date_month">月</string>
+    <string name="view_date_day">日</string>
+
 </resources>

@@ -31,7 +31,7 @@ import android.text.TextUtils;
 public class NumericWheelAdapter extends AbstractWheelTextAdapter {
 
     /** The default min value */
-    public static final int DEFAULT_MAX_VALUE = 9;
+    private static final int DEFAULT_MAX_VALUE = 9;
 
     /** The default max value */
     private static final int DEFAULT_MIN_VALUE = 0;

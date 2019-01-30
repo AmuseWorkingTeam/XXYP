@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 import com.xxyp.xxyp.user.bean.LogoutInput;
+import com.xxyp.xxyp.user.bean.UserShotListBean;
 import com.xxyp.xxyp.user.contract.PersonalCenterContract;
 import com.xxyp.xxyp.user.contract.SettingContract;
 import com.xxyp.xxyp.user.provider.UserProvider;
@@ -28,7 +29,6 @@ public class PersonalModel implements PersonalCenterContract.Model, SettingContr
         }
         return UserProvider.obtainUserInfo(userId);
     }
-
 
     @Override
     public Observable<Object> logout() {

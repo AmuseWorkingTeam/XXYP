@@ -10,13 +10,23 @@ import com.xxyp.xxyp.common.bean.BaseBean;
  */
 public class UpdateFansInput extends BaseBean {
 
-    private String fansId;
+    private String fromUserId;// 用户的Id
 
-    public String getFansId() {
-        return fansId;
+    private String toUserId;// 关注用户Id
+
+    public String getFromUserId() {
+        return fromUserId;
     }
 
-    public void setFansId(String fansId) {
-        this.fansId = fansId;
+    public void setFromUserId(String fromUserId) {
+        this.fromUserId = fromUserId;
+    }
+
+    public String getToUserId() {
+        return toUserId;
+    }
+
+    public void setToUserId(String toUserId) {
+        this.toUserId = toUserId;
     }
 }

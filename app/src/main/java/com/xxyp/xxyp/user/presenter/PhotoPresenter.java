@@ -4,25 +4,25 @@ package com.xxyp.xxyp.user.presenter;
 import android.app.Activity;
 import android.text.TextUtils;
 
-import com.xxyp.xxyp.R;
+import com.xxyp.xxyp.common.bean.PhotoViewBean;
 import com.xxyp.xxyp.common.bean.UserInfo;
-import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 import com.xxyp.xxyp.common.utils.ToastUtil;
 import com.xxyp.xxyp.find.provider.FindProvider;
+import com.xxyp.xxyp.main.bean.ShotPhotoBean;
+import com.xxyp.xxyp.main.bean.WorkPhotoBean;
 import com.xxyp.xxyp.message.provider.ChatProvider;
 import com.xxyp.xxyp.message.utils.MessageConfig;
-import com.xxyp.xxyp.user.bean.UserWorkListBean;
+import com.xxyp.xxyp.user.bean.MyShotPhotoOutput;
 import com.xxyp.xxyp.user.contract.FrameContract;
 import com.xxyp.xxyp.user.contract.PhotoContract;
-import com.xxyp.xxyp.user.db.UserDBManager;
 import com.xxyp.xxyp.user.model.FrameModel;
-import com.xxyp.xxyp.user.model.UserModel;
 import com.xxyp.xxyp.user.provider.UserProvider;
 import com.xxyp.xxyp.user.utils.FrameConfig;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,6 +41,12 @@ public class PhotoPresenter implements PhotoContract.Presenter {
 
     private PhotoContract.View mView;
 
+    private int pageSize = 9;
+
+    private int pageIndex = 0;
+
+    private boolean isLast;
+
     public PhotoPresenter(PhotoContract.View view) {
         mView = view;
         mModel = new FrameModel();
@@ -58,14 +64,19 @@ public class PhotoPresenter implements PhotoContract.Presenter {
 
 
     @Override
-    public void obtainUserWorks(final String userId) {
+    public void obtainMyPhoto(final String userId, final boolean isLoadData) {
         if (TextUtils.isEmpty(userId)) {
             return;
         }
+        if (isLast) {
+            ToastUtil.showTextViewPrompt("没有更多数据了");
+            mView.resetLoadMore();
+            return;
+        }
         mView.showFrameDialog(true);
-        Subscription subscription = mModel.getWorks(userId)
+        Subscription subscription = mModel.getShotPhoto(userId, pageSize, pageIndex)
                 .subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<UserWorkListBean>() {
+                .subscribe(new Subscriber<MyShotPhotoOutput>() {
                     @Override
                     public void onCompleted() {
 
@@ -79,13 +90,26 @@ public class PhotoPresenter implements PhotoContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(UserWorkListBean userWorkListBean) {
+                    public void onNext(MyShotPhotoOutput shotPhoto) {
                         if (mView == null) {
                             return;
                         }
                         mView.cancelFrameDialog();
-                        if (userWorkListBean != null) {
-                            mView.showUserWorks(userWorkListBean.getWorks());
+                        pageIndex++;
+                        if (shotPhoto != null && shotPhoto.getShotPhotos() != null && !shotPhoto.getShotPhotos().isEmpty()) {
+                            if (isLoadData) {
+                                mView.showUserWorks(shotPhoto.getShotPhotos());
+                            } else {
+                                mView.addUserWorks(shotPhoto.getShotPhotos());
+                            }
+                            if (shotPhoto.getShotPhotos().size() < pageSize) {
+                                isLast = true;
+                            }
+                        } else {
+                            isLast = true;
+                        }
+                        if (!isLoadData) {
+                            mView.resetLoadMore();
                         }
                     }
                 });
@@ -134,6 +158,20 @@ public class PhotoPresenter implements PhotoContract.Presenter {
                     }
                 });
         mSubscription.add(subscription);
+    }
+
+    @Override
+    public void openShotPhotoDetail(int position, String userId, List<WorkPhotoBean> shotPhotoBeans) {
+        if (shotPhotoBeans == null || shotPhotoBeans.isEmpty()) {
+            return;
+        }
+        List<PhotoViewBean> photos = new ArrayList<>();
+        for (WorkPhotoBean shotBean : shotPhotoBeans) {
+            PhotoViewBean bean = new PhotoViewBean();
+            bean.setHttpUrl(shotBean.getWorksPhoto());
+            photos.add(bean);
+        }
+        FindProvider.openPhotoDetail((Activity) mView.getContext(), position, userId, photos);
     }
 
 

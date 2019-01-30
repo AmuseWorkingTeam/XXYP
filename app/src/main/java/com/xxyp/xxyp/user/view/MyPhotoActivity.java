@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,7 +23,7 @@ import com.xxyp.xxyp.common.view.Header;
 import com.xxyp.xxyp.common.view.ImageLoader;
 import com.xxyp.xxyp.common.view.recyclerView.layoutManager.HeaderFooterGridLayoutManager;
 import com.xxyp.xxyp.login.utils.UserConfig;
-import com.xxyp.xxyp.main.bean.WorkBean;
+import com.xxyp.xxyp.main.bean.WorkPhotoBean;
 import com.xxyp.xxyp.user.adapter.MyPhotoAdapter;
 import com.xxyp.xxyp.user.contract.PhotoContract;
 import com.xxyp.xxyp.user.presenter.PhotoPresenter;
@@ -72,7 +73,7 @@ public class MyPhotoActivity extends BaseTitleActivity implements PhotoContract.
         hideTitleHeader();
         View view = View.inflate(this, R.layout.activity_my_photo, null);
         stllRoot = (SwipeToLoadLayout) view.findViewById(R.id.container);
-        mRecyclerView = ((RecyclerView) view.findViewById(R.id.photo_recycler));
+        mRecyclerView = ((RecyclerView) view.findViewById(R.id.swipe_target));
         mRecyclerView
                 .setLayoutManager(new HeaderFooterGridLayoutManager(this, 3, true, false));
         mRecyclerView.setHasFixedSize(true);
@@ -106,7 +107,7 @@ public class MyPhotoActivity extends BaseTitleActivity implements PhotoContract.
     protected void initDataForActivity() {
         mPresenter.getUserInfo(userId);
         mPresenter.getFansFollowCount(userId);
-        mPresenter.obtainUserWorks(userId);
+        mPresenter.obtainMyPhoto(userId, true);
     }
 
     @Override
@@ -119,18 +120,19 @@ public class MyPhotoActivity extends BaseTitleActivity implements PhotoContract.
             }
         });
 
-        mAdapter.setWorkListener(new MyPhotoAdapter.OnWorkListener() {
+        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void openProduct(String userId, String workId) {
-                mPresenter.openProduct(userId, workId);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mAdapter.getData() != null) {
+                    mPresenter.openShotPhotoDetail(position, userId, mAdapter.getData());
+                }
             }
         });
 
         stllRoot.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                //上拉刷新
-                stllRoot.setLoadingMore(false);
+                mPresenter.obtainMyPhoto(userId, false);
             }
         });
     }
@@ -165,7 +167,7 @@ public class MyPhotoActivity extends BaseTitleActivity implements PhotoContract.
     }
 
     @Override
-    public void showUserWorks(List<WorkBean> workBeans) {
+    public void showUserWorks(List<WorkPhotoBean> workBeans) {
         if (workBeans == null || workBeans.size() == 0) {
             return;
         }
@@ -195,6 +197,14 @@ public class MyPhotoActivity extends BaseTitleActivity implements PhotoContract.
     @Override
     public void cancelFrameDialog() {
         dismissLoadingDialog();
+    }
+
+    @Override
+    public void addUserWorks(List<WorkPhotoBean> shotPhotos) {
+        if (shotPhotos == null || shotPhotos.size() == 0) {
+            return;
+        }
+        mAdapter.addData(shotPhotos);
     }
 
     @Override

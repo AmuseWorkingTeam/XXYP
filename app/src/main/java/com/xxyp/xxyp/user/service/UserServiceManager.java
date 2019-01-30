@@ -7,6 +7,7 @@ import com.xxyp.xxyp.user.bean.CreateFansInput;
 import com.xxyp.xxyp.user.bean.FansFocusBean;
 import com.xxyp.xxyp.user.bean.FansFocusListBean;
 import com.xxyp.xxyp.user.bean.LogoutInput;
+import com.xxyp.xxyp.user.bean.MyShotPhotoOutput;
 import com.xxyp.xxyp.user.bean.UpdateFansInput;
 import com.xxyp.xxyp.user.bean.UserInfoList;
 import com.xxyp.xxyp.user.bean.UserShotListBean;
@@ -83,6 +84,21 @@ public class UserServiceManager extends BaseServiceManager {
                     @Override
                     public Observable<UserShotListBean> call(ResponseBody responseBody) {
                         return toObservable(responseBody, UserShotListBean.class);
+                    }
+                });
+    }
+
+    /**
+     * 获取用户约拍
+     *
+     * @return Observable
+     */
+    public static Observable<MyShotPhotoOutput> getWorkPhotos(String userId, int pageSize, int pageIndex) {
+        return mManager.create(UserService.class).getWorkPhotos(userId, pageSize, pageIndex)
+                .flatMap(new Func1<ResponseBody, Observable<MyShotPhotoOutput>>() {
+                    @Override
+                    public Observable<MyShotPhotoOutput> call(ResponseBody responseBody) {
+                        return toObservable(responseBody, MyShotPhotoOutput.class);
                     }
                 });
     }

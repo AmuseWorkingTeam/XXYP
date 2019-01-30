@@ -88,13 +88,18 @@ public class HotWorkAdapter extends RecyclerWithHFAdapter {
             return;
         }
         final WorkBean workBean = mList.get(position);
-        if(workBean == null){
+        if (workBean == null) {
             return;
         }
         ImageLoader.getInstance().display(avatar, ImageUtils.getAvatarUrl(workBean.getUserImage()),
                 mConfig);
         name.setText(workBean.getUserName());
-        address.setText(workBean.getWorksAddress());
+        if (!TextUtils.isEmpty(workBean.getWorksAddress())) {
+            address.setText(workBean.getWorksAddress());
+            address.setVisibility(View.VISIBLE);
+        } else {
+            address.setVisibility(View.GONE);
+        }
         time.setText(TimeUtils.millis2String(workBean.getReleaseTime()));
 
         String productUrl = workBean.getList().get(0).getWorksPhoto();

@@ -78,6 +78,17 @@ public interface UserService {
     Observable<ResponseBody> getDatingShot(@Query("userId") String userId,
                                            @Query("datingShotId") String shotId);
 
+    String GET_DATING_SHOT_PHOTO = "getWorkPhotos";
+
+    /**
+     * 获取照片
+     *
+     * @return Observable
+     */
+    @GET(GET_DATING_SHOT_PHOTO)
+    Observable<ResponseBody> getWorkPhotos(@Query("userId") String userId,
+                                           @Query("pageSize") int pageSize, @Query("pageIndex") int pageIndex);
+
     /**
      * 创建粉丝
      */
@@ -91,7 +102,7 @@ public interface UserService {
      */
     String UPDATE_FANS = "updateFans";
 
-    @POST(CREATE_FANS)
+    @POST(UPDATE_FANS)
     Observable<ResponseBody> updateFans(@Body UpdateFansInput input);
 
     /**

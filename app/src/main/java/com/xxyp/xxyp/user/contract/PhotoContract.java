@@ -4,7 +4,7 @@ package com.xxyp.xxyp.user.contract;
 import com.xxyp.xxyp.common.base.IBasePresenter;
 import com.xxyp.xxyp.common.base.IBaseView;
 import com.xxyp.xxyp.common.bean.UserInfo;
-import com.xxyp.xxyp.main.bean.WorkBean;
+import com.xxyp.xxyp.main.bean.WorkPhotoBean;
 import com.xxyp.xxyp.user.bean.UserWorkListBean;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public interface PhotoContract {
          *
          * @param workBeans 作品列表
          */
-        void showUserWorks(List<WorkBean> workBeans);
+        void showUserWorks(List<WorkPhotoBean> workBeans);
 
         /**
          * 展示关注 粉丝数目
@@ -61,6 +61,7 @@ public interface PhotoContract {
          */
         void cancelFrameDialog();
 
+        void addUserWorks(List<WorkPhotoBean> shotPhotos);
     }
 
     /**
@@ -80,8 +81,9 @@ public interface PhotoContract {
          * 获取用户作品
          *
          * @param userId 用户id
+         * @param isLoadData
          */
-        void obtainUserWorks(String userId);
+        void obtainMyPhoto(String userId, boolean isLoadData);
 
         /**
          * 进入作品详情
@@ -105,6 +107,8 @@ public interface PhotoContract {
          */
         void getFansFollowCount(String userId);
 
+
+        void openShotPhotoDetail(int position, String userId, List<WorkPhotoBean> data);
     }
 
     /**

@@ -59,17 +59,17 @@ public class PublishPresenter implements PublishContract.Presenter {
 
     @Override
     public void onChoosePic(int count) {
-        GalleryProvider.openGalley((Activity)mView.getContext(), 9 - count, OPEN_GALLERY);
+        GalleryProvider.openGalley((Activity) mView.getContext(), 9 - count, OPEN_GALLERY);
     }
 
     @Override
     public void onChooseLocation() {
-        UserProvider.openLocation((Activity)mView.getContext(), OPEN_LOCATION);
+        UserProvider.openLocation((Activity) mView.getContext(), OPEN_LOCATION);
     }
 
     @Override
     public void uploadWorks(List<String> paths, final String workTitle,
-            final String workDesc, final String workAddress) {
+                            final String workDesc, final String workAddress) {
         if (paths == null || paths.size() == 0) {
             return;
         }
@@ -91,7 +91,7 @@ public class PublishPresenter implements PublishContract.Presenter {
             @Override
             public List<WorkPhotoBean> call(SparseArray<String> stringSparseArray) {
                 List<WorkPhotoBean> workPhotoBeans = new ArrayList<>();
-                if(stringSparseArray != null && stringSparseArray.size() > 0){
+                if (stringSparseArray != null && stringSparseArray.size() > 0) {
                     for (int i = 0; i < stringSparseArray.size(); i++) {
                         WorkPhotoBean photoBean = new WorkPhotoBean();
                         photoBean.setWorksImageOrder(i + 1);
@@ -110,7 +110,7 @@ public class PublishPresenter implements PublishContract.Presenter {
                 workBean.setWorksIntroduction(workDesc);
                 workBean.setWorksAddress(workAddress);
                 workBean.setUserId(SharePreferenceUtils.getInstance().getUserId());
-                if(mModel != null){
+                if (mModel != null) {
                     return mModel.publishWorks(workBean);
                 }
                 return null;
@@ -133,7 +133,7 @@ public class PublishPresenter implements PublishContract.Presenter {
             public void onNext(String s) {
                 if (mView != null) {
                     mView.cancelPublishDialog();
-                    ((Activity)mView.getContext()).finish();
+                    ((Activity) mView.getContext()).finish();
                 }
             }
         });
@@ -143,10 +143,12 @@ public class PublishPresenter implements PublishContract.Presenter {
     public void uploadDatingShot(List<String> paths, final String shotDesc, final String shotPurpose,
                                  final String shotPayMethod, final long time, final String address) {
         if (paths == null || paths.size() == 0) {
+            ToastUtil.showTextViewPrompt("请将图片上传");
             return;
         }
         if (TextUtils.isEmpty(shotDesc) || TextUtils.isEmpty(shotPurpose)
-                || TextUtils.isEmpty(shotPayMethod) || time <= 0) {
+                || TextUtils.isEmpty(shotPayMethod) || time <= 0 || TextUtils.isEmpty(address)) {
+            ToastUtil.showTextViewPrompt("请将所有信息填写完整");
             return;
         }
         mView.showPublishDialog();
@@ -164,7 +166,7 @@ public class PublishPresenter implements PublishContract.Presenter {
             @Override
             public List<ShotPhotoBean> call(SparseArray<String> stringSparseArray) {
                 List<ShotPhotoBean> shotBeans = new ArrayList<>();
-                if(stringSparseArray != null && stringSparseArray.size() > 0){
+                if (stringSparseArray != null && stringSparseArray.size() > 0) {
                     for (int i = 0; i < stringSparseArray.size(); i++) {
                         ShotPhotoBean photoBean = new ShotPhotoBean();
                         photoBean.setDatingShotImageOrder(i + 1);
@@ -206,7 +208,7 @@ public class PublishPresenter implements PublishContract.Presenter {
             public void onNext(String s) {
                 if (mView != null) {
                     mView.cancelPublishDialog();
-                    ((Activity)mView.getContext()).finish();
+                    ((Activity) mView.getContext()).finish();
                 }
             }
         });
@@ -246,6 +248,7 @@ public class PublishPresenter implements PublishContract.Presenter {
 
     /**
      * 上传单个图片
+     *
      * @param path  图片路径
      * @param index 图片索引位置
      * @return Observable
@@ -279,8 +282,9 @@ public class PublishPresenter implements PublishContract.Presenter {
 
     /**
      * 批量上传图片
-     * @param photos  图片地址
-     * @return  Observable
+     *
+     * @param photos 图片地址
+     * @return Observable
      */
     private Observable<SparseArray<String>> uploadPhotos(List<String> photos) {
         if (photos == null || photos.size() == 0) {
@@ -299,7 +303,7 @@ public class PublishPresenter implements PublishContract.Presenter {
             public Observable<Pair<Integer, String>> call(Integer integer) {
                 return uploadObservable(photoCache.get(integer), integer);
             }
-        }).map(new Func1<Pair<Integer,String>, SparseArray<String>>() {
+        }).map(new Func1<Pair<Integer, String>, SparseArray<String>>() {
             @Override
             public SparseArray<String> call(Pair<Integer, String> integerStringPair) {
                 photoUrls.put(integerStringPair.first, integerStringPair.second);
@@ -308,7 +312,7 @@ public class PublishPresenter implements PublishContract.Presenter {
         }).filter(new Func1<SparseArray<String>, Boolean>() {
             @Override
             public Boolean call(SparseArray<String> stringSparseArray) {
-                if(photoCache.size() == photoUrls.size()){
+                if (photoCache.size() == photoUrls.size()) {
                     return true;
                 }
                 return false;
@@ -318,15 +322,15 @@ public class PublishPresenter implements PublishContract.Presenter {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK ||data == null) {
+        if (resultCode != Activity.RESULT_OK || data == null) {
             return;
         }
-        if(requestCode == OPEN_GALLERY){
+        if (requestCode == OPEN_GALLERY) {
             List<String> picPaths = data.getStringArrayListExtra(GalleryActivity.PHOTOS);
             if (picPaths != null && picPaths.size() > 0) {
                 mView.showChoosePic(picPaths);
             }
-        }else if(requestCode == OPEN_LOCATION){
+        } else if (requestCode == OPEN_LOCATION) {
             String address = data.getStringExtra(FrameConfig.LOCATION_INFO);
             mView.showLocation(address);
         }

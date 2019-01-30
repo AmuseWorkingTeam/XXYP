@@ -181,14 +181,18 @@ public class MainFragment extends BaseTitleFragment implements MainContract.View
         }
         String avatar = !TextUtils.isEmpty(workBean.getUserImage()) ? workBean.getUserImage() : "";
         String name = !TextUtils.isEmpty(workBean.getUserName()) ? workBean.getUserName() : "";
-        String address = !TextUtils.isEmpty(workBean.getWorksAddress()) ? workBean.getWorksAddress()
-                : "";
         String time = workBean.getReleaseTime() > 0
                 ? TimeUtils.millis2String(workBean.getReleaseTime())
                 : "";
         ImageLoader.getInstance().display(mUserAvatar, ImageUtils.getAvatarUrl(avatar), mConfig);
         mUserName.setText(name);
-        mUserLocation.setText(address);
+
+        if (!TextUtils.isEmpty(workBean.getWorksAddress())) {
+            mUserLocation.setText(workBean.getWorksAddress());
+            mUserLocation.setVisibility(View.VISIBLE);
+        } else {
+            mUserLocation.setVisibility(View.GONE);
+        }
         mUserTime.setText(time);
     }
 

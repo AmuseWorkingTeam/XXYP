@@ -32,7 +32,7 @@ import java.util.List;
  * Person in charge : mc
  * Leader：mc
  */
-public abstract class AbstractWheelAdapter implements WheelAdapter {
+public abstract class AbstractWheelAdapter implements IWheelAdapter {
     // Observers
     private List<DataSetObserver> datasetObservers;
     

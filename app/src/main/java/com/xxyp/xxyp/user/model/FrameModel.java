@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 import com.xxyp.xxyp.user.bean.CreateFansInput;
+import com.xxyp.xxyp.user.bean.MyShotPhotoOutput;
 import com.xxyp.xxyp.user.bean.UpdateFansInput;
 import com.xxyp.xxyp.user.bean.UserWorkListBean;
 import com.xxyp.xxyp.user.contract.FrameContract;
@@ -43,7 +44,8 @@ public class FrameModel implements FrameContract.Model, PhotoContract.Model {
     @Override
     public Observable<Object> cancelFocus(String userId) {
         UpdateFansInput input = new UpdateFansInput();
-        input.setFansId(userId);
+        input.setToUserId(userId);
+        input.setFromUserId(SharePreferenceUtils.getInstance().getUserId());
         return UserServiceManager.updateFans(input);
     }
 
@@ -110,4 +112,14 @@ public class FrameModel implements FrameContract.Model, PhotoContract.Model {
                     }
                 });
     }
+
+    @Override
+    public Observable<MyShotPhotoOutput> getShotPhoto(String userId, int pageSize, int pageIndex) {
+        if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(userId)) {
+            return Observable.just(null);
+        }
+        return UserServiceManager.getWorkPhotos(userId, pageSize, pageIndex);
+    }
+
+
 }

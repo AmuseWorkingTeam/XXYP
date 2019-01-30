@@ -10,11 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xxyp.xxyp.R;
-import com.xxyp.xxyp.common.utils.TimeUtils;
-import com.xxyp.xxyp.common.utils.amap.GpsBean;
-import com.xxyp.xxyp.common.utils.amap.LocationChangeListener;
-import com.xxyp.xxyp.common.utils.amap.LocationUtils;
 import com.xxyp.xxyp.publish.utils.PublishConfig;
+import com.xxyp.xxyp.user.utils.DateCheckListener;
+import com.xxyp.xxyp.user.utils.IWheelDataChangeCallback;
+import com.xxyp.xxyp.user.utils.TimeCheckListener;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Description : 发布选择额外信息 Created by sunpengfei on 2017/8/9. Person in charge :
@@ -40,13 +42,18 @@ public class PublishChooseView extends LinearLayout {
 
     private String mPayMethod = PublishConfig.ShotPayMethod.FREE;
 
-    private long mTime;
+    private long mTime = 0;
 
     private String mAddress;
 
     private OnPublishChooseListener mListener;
 
     private Context context;
+    private TextView tvDate;
+
+    private String date;
+
+    private String time;
 
     public PublishChooseView(Context context) {
         this(context, null);
@@ -76,6 +83,7 @@ public class PublishChooseView extends LinearLayout {
         mSelectPay = view.findViewById(R.id.choose_pay);
 
         mTvTime = (TextView) view.findViewById(R.id.tv_time);
+        tvDate = (TextView) view.findViewById(R.id.tv_date);
         mTvAddress = (TextView) view.findViewById(R.id.tv_address);
         setViewListener();
     }
@@ -111,30 +119,53 @@ public class PublishChooseView extends LinearLayout {
                 choosePay(PublishConfig.ShotPayMethod.PAY);
             }
         });
+        //日期
+        tvDate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DateCheckListener(context).handleDateCheck(PublishChooseView.this, tvDate,
+                        tvDate.getText().toString(), new IWheelDataChangeCallback() {
+                            @Override
+                            public void wheelDataChangeCallback(String wheelData) {
+                                date = wheelData;
+                                convertDateTime();
+                            }
+                        });
+            }
+        });
         //时间
-//        mTime = System.currentTimeMillis();
-//        String time = TimeUtils.day2String(mTime);
-//        mTvTime.setText(TextUtils.isEmpty(time) ? "" : time);
         mTvTime.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTime = System.currentTimeMillis();
-                String time = TimeUtils.day2String(mTime);
-                mTvTime.setText(TextUtils.isEmpty(time) ? "" : time);
-                if(mListener != null){
-                    mListener.onSetTimeListener();
-                }
+                new TimeCheckListener(context).handleTimeCheck(PublishChooseView.this, mTvTime,
+                        mTvTime.getText().toString(), new IWheelDataChangeCallback() {
+                            @Override
+                            public void wheelDataChangeCallback(String wheelData) {
+                                time = wheelData;
+                                convertDateTime();
+                            }
+                        });
             }
         });
         //跳转位置
         mTvAddress.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mListener != null){
+                if (mListener != null) {
                     mListener.onSetLocationListener();
                 }
             }
         });
+    }
+
+    private void convertDateTime() {
+        if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(time)) {
+            try {
+                mTime = new SimpleDateFormat("yyyy-MM-ddHH:mm").parse(date + time).getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -240,11 +271,6 @@ public class PublishChooseView extends LinearLayout {
      * 发布监听
      */
     public interface OnPublishChooseListener {
-
-        /**
-         * 设置时间
-         */
-        void onSetTimeListener();
 
         /**
          * 设置位置

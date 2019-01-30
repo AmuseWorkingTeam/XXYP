@@ -80,7 +80,7 @@ public class MyDatingShotActivity extends BaseTitleActivity implements MyDatingS
 
     @Override
     public void showMyShot(List<ShotBean> shotBeans) {
-        if(shotBeans != null && shotBeans.size() > 0){
+        if (shotBeans != null && shotBeans.size() > 0) {
             mAdapter.replaceList(shotBeans);
         }
     }

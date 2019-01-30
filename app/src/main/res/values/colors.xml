@@ -69,4 +69,9 @@
     <color name="transparent">#00000000</color>
     <color name="color_white">#FFFFFFFF</color>
 
+
+    <color name="wheel_un_choose_view_1">#C5C5C5</color>
+    <color name="search_result_color">#007AFF</color>
+    <color name="view_divider_color">#E1E1E1</color>
+
 </resources>

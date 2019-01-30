@@ -11,16 +11,19 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import com.xxyp.xxyp.R;
 import com.xxyp.xxyp.common.utils.ScreenUtils;
 import com.xxyp.xxyp.user.view.wheel.wheelAdapter.AbstractWheelTextAdapter;
+import com.xxyp.xxyp.user.view.wheel.wheelAdapter.IWheelAdapter;
 import com.xxyp.xxyp.user.view.wheel.wheelAdapter.WheelAdapter;
 
 import java.util.LinkedList;
@@ -36,41 +39,32 @@ import java.util.List;
  * Leader：王晓辉
  */
 public class WheelView extends View {
-    // /**
-    // * left src
-    // */
-    // public static final int DEFAULT_LEFT_RADIAN = -1;
-    //
-    // /**
-    // * right src
-    // */
-    // public static final int DEFAULT_RIGHT_RADIAN = 1;
-    //
-    // /**
-    // * no src
-    // */
-    // public static final int DEFAULT_RADIAN = 0;
 
-    // private int radian = DEFAULT_RADIAN;
-
-    /** Top and bottom shadows colors */
-    // private int[] SHADOWS_COLORS = new int[] {
-    // 0x00000000, 0x00000000, 0x00000000
-    // };
-    private int[] SHADOWS_COLORS = new int[] {
+    /**
+     * Top and bottom shadows colors
+     */
+    private int[] SHADOWS_COLORS = new int[]{
             0xefF2F2F4, 0xcfF2F2F4, 0x3fF2F2F4
     };
 
-    /** Default text color */
+    /**
+     * Default text color
+     */
     public static final int DEFAULT_TEXT_COLOR = 0xFF777E8C;
 
-    /** Top and bottom items offset (to hide that) */
+    /**
+     * Top and bottom items offset (to hide that)
+     */
     private static final int ITEM_OFFSET_PERCENT = 0;
 
-    /** Left and right padding value */
+    /**
+     * Left and right padding value
+     */
     private static final int PADDING = 10;
 
-    /** Default count of visible items */
+    /**
+     * Default count of visible items
+     */
     private static final int DEF_VISIBLE_ITEMS = 5;
 
     // Wheel Values
@@ -103,7 +97,9 @@ public class WheelView extends View {
     // Label & background
     private String label;
 
-    /** Text size (dp) */
+    /**
+     * Text size (dp)
+     */
     private int labelSize = 12;
 
     private int labelWidth = 0;
@@ -114,7 +110,9 @@ public class WheelView extends View {
 
     private Paint measurePaint;
 
-    /** Label offset */
+    /**
+     * Label offset
+     */
     private static final int LABEL_OFFSET = 10;
 
     // Items layout
@@ -124,7 +122,7 @@ public class WheelView extends View {
     private int firstItem;
 
     // View adapter
-    private WheelAdapter adapter;
+    private IWheelAdapter adapter;
 
     // Recycle
     private WheelRecycle recycle = new WheelRecycle(this);
@@ -133,6 +131,13 @@ public class WheelView extends View {
     private List<OnWheelChangedListener> changingListeners = new LinkedList<>();
 
     private List<OnWheelScrollListener> scrollingListeners = new LinkedList<>();
+
+    //用于设置颜色时，区别年 与 月日； 年为 0 ，月 为1 ，日为 2
+    private int extra = -1;
+
+    private String yearStr, monthStr, dayStr;
+
+    private int centerStrColor, aliginCenterColor, otherStrColor;
 
     /**
      * Constructor
@@ -160,40 +165,22 @@ public class WheelView extends View {
 
     /**
      * Initializes class data
-     * 
+     *
      * @param context the context
      */
     private void initData(Context context) {
         scroller = new WheelScroller(getContext(), scrollingListener);
+        yearStr = context.getString(R.string.view_date_year);
+        monthStr = context.getString(R.string.view_date_month);
+        dayStr = context.getString(R.string.view_date_day);
+        centerStrColor = context.getResources().getColor(R.color.c2);
+        aliginCenterColor = context.getResources().getColor(R.color.c7);
+        otherStrColor = context.getResources().getColor(R.color.c5);
     }
 
-    public String getLabel() {
-        return label;
+    public void setExtra(int value) {
+        extra = value;
     }
-
-    public void setLabel(String newLabel) {
-        if (label == null || !label.equals(newLabel)) {
-            label = newLabel;
-            labelLayout = null;
-            invalidate();
-        }
-    }
-
-    // public int getLabelSize() {
-    // return labelSize;
-    // }
-    //
-    // public void setLabelSize(int labelSize) {
-    // this.labelSize = labelSize;
-    // }
-
-    // public int getRadian() {
-    // return radian;
-    // }
-    //
-    // public void setRadian(int radian) {
-    // this.radian = radian;
-    // }
 
     // Scrolling listener
     WheelScroller.ScrollingListener scrollingListener = new WheelScroller.ScrollingListener() {
@@ -239,7 +226,7 @@ public class WheelView extends View {
 
     /**
      * Set the the specified scrolling interpolator
-     * 
+     *
      * @param interpolator the interpolator
      */
     public void setInterpolator(Interpolator interpolator) {
@@ -248,7 +235,7 @@ public class WheelView extends View {
 
     /**
      * Gets count of visible items
-     * 
+     *
      * @return the count of visible items
      */
     public int getVisibleItems() {
@@ -259,7 +246,7 @@ public class WheelView extends View {
      * Sets the desired count of visible items. Actual amount of visible items
      * depends on wheel layout parameters. To apply changes and rebuild view
      * call measure().
-     * 
+     *
      * @param count the desired count for visible items
      */
     public void setVisibleItems(int count) {
@@ -268,10 +255,10 @@ public class WheelView extends View {
 
     /**
      * Gets view adapter
-     * 
+     *
      * @return the view adapter
      */
-    public WheelAdapter getAdapter() {
+    public IWheelAdapter getAdapter() {
         return adapter;
     }
 
@@ -291,10 +278,10 @@ public class WheelView extends View {
     /**
      * Sets view adapter. Usually new adapters contain different views, so it
      * needs to rebuild view by calling measure().
-     * 
+     *
      * @param adapter the view adapter
      */
-    public void setAdapter(WheelAdapter adapter) {
+    public void setAdapter(IWheelAdapter adapter) {
         if (this.adapter != null) {
             this.adapter.unregisterDataSetObserver(dataObserver);
         }
@@ -308,7 +295,7 @@ public class WheelView extends View {
 
     /**
      * Adds wheel changing listener
-     * 
+     *
      * @param listener the listener
      */
     public void addChangingListener(OnWheelChangedListener listener) {
@@ -317,7 +304,7 @@ public class WheelView extends View {
 
     /**
      * Removes wheel changing listener
-     * 
+     *
      * @param listener the listener
      */
     // public void removeChangingListener(OnWheelChangedListener listener) {
@@ -326,7 +313,7 @@ public class WheelView extends View {
 
     /**
      * Notifies changing listeners
-     * 
+     *
      * @param oldValue the old wheel value
      * @param newValue the new wheel value
      */
@@ -338,7 +325,7 @@ public class WheelView extends View {
 
     /**
      * Adds wheel scrolling listener
-     * 
+     *
      * @param listener the listener
      */
     public void addScrollingListener(OnWheelScrollListener listener) {
@@ -347,7 +334,7 @@ public class WheelView extends View {
 
     /**
      * Removes wheel scrolling listener
-     * 
+     *
      * @param listener the listener
      */
     // public void removeScrollingListener(OnWheelScrollListener listener) {
@@ -383,7 +370,7 @@ public class WheelView extends View {
 
     /**
      * Gets current value
-     * 
+     *
      * @return the current value
      */
     public int getCurrentItem() {
@@ -392,8 +379,8 @@ public class WheelView extends View {
 
     /**
      * Sets the current item. Does nothing when index is wrong.
-     * 
-     * @param index the item index
+     *
+     * @param index    the item index
      * @param animated the animation flag
      */
     public void setCurrentItem(int index, boolean animated) {
@@ -438,7 +425,7 @@ public class WheelView extends View {
 
     /**
      * Sets the current item w/o animation. Does nothing when index is wrong.
-     * 
+     *
      * @param index the item index
      */
     public void setCurrentItem(int index) {
@@ -448,7 +435,7 @@ public class WheelView extends View {
     /**
      * Tests if wheel is cyclic. That means before the 1st item there is shown
      * the last one
-     * 
+     *
      * @return true if wheel is cyclic
      */
     public boolean isCyclic() {
@@ -457,7 +444,7 @@ public class WheelView extends View {
 
     /**
      * Set wheel cyclic flag
-     * 
+     *
      * @param isCyclic the flag to set
      */
     public void setCyclic(boolean isCyclic) {
@@ -467,7 +454,7 @@ public class WheelView extends View {
 
     /**
      * Determine whether shadows are drawn
-     * 
+     *
      * @return true is shadows are drawn
      */
     public boolean drawShadows() {
@@ -476,7 +463,7 @@ public class WheelView extends View {
 
     /**
      * Set whether shadows should be drawn
-     * 
+     *
      * @param drawShadows flag as true or false
      */
     public void setDrawShadows(boolean drawShadows) {
@@ -484,21 +471,8 @@ public class WheelView extends View {
     }
 
     /**
-     * Set the shadow gradient color
-     * 
-     * @param start start color
-     * @param middle middle color
-     * @param end end color
-     */
-    // public void setShadowColor(int start, int middle, int end) {
-    // SHADOWS_COLORS = new int[] {
-    // start, middle, end
-    // };
-    // }
-
-    /**
      * Invalidates wheel
-     * 
+     *
      * @param clearCaches if true then cached views will be clear
      */
     public void invalidateWheel(boolean clearCaches) {
@@ -541,7 +515,7 @@ public class WheelView extends View {
 
     /**
      * Calculates desired height for layout
-     * 
+     *
      * @param layout the source layout
      * @return the desired layout height
      */
@@ -557,7 +531,7 @@ public class WheelView extends View {
 
     /**
      * Returns height of wheel item
-     * 
+     *
      * @return the item height
      */
     private int getItemHeight() {
@@ -575,9 +549,9 @@ public class WheelView extends View {
 
     /**
      * Calculates control width and creates text layouts
-     * 
+     *
      * @param widthSize the input layout width
-     * @param mode the layout mode
+     * @param mode      the layout mode
      * @return the calculated control width
      */
     private int calculateLayoutWidth(int widthSize, int mode) {
@@ -644,8 +618,8 @@ public class WheelView extends View {
 
     /**
      * Sets layouts width and height
-     * 
-     * @param width the layout width
+     *
+     * @param width  the layout width
      * @param height the layout height
      */
     private void layout(int width, int height) {
@@ -664,13 +638,14 @@ public class WheelView extends View {
         }
         drawCenterRect(canvas);
 
-        if (drawShadows)
+        if (drawShadows) {
             drawShadows(canvas);
+        }
     }
 
     /**
      * Draws shadows on top and bottom of control
-     * 
+     *
      * @param canvas the canvas for drawing
      */
     private void drawShadows(Canvas canvas) {
@@ -685,7 +660,7 @@ public class WheelView extends View {
 
     /**
      * Draws items
-     * 
+     *
      * @param canvas the canvas for drawing
      */
     private void drawItems(Canvas canvas) {
@@ -703,7 +678,7 @@ public class WheelView extends View {
         if (labelLayout != null) {
             if (adapter instanceof AbstractWheelTextAdapter) {
                 canvas.save();
-                AbstractWheelTextAdapter tempAdapter = (AbstractWheelTextAdapter)adapter;
+                AbstractWheelTextAdapter tempAdapter = (AbstractWheelTextAdapter) adapter;
                 CharSequence currentValue = tempAdapter.getItemText(currentItem);
                 String currentText = "";
                 if (!TextUtils.isEmpty(currentValue)) {
@@ -731,7 +706,7 @@ public class WheelView extends View {
 
     /**
      * Draws rect for current value
-     * 
+     *
      * @param canvas the canvas for drawing
      */
     private void drawCenterRect(Canvas canvas) {
@@ -739,9 +714,9 @@ public class WheelView extends View {
         int offset = getItemHeight() / 2;
         // 使用自己的画线，而不是描边
         Paint paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.cc7));
+        paint.setColor(getResources().getColor(R.color.view_divider_color));
         // 设置线宽
-        paint.setStrokeWidth((float)1.2);
+        paint.setStrokeWidth((float) 1.2);
         // 绘制上边直线
         canvas.drawLine(0, center - offset, getWidth(), center - offset, paint);
         // 绘制下边直线
@@ -770,7 +745,7 @@ public class WheelView extends View {
 
     /**
      * Scrolls the wheel
-     * 
+     *
      * @param delta the scrolling value
      */
     private void doScroll(int delta) {
@@ -829,9 +804,9 @@ public class WheelView extends View {
 
     /**
      * Scroll the wheel
-     * 
+     *
      * @param itemsToScroll items to scroll
-     * @param time scrolling duration
+     * @param time          scrolling duration
      */
     public void scroll(int itemsToScroll, int time) {
         int distance = itemsToScroll * getItemHeight() - scrollingOffset;
@@ -840,7 +815,7 @@ public class WheelView extends View {
 
     /**
      * Calculates range for wheel items
-     * 
+     *
      * @return the items range
      */
     private ItemsRange getItemsRange() {
@@ -872,7 +847,7 @@ public class WheelView extends View {
 
     /**
      * Rebuilds wheel items if necessary. Caches all unused items.
-     * 
+     *
      * @return true if items are rebuilt
      */
     private boolean rebuildItems() {
@@ -915,6 +890,7 @@ public class WheelView extends View {
         }
         firstItem = first;
 
+        setShowColor();
         return updated;
     }
 
@@ -972,11 +948,63 @@ public class WheelView extends View {
                 firstItem = i;
             }
         }
+        setShowColor();
+    }
+
+    /**
+     * 设置文本展示颜色
+     */
+    private void setShowColor() {
+        if (itemsLayout == null) {
+            return;
+        }
+        int childCount = itemsLayout.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View v = itemsLayout.getChildAt(i);
+            if (!(v instanceof TextView)) {
+                continue;
+            }
+
+            TextView textView = (TextView) v;
+            String str = ((TextView) v).getText().toString();
+            int compare = currentItem;
+
+            //通过extra字段去除字符串中的非数字部分
+            if (extra == 0) {
+                str = str.substring(0, str.indexOf(yearStr));
+            } else if (extra == 1) {
+                str = str.substring(0, str.indexOf(monthStr));
+                ++compare;
+            } else if (extra == 2) {
+                str = str.substring(0, str.indexOf(dayStr));
+                ++compare;
+            }
+
+            int number = -1;
+            try {
+                number = Math.abs(Integer.parseInt(str) - compare);
+            } catch (NumberFormatException e) {
+                Log.d("WheelView", "error");
+            }
+
+            //头尾交替时做相关处理，以免无法设置相关颜色值
+            if (number + 3 >= adapter.getItemsCount()) {
+                number = adapter.getItemsCount() % number;
+            }
+
+            if (number == 0) {
+                textView.setTextColor(centerStrColor);
+            } else if (number == 1 || number == 2) {
+                textView.setTextColor(aliginCenterColor);
+            } else {
+                textView.setTextColor(otherStrColor);
+            }
+        }
     }
 
     /**
      * Adds view for item to items layout
-     * 
+     *
      * @param index the item index
      * @param first the flag indicates if view should be first
      * @return true if corresponding item exists and is added
@@ -998,7 +1026,7 @@ public class WheelView extends View {
 
     /**
      * Checks whether intem index is valid
-     * 
+     *
      * @param index the item index
      * @return true if item index is not out of bounds or the wheel is cyclic
      */
@@ -1009,7 +1037,7 @@ public class WheelView extends View {
 
     /**
      * Returns view for specified item
-     * 
+     *
      * @param index the item index
      * @return item view or empty view if index is out of bounds
      */

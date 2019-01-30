@@ -5,6 +5,7 @@ import com.xxyp.xxyp.common.base.IBasePresenter;
 import com.xxyp.xxyp.common.base.IBaseView;
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.main.bean.WorkBean;
+import com.xxyp.xxyp.user.bean.MyShotPhotoOutput;
 import com.xxyp.xxyp.user.bean.UserWorkListBean;
 
 import java.util.List;
@@ -180,6 +181,8 @@ public interface FrameContract {
          * @return Observable
          */
         Observable<Map<String, Integer>> getUserHasFansAndFollow(String myUserId, String otherUserId);
+
+        Observable<MyShotPhotoOutput> getShotPhoto(String userId, int pageSize, int pageIndex);
     }
 
 }
