@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.login.utils.UserConfig;
+import com.xxyp.xxyp.map.view.MapFragmentLoadActivity;
 import com.xxyp.xxyp.user.model.UserModel;
 import com.xxyp.xxyp.user.service.UserServiceManager;
 import com.xxyp.xxyp.user.utils.FrameConfig;
@@ -176,6 +177,17 @@ public class UserProvider {
     public static void openLocation(@NonNull Activity activity, int requestCode) {
         Intent intent = new Intent(activity, LocationActivity.class);
         activity.startActivityForResult(intent, requestCode);
+    }
+
+
+    /**
+     * 打开位置
+     *
+     * @param activity 上下文
+     */
+    public static void openChooseLocation(@NonNull Activity activity, int requestCode) {
+        Intent it = new Intent(activity, MapFragmentLoadActivity.class);
+        activity.startActivityForResult(it, requestCode);
     }
 
     /**

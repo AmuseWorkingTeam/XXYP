@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/c20"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rl_item_plugin_map_listview_choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp" >
+
+        <ImageView
+            android:id="@+id/iv_item_plugin_map_listview_choose"
+            android:layout_width="16dip"
+            android:layout_height="12dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/contentdescription"
+            android:visibility="gone"
+            android:background="@drawable/common_selected_blue" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:layout_toLeftOf="@id/iv_item_plugin_map_listview_choose"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_item_plugin_map_listview_district"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical|left"
+                android:singleLine="true"
+                android:textColor="@color/c12"
+                android:textSize="@dimen/dimen_16" />
+
+            <TextView
+                android:id="@+id/tv_item_plugin_map_listview_addr"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:singleLine="true"
+                android:textColor="@color/c27"
+                android:textSize="@dimen/dimen_14" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

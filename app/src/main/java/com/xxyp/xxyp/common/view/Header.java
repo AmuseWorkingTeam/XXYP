@@ -87,6 +87,7 @@ public class Header {
         }
     }
 
+
     public void showHeader() {
         this.mController.mContainer.setVisibility(View.VISIBLE);
     }

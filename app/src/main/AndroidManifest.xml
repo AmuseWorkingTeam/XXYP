@@ -119,6 +119,14 @@
             android:name=".user.view.MyPhotoActivity"
             android:screenOrientation="portrait" />
 
+        <!--地图-->
+        <activity
+            android:name=".map.view.MapFragmentLoadActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
         <!--相册-->
         <activity
             android:name=".common.utils.gallery.GalleryActivity"

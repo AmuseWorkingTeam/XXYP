@@ -2,7 +2,11 @@
 package com.xxyp.xxyp.common.utils.dialog;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 
 /**
  * Description : 弹出框工具类
@@ -65,4 +69,5 @@ public class DialogUtils {
         dialog.setDialogListener(listener);
         dialog.showDialog(context);
     }
+
 }

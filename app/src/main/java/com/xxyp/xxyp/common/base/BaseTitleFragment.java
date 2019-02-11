@@ -124,4 +124,8 @@ public abstract class BaseTitleFragment extends BaseFragment {
         }
     }
 
+    public boolean onBackPress() {
+        return false;
+    }
+
 }

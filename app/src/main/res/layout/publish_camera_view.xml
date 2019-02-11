@@ -179,8 +179,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:padding="@dimen/dimen_8"
             android:hint="日期"
+            android:padding="@dimen/dimen_8"
             android:textColor="@color/color_737373"
             android:textSize="@dimen/dimen_12" />
 
@@ -204,8 +204,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:padding="@dimen/dimen_8"
             android:hint="时间"
+            android:padding="@dimen/dimen_8"
             android:textColor="@color/color_737373"
             android:textSize="@dimen/dimen_12" />
 
@@ -230,8 +230,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
+            android:hint="地点"
             android:padding="@dimen/dimen_8"
-            android:text="地点"
             android:textColor="@color/color_737373"
             android:textSize="@dimen/dimen_12" />
 

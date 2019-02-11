@@ -20,6 +20,9 @@ import com.xxyp.xxyp.main.bean.ShotBean;
 import com.xxyp.xxyp.main.bean.ShotPhotoBean;
 import com.xxyp.xxyp.main.bean.WorkBean;
 import com.xxyp.xxyp.main.bean.WorkPhotoBean;
+import com.xxyp.xxyp.map.config.MapCommonConfig;
+import com.xxyp.xxyp.map.location.beans.PluginMapLocationBean;
+import com.xxyp.xxyp.map.view.MapControlFragment;
 import com.xxyp.xxyp.publish.contract.PublishContract;
 import com.xxyp.xxyp.publish.model.PublishModel;
 import com.xxyp.xxyp.user.provider.UserProvider;
@@ -64,7 +67,7 @@ public class PublishPresenter implements PublishContract.Presenter {
 
     @Override
     public void onChooseLocation() {
-        UserProvider.openLocation((Activity) mView.getContext(), OPEN_LOCATION);
+        UserProvider.openChooseLocation((Activity) mView.getContext(), OPEN_LOCATION);
     }
 
     @Override
@@ -331,8 +334,10 @@ public class PublishPresenter implements PublishContract.Presenter {
                 mView.showChoosePic(picPaths);
             }
         } else if (requestCode == OPEN_LOCATION) {
-            String address = data.getStringExtra(FrameConfig.LOCATION_INFO);
-            mView.showLocation(address);
+            PluginMapLocationBean locationBean = (PluginMapLocationBean) data.getSerializableExtra(MapControlFragment.MAP_LOCATION_BEAN);
+            if (locationBean != null) {
+                mView.showLocation(locationBean.getLocation());
+            }
         }
     }
 

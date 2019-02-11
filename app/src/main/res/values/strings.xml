@@ -74,4 +74,35 @@
     <string name="view_date_month">月</string>
     <string name="view_date_day">日</string>
 
+    <string name="map_show">地图位置</string>
+    <string name="beijing">北京市</string>
+    <string name="shanghai">上海市</string>
+    <string name="tianjin">天津市</string>
+    <string name="chongqing">重庆市</string>
+
+    <string name="common_location">常用地址</string>
+
+    <string name="not_search_data">没有找到你想要的结果</string>
+    <string name="map_permission_denied_dialog_title">提示</string>
+    <string name="map_permission_denied_dialog_message">位置权限未开启，开启默认位置</string>
+    <string name="map_permission_denied_dialog_confirm">确定</string>
+    <string name="map_title_name">地图</string>
+    <string name="map_no_internet_prompt">当前无网络连接，请检查网络</string>
+    <string name="map_update_picture">地图上传</string>
+    <string name="map_update_picture_failed">上传图片失败</string>
+
+    <string name="pull_to_refresh_from_bottom_pull_label">上拉可加载更多…</string>
+    <string name="pull_to_refresh_from_bottom_refreshing_label">正在加载更多…</string>
+    <string name="pull_to_refresh_from_bottom_release_label">松开加载更多</string>
+    <string name="pull_to_refresh_last_update_mask">最近更新：%</string>
+    <string name="pull_to_refresh_loding">加载更多</string>
+    <string name="pull_to_refresh_pull_label" translatable="false">向下拉动可以刷新</string>
+    <string name="pull_to_refresh_refreshing_label" translatable="false">加载中…</string>
+    <string name="pull_to_refresh_release_label" translatable="false">松开可以刷新</string>
+    <string name="pull_to_refresh_tap_label" translatable="false">点击刷新</string>
+
+    <string name="contentdescription"> </string>
+    <string name="search_text">搜索</string>
+    <string name="ok">确定</string>
+
 </resources>

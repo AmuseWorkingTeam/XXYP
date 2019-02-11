@@ -44,7 +44,6 @@ android {
             signingConfig signingConfigs.release
         }
     }
-
 }
 
 greendao {
@@ -116,8 +115,8 @@ dependencies {
     compile 'com.github.Aspsine:SwipeToLoadLayout:1.0.4'
 
     //定位功能
-    compile 'com.amap.api:3dmap:5.0.0'
+    compile 'com.amap.api:3dmap:5.4.0'
     compile 'com.amap.api:location:3.8.0'
-    compile 'com.amap.api:search:5.0.0'
+    compile 'com.amap.api:search:5.3.1'
 
 }
