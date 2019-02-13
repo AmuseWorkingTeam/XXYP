@@ -47,7 +47,9 @@ public class ShotBean extends BaseBean {
 
     private long releaseTime;
 
-    /* 状态 */
+    /* 状态
+    *  0 失效 1 创建 2 进行中 3 完成
+    * */
     private int status;
 
     public String getDatingShotId() {

@@ -2,8 +2,10 @@
 package com.xxyp.xxyp.user.service;
 
 import com.xxyp.xxyp.common.bean.UserInfo;
+import com.xxyp.xxyp.main.bean.ShotBean;
 import com.xxyp.xxyp.user.bean.CreateFansInput;
 import com.xxyp.xxyp.user.bean.LogoutInput;
+import com.xxyp.xxyp.user.bean.UpdateDatingInput;
 import com.xxyp.xxyp.user.bean.UpdateFansInput;
 
 import okhttp3.ResponseBody;
@@ -77,6 +79,16 @@ public interface UserService {
     @GET(GET_DATING_SHOT)
     Observable<ResponseBody> getDatingShot(@Query("userId") String userId,
                                            @Query("datingShotId") String shotId);
+
+    String UPDATE_DATING_SHOT = "updateDatingShot";
+
+    /**
+     * 修改约拍信息
+     *
+     * @return Observable
+     */
+    @POST(UPDATE_DATING_SHOT)
+    Observable<ResponseBody> updateDatingShot(@Body ShotBean input);
 
     String GET_DATING_SHOT_PHOTO = "getWorkPhotos";
 

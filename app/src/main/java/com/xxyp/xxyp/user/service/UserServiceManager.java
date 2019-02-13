@@ -3,6 +3,7 @@ package com.xxyp.xxyp.user.service;
 
 import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.common.service.BaseServiceManager;
+import com.xxyp.xxyp.main.bean.ShotBean;
 import com.xxyp.xxyp.user.bean.CreateFansInput;
 import com.xxyp.xxyp.user.bean.FansFocusBean;
 import com.xxyp.xxyp.user.bean.FansFocusListBean;
@@ -86,6 +87,23 @@ public class UserServiceManager extends BaseServiceManager {
                         return toObservable(responseBody, UserShotListBean.class);
                     }
                 });
+    }
+
+    /**
+     * 修改(取消)约拍订单
+     *
+     * 必要参数：订单id，userId，对方userId，订单状态
+     * 如果取消订单，则状态改为1
+     *
+     * @return Observable
+     */
+    public static Observable<Object> updateDatingShot(ShotBean input) {
+        return mManager.create(UserService.class).updateDatingShot(input).flatMap(new Func1<ResponseBody, Observable<Object>>() {
+            @Override
+            public Observable<Object> call(ResponseBody responseBody) {
+                return toObservable(responseBody, Object.class);
+            }
+        });
     }
 
     /**
