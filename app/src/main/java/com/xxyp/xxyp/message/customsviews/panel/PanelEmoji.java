@@ -59,12 +59,12 @@ public class PanelEmoji implements IPanel {
     }
 
     private List<ItemEmoji> initEmojiData(){
-        int length = EMOJI.TOON_EMOJI_FACE.length;
+        int length = EMOJI.XXYP_EMOJI_FACE.length;
         List<ItemEmoji> defaultEmojis = new ArrayList<>();
         for (int i = 0; i < length; i++) {
             ItemEmoji itemNormal = new ItemEmoji();
-            itemNormal.setEmojiName(EMOJI.TOON_EMOJI_CODE[i]);
-            itemNormal.setEmojiResId(EMOJI.TOON_EMOJI_FACE[i]);
+            itemNormal.setEmojiName(EMOJI.XXYP_EMOJI_CODE[i]);
+            itemNormal.setEmojiResId(EMOJI.XXYP_EMOJI_FACE[i]);
             defaultEmojis.add(itemNormal);
         }
         return defaultEmojis;

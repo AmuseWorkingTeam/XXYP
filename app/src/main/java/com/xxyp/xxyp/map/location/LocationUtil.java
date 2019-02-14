@@ -6,16 +6,7 @@ import com.xxyp.xxyp.map.location.beans.GpsBean;
 import com.xxyp.xxyp.map.location.interfaces.ILocationListener;
 import com.xxyp.xxyp.map.location.interfaces.LocationChangeListener;
 
-/**
- * Description : Toon 定位功能（防止以后定位功能变更）
- * Created by Mc on 2016/1/23.
- * Job number：139268
- * Phone ：13141390126
- * Email：chenglei@syswin.com
- * Person in charge : 程磊
- * Leader：李晓
- */
-public class ToonLocationUtil {
+public class LocationUtil {
 
     public static final int LOCATION_SUCCESS = 0;// 定位成功
 
@@ -38,7 +29,7 @@ public class ToonLocationUtil {
      * @param listener 定位监听
      * @param time     定位间隔,单位毫秒,一般2000
      */
-    public ToonLocationUtil(Context context, final LocationChangeListener listener, int time) {
+    public LocationUtil(Context context, final LocationChangeListener listener, int time) {
 
         setLocationListener(context, listener, time);
     }

@@ -19,12 +19,6 @@ import com.xxyp.xxyp.R;
 
 /**
  * Description : 底部弹窗
- * Created by 139356 on 2016/2/8.
- * Job number：139356
- * Phone ：13070194942
- * Email：139356@syswin.com
- * Person in charge : 刘一博
- * Leader：刘一博
  */
 public class CardSelectPopWindow extends PopupWindow {
     //动画持续时间
@@ -44,7 +38,7 @@ public class CardSelectPopWindow extends PopupWindow {
     public CardSelectPopWindow(final Activity context, View parentView, View addView) {
         super(context);
         pw = this;
-        pwView = View.inflate(context, R.layout.tcard_activity_show_record, null);
+        pwView = View.inflate(context, R.layout.activity_show_record, null);
         rlOut = (RelativeLayout) pwView.findViewById(R.id.rl_main_app_subset_out);
 
         cancle = (TextView) pwView.findViewById(R.id.show_recore_cancle);

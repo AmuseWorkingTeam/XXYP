@@ -30,8 +30,7 @@ import static com.xxyp.xxyp.common.utils.compress.Preconditions.buildCacheName;
 import static com.xxyp.xxyp.common.utils.compress.Preconditions.checkNotNull;
 
 /**
- * Description:压缩算法 Created by wxh on 2016/12/20 Job number:138746 Phone
- * :15233620521 Email: wangxiaohui@syswin.com Person in charge:王晓辉 Leader:王晓辉
+ * Description:压缩算法
  */
 
 public class LuBanCompressor {

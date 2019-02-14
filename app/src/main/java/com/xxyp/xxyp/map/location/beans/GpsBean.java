@@ -2,12 +2,6 @@ package com.xxyp.xxyp.map.location.beans;
 
 /**
  * Description :定位的javabean
- * Created by Mc on 2016/1/23.
- * Job number：139268
- * Phone ：13141390126
- * Email：chenglei@syswin.com
- * Person in charge : 程磊
- * Leader：李晓
  */
 public class GpsBean {
 

@@ -9,8 +9,7 @@ import com.xxyp.xxyp.common.log.XXLog;
 import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 
 /**
- * Description : 数据库基础dao Created by sunpengfei on 2017/8/4. Person in charge :
- * sunpengfei
+ * Description : 数据库基础dao
  */
 public abstract class BaseDao {
 

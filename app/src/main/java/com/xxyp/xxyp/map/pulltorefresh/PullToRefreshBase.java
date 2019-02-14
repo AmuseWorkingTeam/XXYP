@@ -40,12 +40,6 @@ import com.xxyp.xxyp.R;
 
 /**
  * Description : 滑动刷新数据适配器基类
- * Created by lx on 2016/6/21
- * Job number：137289
- * Phone ：        18611867932
- * Email：          lixiao3@syswin.com
- * Person in charge : lx
- * Leader：lx
  */
 public abstract class PullToRefreshBase<T extends View> extends LinearLayout implements IPullToRefresh<T> {
 

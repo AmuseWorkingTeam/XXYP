@@ -7,8 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Description : 数据库操作工具类 Created by sunpengfei on 2017/7/27. Person in charge :
- * sunpengfei
+ * Description : 数据库操作工具类
  */
 public class DBUtils {
 

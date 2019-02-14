@@ -17,17 +17,8 @@ import com.xxyp.xxyp.map.location.beans.GpsBean;
 import com.xxyp.xxyp.map.location.interfaces.ILocationListener;
 import com.xxyp.xxyp.map.location.interfaces.LocationChangeListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
- * Description : 高德地图定位 (TODO 需要定位使用ToonLocationUtil)
- * Created by 程磊 on 2016/8/17.
- * Job number：139268
- * Phone ：13141390126
- * Email：chenglei@syswin.com
- * Person in charge : 程磊
- * Leader：李晓
+ * Description : 高德地图定位
  */
 public class LocationGDUtil implements ILocationListener {
 
@@ -62,12 +53,12 @@ public class LocationGDUtil implements ILocationListener {
                     if ((0.0 == aMapLocation.getLatitude() && 0.0 == aMapLocation.getLongitude())
                             || (1.0 == aMapLocation.getLatitude()
                             && 1.0 == aMapLocation.getLongitude())) {
-                        listener.mapLocation(null, ToonLocationUtil.LOCATION_FAIL);
+                        listener.mapLocation(null, LocationUtil.LOCATION_FAIL);
                     } else if (TextUtils.isEmpty(aMapLocation.getAddress())) {
                         geocodeSearchLocation(context, aMapLocation.getLatitude(),
                                 aMapLocation.getLongitude(), listener);
                     } else {
-                        GpsBean bean = ToonLocationUtil.gcjToGps84(aMapLocation.getLatitude(),
+                        GpsBean bean = LocationUtil.gcjToGps84(aMapLocation.getLatitude(),
                                 aMapLocation.getLongitude());
                         bean.setAddress(aMapLocation.getAddress());//地址
                         bean.setPoiName(TextUtils.isEmpty(aMapLocation.getPoiName()) ? "" : aMapLocation.getPoiName());
@@ -79,12 +70,12 @@ public class LocationGDUtil implements ILocationListener {
                         bean.setCityCode(aMapLocation.getCityCode());//城市编码
                         bean.setProvince(aMapLocation.getProvince());
                         bean.setDistrict(aMapLocation.getDistrict());
-                        listener.mapLocation(bean, ToonLocationUtil.LOCATION_SUCCESS);
+                        listener.mapLocation(bean, LocationUtil.LOCATION_SUCCESS);
                     }
                 } else {
-                    listener.mapLocation(null, ToonLocationUtil.LOCATION_FAIL);
+                    listener.mapLocation(null, LocationUtil.LOCATION_FAIL);
                 }
-                if (time == -1){
+                if (time == -1) {
                     mLocationClient.stopLocation();
                 }
             }
@@ -92,7 +83,7 @@ public class LocationGDUtil implements ILocationListener {
 
         mLocationOption.setOnceLocation(false);
         //设置定位间隔,单位毫秒 最小时间间隔 1000
-        if (time > 1000){
+        if (time > 1000) {
             mLocationOption.setInterval((long) (time));
         }
         //设置定位模式为高精度模式
@@ -119,7 +110,7 @@ public class LocationGDUtil implements ILocationListener {
                 if (rCode == 1000) {
                     if (result != null && result.getRegeocodeAddress() != null
                             && result.getRegeocodeAddress().getFormatAddress() != null) {
-                        GpsBean bean = ToonLocationUtil.gcjToGps84(latitude, longtitude);
+                        GpsBean bean = LocationUtil.gcjToGps84(latitude, longtitude);
                         bean.setAddress(result.getRegeocodeAddress().getFormatAddress());
                         bean.setCity(result.getRegeocodeAddress().getCity());
                         bean.setMapLatitude(latitude);
@@ -128,19 +119,19 @@ public class LocationGDUtil implements ILocationListener {
                         bean.setCityCode(result.getRegeocodeAddress().getCityCode());
                         bean.setProvince(result.getRegeocodeAddress().getProvince());
                         bean.setDistrict(result.getRegeocodeAddress().getDistrict());
-                        listener.mapLocation(bean, ToonLocationUtil.LOCATION_SUCCESS);
+                        listener.mapLocation(bean, LocationUtil.LOCATION_SUCCESS);
                     } else {
-                        listener.mapLocation(null, ToonLocationUtil.LOCATION_FAIL);
+                        listener.mapLocation(null, LocationUtil.LOCATION_FAIL);
                     }
                 } else {
-                    listener.mapLocation(null, ToonLocationUtil.LOCATION_FAIL);
+                    listener.mapLocation(null, LocationUtil.LOCATION_FAIL);
                 }
             }
 
             @Override
             public void onGeocodeSearched(GeocodeResult arg0, int arg1) {
                 // TODO Auto-generated method stub
-                listener.mapLocation(null, ToonLocationUtil.LOCATION_FAIL);
+                listener.mapLocation(null, LocationUtil.LOCATION_FAIL);
             }
 
         });

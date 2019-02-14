@@ -34,7 +34,7 @@ import com.xxyp.xxyp.map.adapter.MapControlGDAdapter;
 import com.xxyp.xxyp.map.config.MapCommonConfig;
 import com.xxyp.xxyp.map.contract.MapControlContract;
 import com.xxyp.xxyp.map.location.beans.PluginMapLocationBean;
-import com.xxyp.xxyp.map.location.beans.TNPUserCommonPosition;
+import com.xxyp.xxyp.map.location.beans.UserCommonPosition;
 import com.xxyp.xxyp.map.location.interfaces.LocationMapCallBack;
 import com.xxyp.xxyp.map.presenter.MapControlPresenter;
 import com.xxyp.xxyp.map.pulltorefresh.PullToRefreshBase;
@@ -47,12 +47,6 @@ import java.util.List;
 
 /**
  * Description : 地图选择展示页面
- * Created by 135033 on 2016/11/21.
- * Job number：135033
- * Phone ：18601413765
- * Email：wangyue@syswin.com
- * Person in charge : 135033
- * Leader：135033
  */
 
 public class MapControlFragment extends BaseTitleFragment implements MapControlContract.MapControlView, AdapterView.OnItemClickListener, LocationMapCallBack {
@@ -581,7 +575,7 @@ public class MapControlFragment extends BaseTitleFragment implements MapControlC
     }
 
     @Override
-    public void onBackCommonLocation(TNPUserCommonPosition bean) {
+    public void onBackCommonLocation(UserCommonPosition bean) {
 
         Intent intent = new Intent();
         intent.putExtra(COMMON_LOCATION, bean);

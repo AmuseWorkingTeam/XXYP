@@ -31,12 +31,6 @@ import java.util.List;
 
 /**
  * Description : Numeric wheel view.
- * Created by wxh on 2016/6/20 10:55.
- * Job number：138746
- * Phone ：15233620521
- * Email：wangxiaohui@syswin.com
- * Person in charge : 王晓辉
- * Leader：王晓辉
  */
 public class WheelView extends View {
 

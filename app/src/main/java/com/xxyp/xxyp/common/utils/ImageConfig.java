@@ -9,8 +9,7 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 
 /**
- * Description : 图片配置常量 Created by sunpengfei on 2017/7/27. Person in charge :
- * sunpengfei
+ * Description : 图片配置常量
  */
 public class ImageConfig {
 

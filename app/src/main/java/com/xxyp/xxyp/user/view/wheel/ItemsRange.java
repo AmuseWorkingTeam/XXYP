@@ -21,12 +21,6 @@ package com.xxyp.xxyp.user.view.wheel;
 
 /**
  * Description : Range for visible items
- * Created by wxh on 2016/6/20 10:52.
- * Job number：138746
- * Phone ：15233620521
- * Email：wangxiaohui@syswin.com
- * Person in charge : 王晓辉
- * Leader：王晓辉
  */
 public class ItemsRange {
 	// First item number

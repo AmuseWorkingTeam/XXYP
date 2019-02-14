@@ -4,8 +4,7 @@ package com.xxyp.xxyp.common.utils;
 import android.os.Environment;
 
 /**
- * Description : 文件常量 Created by sunpengfei on 2017/7/27. Person in charge :
- * sunpengfei
+ * Description : 文件常量 Created by
  */
 
 public class FileConfig {

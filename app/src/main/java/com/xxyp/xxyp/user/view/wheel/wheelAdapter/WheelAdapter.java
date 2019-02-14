@@ -22,12 +22,6 @@ import android.view.ViewGroup;
 
 /**
  * Description : Time Wheel interfaces.
- * Created by mc on 2016/6/27 10:42.
- * Job number：135033
- * Phone ：18610413765
- * Email：wangyue@syswin.com
- * Person in charge : mc
- * Leader：mc
  */
 public interface WheelAdapter {
     /**

@@ -54,7 +54,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="24dp"
                 android:layout_toLeftOf="@id/show_recore_confirm"
-                android:background="@drawable/tcard_recruit_current_date_bg"
+                android:background="@drawable/recruit_current_date_bg"
                 android:gravity="center"
                 android:text="至今"
                 android:textColor="@color/c9"

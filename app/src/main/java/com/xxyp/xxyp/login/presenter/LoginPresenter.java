@@ -31,8 +31,7 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Description : 登陆presenter Created by sunpengfei on 2017/7/31. Person in
- * charge : sunpengfei
+ * Description : 登陆presenter
  */
 public class LoginPresenter implements LoginContract.Presenter {
 

@@ -34,12 +34,6 @@ import com.xxyp.xxyp.map.pulltorefresh.PullToRefreshBase.Mode;
 
 /**
  * Description : 头顶部布局抽象类
- * Created by lx on 2016/6/21
- * Job number：137289
- * Phone ：        18611867932
- * Email：          lixiao3@syswin.com
- * Person in charge : lx
- * Leader：lx
  */
 public abstract class LoadingLayout extends FrameLayout implements
 		ILoadingLayout {

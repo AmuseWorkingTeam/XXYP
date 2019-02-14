@@ -11,12 +11,6 @@ import com.xxyp.xxyp.common.base.IBaseView;
 
 /**
  * Description : 地图控制器
- * Created by 135033 on 2016/11/21.
- * Job number：135033
- * Phone ：18601413765
- * Email：wangyue@syswin.com
- * Person in charge : 135033
- * Leader：135033
  */
 
 public interface MapControlContract {

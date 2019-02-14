@@ -6,8 +6,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 /**
- * Description : 屏幕工具类 Created by sunpengfei on 2017/7/27. Person in charge :
- * sunpengfei
+ * Description : 屏幕工具类
  */
 public class ScreenUtils {
 

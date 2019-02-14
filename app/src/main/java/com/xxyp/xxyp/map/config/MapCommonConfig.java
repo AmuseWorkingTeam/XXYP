@@ -3,12 +3,6 @@ package com.xxyp.xxyp.map.config;
 
 /**
  * Description :遗留的常量类，各组在改造MVP的同时，将此常量定义放到自己模块下
- * Created by 143568
- * Job number：143568
- * Phone ：13683103169
- * Email：zhengbing@syswin.com
- * Person in charge : 郑兵
- * Leader：李晓
  */
 public class MapCommonConfig {
 

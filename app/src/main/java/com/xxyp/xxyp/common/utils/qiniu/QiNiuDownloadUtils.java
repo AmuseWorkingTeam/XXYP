@@ -4,9 +4,7 @@ package com.xxyp.xxyp.common.utils.qiniu;
 import android.text.TextUtils;
 
 /**
- * Description : 用于从七牛服务器下载时，会对url做一些额外的封装，比如获取缩略图，水印,视频的第一帧等 Created by wxh on
- * 2016/6/3. Job number：138746 Phone ：15233620521 Email：wangxiaohui@syswin.com
- * Person in charge : 王晓辉 Leader：王晓辉
+ * Description : 用于从七牛服务器下载时，会对url做一些额外的封装，比如获取缩略图，水印,视频的第一帧等
  */
 
 public class QiNiuDownloadUtils {

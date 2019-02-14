@@ -10,7 +10,6 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Created by sunpengfei on 2017/7/27. Person in charge : sunpengfei
  */
 public class Mac {
     public String accessKey;

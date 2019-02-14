@@ -20,8 +20,6 @@ import java.util.List;
 
 /**
  * Description : 相机工具类
- * Created by sunpengfei on 2017/8/31.
- * Person in charge : sunpengfei
  */
 public class CameraUtils {
 

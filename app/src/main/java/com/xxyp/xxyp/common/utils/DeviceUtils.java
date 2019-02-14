@@ -8,8 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 /**
- * Description : 设备工具类 Created by sunpengfei on 2017/7/27. Person in charge :
- * sunpengfei
+ * Description : 设备工具类
  */
 public class DeviceUtils {
 

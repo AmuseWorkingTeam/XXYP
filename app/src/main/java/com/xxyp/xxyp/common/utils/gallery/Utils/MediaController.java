@@ -750,10 +750,10 @@ public class MediaController implements NotificationCenter.NotificationCenterDel
 
     public void checkSaveToGalleryFiles() {
         try {
-            File telegramPath = new File(Environment.getExternalStorageDirectory(), "toon");
-            File imagePath = new File(telegramPath, "toon Images");
+            File telegramPath = new File(Environment.getExternalStorageDirectory(), "xxyp");
+            File imagePath = new File(telegramPath, "xxyp Images");
             imagePath.mkdir();
-            File videoPath = new File(telegramPath, "toon Video");
+            File videoPath = new File(telegramPath, "xxyp Video");
             videoPath.mkdir();
 
             if (saveToGallery) {

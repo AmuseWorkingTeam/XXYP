@@ -7,9 +7,7 @@ import android.net.NetworkInfo;
 import android.support.annotation.RequiresPermission;
 
 /**
- * Description : 网络工具类 Created by wxh on 2016/6/27 17:48. Job number：138746
- * Phone ：15233620521 Email：wangxiaohui@syswin.com Person in charge : 王晓辉
- * Leader：王晓辉
+ * Description : 网络工具类
  */
 public class NetworkUtils {
 

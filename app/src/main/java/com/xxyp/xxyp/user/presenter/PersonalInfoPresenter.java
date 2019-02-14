@@ -34,8 +34,6 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * Description : 用户信息presenter
- * Created by sunpengfei on 2017/8/28.
- * Person in charge : sunpengfei
  */
 public class PersonalInfoPresenter implements PersonalInfoContract.Presenter {
 

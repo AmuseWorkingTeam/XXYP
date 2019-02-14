@@ -18,12 +18,6 @@ import java.util.List;
 
 /**
  * Description : 高德地图定位附近地址列表的adapter
- * Created by Mc on 2015/8/14.
- * Job number：139268
- * Phone ：13141390126
- * Email：chenglei@syswin.com
- * Person in charge :程磊
- * Leader：李晓
  */
 public class MapControlGDAdapter extends BaseAdapter {
 

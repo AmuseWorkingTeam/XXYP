@@ -14,9 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Description : 处理单选事件，内包含底部弹出选择控件层 Created by 139356 on 2016/1/8. Job
- * number：139356 Phone ：13070194942 Email：139356@syswin.com Person in charge :
- * 刘一博 Leader：刘一博
+ * Description : 处理单选事件，内包含底部弹出选择控件层
  */
 public class SingleCheckListener extends CheckListener {
 

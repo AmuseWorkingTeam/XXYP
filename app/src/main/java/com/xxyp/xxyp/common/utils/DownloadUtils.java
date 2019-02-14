@@ -16,8 +16,6 @@ import okhttp3.Response;
 
 /**
  * Description : 下载工具类
- * Created by sunpengfei on 2017/8/31.
- * Person in charge : sunpengfei
  */
 public class DownloadUtils {
 

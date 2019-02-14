@@ -14,8 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Description : 语音录制帮助类 Created by sunpengfei on 16/6/20.
- * Person in charge : sunpengfei
+ * Description : 语音录制帮助类
  */
 public class VoiceRecordHelper {
 

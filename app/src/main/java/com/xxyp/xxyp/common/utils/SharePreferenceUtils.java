@@ -5,8 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Description : sp缓存工具类 Created by sunpengfei on 2017/7/27. Person in charge :
- * sunpengfei
+ * Description : sp缓存工具类
  */
 
 public class SharePreferenceUtils {

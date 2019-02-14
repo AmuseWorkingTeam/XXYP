@@ -2,7 +2,7 @@ package com.xxyp.xxyp.map.location.beans;
 
 import java.io.Serializable;
 
-public class TNPUserCommonPosition implements Serializable {
+public class UserCommonPosition implements Serializable {
     private static final long serialVersionUID = 1L;
     private String commonLocationId;
     private String userId;
@@ -16,7 +16,7 @@ public class TNPUserCommonPosition implements Serializable {
     private String status;
     private String adcodes;
 
-    public TNPUserCommonPosition() {
+    public UserCommonPosition() {
     }
 
     public String getCommonLocationId() {

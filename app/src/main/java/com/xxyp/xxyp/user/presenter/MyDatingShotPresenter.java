@@ -19,11 +19,6 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Description : 我的约拍presenter
  * Created by sunpengfei on 2017/8/11.
- * Job number：135182
- * Phone ：18510428121
- * Email：sunpengfei@syswin.com
- * Person in charge : sunpengfei
- * Leader：wangxiaohui
  */
 public class MyDatingShotPresenter implements MyDatingShotContract.Presenter {
 

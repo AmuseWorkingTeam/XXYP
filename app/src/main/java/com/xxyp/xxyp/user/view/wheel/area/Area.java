@@ -3,12 +3,6 @@ package com.xxyp.xxyp.user.view.wheel.area;
 
 /**
  * Description : 地区信息
- * Created by wxh on 2016/6/17 16:12.
- * Job number：138746
- * Phone ：15233620521
- * Email：wangxiaohui@syswin.com
- * Person in charge : 王晓辉
- * Leader：王晓辉
  */
 public class Area {
     private int index;

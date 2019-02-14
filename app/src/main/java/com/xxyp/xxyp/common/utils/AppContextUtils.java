@@ -4,8 +4,7 @@ package com.xxyp.xxyp.common.utils;
 import android.content.Context;
 
 /**
- * Description : 上下文工具类 Created by sunpengfei on 2017/7/27. Person in charge :
- * sunpengfei
+ * Description : 上下文工具类
  */
 
 public final class AppContextUtils {

@@ -1,11 +1,8 @@
 package com.xxyp.xxyp.map.presenter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 
-import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
@@ -13,30 +10,19 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.xxyp.xxyp.R;
 import com.xxyp.xxyp.common.utils.AppContextUtils;
-import com.xxyp.xxyp.map.config.CommonFilePathConfig;
 import com.xxyp.xxyp.map.contract.MapControlContract;
-import com.xxyp.xxyp.map.location.ToonLocationUtil;
+import com.xxyp.xxyp.map.location.LocationUtil;
 import com.xxyp.xxyp.map.location.beans.GpsBean;
 import com.xxyp.xxyp.map.location.beans.PluginMapLocationBean;
-import com.xxyp.xxyp.map.location.beans.TNPUserCommonPosition;
+import com.xxyp.xxyp.map.location.beans.UserCommonPosition;
 import com.xxyp.xxyp.map.location.interfaces.LocationChangeListener;
 import com.xxyp.xxyp.map.location.interfaces.LocationMapCallBack;
-import com.xxyp.xxyp.map.utils.BitmapUtils;
 import com.xxyp.xxyp.map.utils.NetworkUtils;
-import com.xxyp.xxyp.map.utils.ThreadPool;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 
 /**
  * Description : 地图选择功能
- * Created by 135033 on 2016/11/22.
- * Job number：135033
- * Phone ：18601413765
- * Email：wangyue@syswin.com
- * Person in charge : 135033
- * Leader：135033
  */
 
 public class MapControlPresenter implements MapControlContract.MapControlPresenter {
@@ -73,7 +59,7 @@ public class MapControlPresenter implements MapControlContract.MapControlPresent
      */
     private boolean getMapData = true;
 
-    private ToonLocationUtil mToonLocationUtil;
+    private LocationUtil mLocationUtil;
 
 
     public MapControlPresenter(MapControlContract.MapControlView view, LocationMapCallBack callback) {
@@ -103,12 +89,12 @@ public class MapControlPresenter implements MapControlContract.MapControlPresent
     @Override
     public void getLocation() {
         mView.showLoadingDialog(false);
-        mToonLocationUtil = new ToonLocationUtil(mView.getContext(), new LocationChangeListener() {
+        mLocationUtil = new LocationUtil(mView.getContext(), new LocationChangeListener() {
             @Override
             public void mapLocation(GpsBean bean, int errorCode) {
                 // 只有触发过这里后数据才会显示
                 GpsBean gpsBean = new GpsBean();
-                if (errorCode == ToonLocationUtil.LOCATION_SUCCESS) {
+                if (errorCode == LocationUtil.LOCATION_SUCCESS) {
                     gpsBean = bean;
                 } else {
                     gpsBean.setMapLatitude(39.996598);      //默认思源大厦的纬度
@@ -130,10 +116,10 @@ public class MapControlPresenter implements MapControlContract.MapControlPresent
                 mLocation = gpsBean.getAddress();
                 mCurrentAdCode = gpsBean.getAdCode();
                 mView.showMap(lat, lon, true);
-                mToonLocationUtil.stopLocation();
+                mLocationUtil.stopLocation();
                 mView.dismissLoadingDialog();
             }
-        }, ToonLocationUtil.DEFAULT_LOCATION_TIME);
+        }, LocationUtil.DEFAULT_LOCATION_TIME);
     }
 
     @Override
@@ -217,7 +203,7 @@ public class MapControlPresenter implements MapControlContract.MapControlPresent
     @Override
     public void backData(int type) {
 
-        GpsBean gpsBean = ToonLocationUtil.gcjToGps84(lat, lon);
+        GpsBean gpsBean = LocationUtil.gcjToGps84(lat, lon);
         if (type == 2) {
             PluginMapLocationBean locationBean = new PluginMapLocationBean();
             locationBean.setLatitude(gpsBean.getLatitude());
@@ -231,7 +217,7 @@ public class MapControlPresenter implements MapControlContract.MapControlPresent
             }
         } else if (type == 3) {
             if (mCallback != null) {
-                TNPUserCommonPosition locationBean = new TNPUserCommonPosition();
+                UserCommonPosition locationBean = new UserCommonPosition();
                 locationBean.setName(addressName);
 
                 locationBean.setAddress(mLocation);
@@ -247,7 +233,7 @@ public class MapControlPresenter implements MapControlContract.MapControlPresent
     @Override
     public void backLatLonAndImageUrl(String filePath) {
 
-        GpsBean gpsBean = ToonLocationUtil.gcjToGps84(lat, lon);
+        GpsBean gpsBean = LocationUtil.gcjToGps84(lat, lon);
         PluginMapLocationBean locationBean = new PluginMapLocationBean();
         locationBean.setLatitude(gpsBean.getLatitude());
         locationBean.setLongitude(gpsBean.getLongitude());
@@ -316,7 +302,7 @@ public class MapControlPresenter implements MapControlContract.MapControlPresent
             mCityMap.clear();
         }
         mCityMap = null;
-        mToonLocationUtil = null;
+        mLocationUtil = null;
         mView = null;
         isGetFirstCity = false;
     }

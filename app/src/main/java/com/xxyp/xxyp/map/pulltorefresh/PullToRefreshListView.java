@@ -33,12 +33,6 @@ import android.widget.ListView;
 
 /**
  * Description : 滑动刷新listview
- * Created by lx on 2016/6/21
- * Job number：137289
- * Phone ：        18611867932
- * Email：          lixiao3@syswin.com
- * Person in charge : lx
- * Leader：lx
  */
 public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView> {
 

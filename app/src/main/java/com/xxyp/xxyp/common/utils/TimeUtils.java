@@ -6,8 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Description : 时间工具类 Created by sunpengfei on 2017/8/4. Person in charge :
- * sunpengfei
+ * Description : 时间工具类
  */
 public final class TimeUtils {
 

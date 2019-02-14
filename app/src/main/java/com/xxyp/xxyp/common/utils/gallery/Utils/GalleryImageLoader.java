@@ -1205,12 +1205,12 @@ public class GalleryImageLoader {
 
         try {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                telegramPath = new File(Environment.getExternalStorageDirectory(), "toon");
+                telegramPath = new File(Environment.getExternalStorageDirectory(), "xxyp");
                 telegramPath.mkdirs();
 
                 if (telegramPath.isDirectory()) {
                     try {
-                        File imagePath = new File(telegramPath, "toon Images");
+                        File imagePath = new File(telegramPath, "xxyp Images");
                         imagePath.mkdir();
                         if (imagePath.isDirectory()
                                 && canMoveFiles(cachePath, imagePath, FileLoader.MEDIA_DIR_IMAGE)) {
@@ -1222,7 +1222,7 @@ public class GalleryImageLoader {
                     }
 
                     try {
-                        File videoPath = new File(telegramPath, "toon Video");
+                        File videoPath = new File(telegramPath, "xxyp Video");
                         videoPath.mkdir();
                         if (videoPath.isDirectory()
                                 && canMoveFiles(cachePath, videoPath, FileLoader.MEDIA_DIR_VIDEO)) {
@@ -1234,7 +1234,7 @@ public class GalleryImageLoader {
                     }
 
                     try {
-                        File audioPath = new File(telegramPath, "toon Audio");
+                        File audioPath = new File(telegramPath, "xxyp Audio");
                         audioPath.mkdir();
                         if (audioPath.isDirectory()
                                 && canMoveFiles(cachePath, audioPath, FileLoader.MEDIA_DIR_AUDIO)) {
@@ -1247,7 +1247,7 @@ public class GalleryImageLoader {
                     }
 
                     try {
-                        File documentPath = new File(telegramPath, "toon Documents");
+                        File documentPath = new File(telegramPath, "xxyp Documents");
                         documentPath.mkdir();
                         if (documentPath.isDirectory() && canMoveFiles(cachePath, documentPath,
                                 FileLoader.MEDIA_DIR_DOCUMENT)) {

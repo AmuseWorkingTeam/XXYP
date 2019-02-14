@@ -25,8 +25,7 @@ import com.xxyp.xxyp.user.utils.IWheelDataChangeCallback;
 import com.xxyp.xxyp.user.utils.SingleCheckListener;
 
 /**
- * Description : 用户信息页面 Created by sunpengfei on 2017/8/3. Person in charge :
- * sunpengfei
+ * Description : 用户信息页面
  */
 public class PersonalInfoActivity extends BaseTitleActivity implements PersonalInfoContract.View {
 

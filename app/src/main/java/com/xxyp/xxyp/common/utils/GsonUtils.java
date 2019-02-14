@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description : json转化utils Created by sunpengfei on 2017/8/9. Person in charge
- * : sunpengfei
+ * Description : json转化utils
  */
 public class GsonUtils {
 

@@ -10,8 +10,7 @@ import com.xxyp.xxyp.common.utils.GsonUtils;
 import com.xxyp.xxyp.message.utils.MessageUtils;
 
 /**
- * Description : LeanCloud收消息回调 Created by sunpengfei on 2017/8/15.
- * Leader：wangxiaohui
+ * Description : LeanCloud收消息回调
  */
 public class MsgServiceHandler extends AVIMMessageHandler {
 

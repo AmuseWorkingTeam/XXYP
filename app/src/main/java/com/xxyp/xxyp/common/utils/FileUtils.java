@@ -8,8 +8,7 @@ import android.text.TextUtils;
 import java.io.File;
 
 /**
- * Description : 文件操作管理类 Created by sunpengfei on 2017/8/4. Person in charge :
- * sunpengfei
+ * Description : 文件操作管理类
  */
 public class FileUtils {
 

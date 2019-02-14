@@ -26,12 +26,6 @@ import com.xxyp.xxyp.map.pulltorefresh.PullToRefreshBase.State;
 
 /**
  * Description :滚动条辅助工具类
- * Created by lx on 2016/6/21
- * Job number：137289
- * Phone ：        18611867932
- * Email：          lixiao3@syswin.com
- * Person in charge : lx
- * Leader：lx
  */
 @TargetApi(9)
 public final class OverscrollHelper {

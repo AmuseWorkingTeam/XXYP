@@ -11,8 +11,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 /**
- * Description : 图片配置常量 Created by sunpengfei on 2017/7/27. Person in charge :
- * sunpengfei
+ * Description : 图片配置常量
  */
 public class ImageRequestConfig {
 

@@ -26,12 +26,6 @@ import com.xxyp.xxyp.map.pulltorefresh.PullToRefreshBase.State;
 
 /**
  * Description :滑动刷新列表接口
- * Created by lx on 2016/6/21
- * Job number：137289
- * Phone ：        18611867932
- * Email：          lixiao3@syswin.com
- * Person in charge : lx
- * Leader：lx
  */
 public interface IPullToRefresh<T extends View> {
 
