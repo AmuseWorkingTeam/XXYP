@@ -409,6 +409,7 @@ public class RelationResourceDBManager extends BaseDao {
                     DBUtils.buildSelectSql(MessageImageEntityDao.TABLENAME, where.toString(),
                             MessageShotEntityDao.Properties.UserId.columnName,
                             MessageShotEntityDao.Properties.DatingShotAddress.columnName,
+                            MessageShotEntityDao.Properties.DatingShotTime.columnName,
                             MessageShotEntityDao.Properties.Purpose.columnName,
                             MessageShotEntityDao.Properties.PaymentMethod.columnName,
                             MessageShotEntityDao.Properties.DatingShotIntroduction.columnName,
@@ -448,6 +449,7 @@ public class RelationResourceDBManager extends BaseDao {
             String insertSql = DBUtils.buildInsertSql(MessageShotEntityDao.TABLENAME,
                     MessageShotEntityDao.Properties.UserId.columnName,
                     MessageShotEntityDao.Properties.DatingShotAddress.columnName,
+                    MessageShotEntityDao.Properties.DatingShotTime.columnName,
                     MessageShotEntityDao.Properties.Purpose.columnName,
                     MessageShotEntityDao.Properties.PaymentMethod.columnName,
                     MessageShotEntityDao.Properties.DatingShotIntroduction.columnName,
@@ -486,6 +488,7 @@ public class RelationResourceDBManager extends BaseDao {
                     MessageShotEntityDao.Properties.ShotId.columnName
             }, MessageShotEntityDao.Properties.UserId.columnName,
                     MessageShotEntityDao.Properties.DatingShotAddress.columnName,
+                    MessageShotEntityDao.Properties.DatingShotTime.columnName,
                     MessageShotEntityDao.Properties.Purpose.columnName,
                     MessageShotEntityDao.Properties.PaymentMethod.columnName,
                     MessageShotEntityDao.Properties.DatingShotIntroduction.columnName,
@@ -642,30 +645,31 @@ public class RelationResourceDBManager extends BaseDao {
         if (!TextUtils.isEmpty(shotBean.getDatingShotAddress())) {
             statement.bindString(2, shotBean.getDatingShotAddress());
         }
+        statement.bindLong(3, shotBean.getDatingShotTime());
         if (!TextUtils.isEmpty(shotBean.getPurpose())) {
-            statement.bindString(3, shotBean.getPurpose());
+            statement.bindString(4, shotBean.getPurpose());
         }
         if (!TextUtils.isEmpty(shotBean.getPaymentMethod())) {
-            statement.bindString(4, shotBean.getPaymentMethod());
+            statement.bindString(5, shotBean.getPaymentMethod());
         }
         if (!TextUtils.isEmpty(shotBean.getDatingShotIntroduction())) {
-            statement.bindString(5, shotBean.getDatingShotIntroduction());
+            statement.bindString(6, shotBean.getDatingShotIntroduction());
         }
         if (!TextUtils.isEmpty(shotBean.getDescription())) {
-            statement.bindString(6, shotBean.getDescription());
+            statement.bindString(7, shotBean.getDescription());
         }
         if (!TextUtils.isEmpty(shotBean.getDatingUserId())) {
-            statement.bindString(7, shotBean.getDatingUserId());
+            statement.bindString(8, shotBean.getDatingUserId());
         }
-        statement.bindLong(8, shotBean.getStatus());
+        statement.bindLong(9, shotBean.getStatus());
         if (shotBean.getDatingShotId() != -1) {
-            statement.bindLong(9, shotBean.getDatingShotId());
+            statement.bindLong(10, shotBean.getDatingShotId());
         }
         if (!TextUtils.isEmpty(shotBean.getBelongTo())) {
-            statement.bindString(10, shotBean.getBelongTo());
+            statement.bindString(11, shotBean.getBelongTo());
         }
         if (!TextUtils.isEmpty(shotBean.getDatingShotImage())) {
-            statement.bindString(11, shotBean.getDatingShotImage());
+            statement.bindString(12, shotBean.getDatingShotImage());
         }
         return statement;
     }
@@ -683,15 +687,16 @@ public class RelationResourceDBManager extends BaseDao {
         MessageShotBean shotBean = new MessageShotBean();
         shotBean.setUserId(cursor.getString(0));
         shotBean.setDatingShotAddress(cursor.getString(1));
-        shotBean.setPurpose(cursor.getString(2));
-        shotBean.setPaymentMethod(cursor.getString(3));
-        shotBean.setDatingShotIntroduction(cursor.getString(4));
-        shotBean.setDescription(cursor.getString(5));
-        shotBean.setDatingUserId(cursor.getString(6));
-        shotBean.setStatus(cursor.getInt(7));
-        shotBean.setDatingShotId(cursor.getLong(8));
-        shotBean.setBelongTo(cursor.getString(9));
-        shotBean.setDatingShotImage(cursor.getString(10));
+        shotBean.setDatingShotTime(cursor.getLong(2));
+        shotBean.setPurpose(cursor.getString(3));
+        shotBean.setPaymentMethod(cursor.getString(4));
+        shotBean.setDatingShotIntroduction(cursor.getString(5));
+        shotBean.setDescription(cursor.getString(6));
+        shotBean.setDatingUserId(cursor.getString(7));
+        shotBean.setStatus(cursor.getInt(8));
+        shotBean.setDatingShotId(cursor.getLong(9));
+        shotBean.setBelongTo(cursor.getString(10));
+        shotBean.setDatingShotImage(cursor.getString(11));
         return shotBean;
     }
 }

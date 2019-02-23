@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="@dimen/dimen_190"
         android:layout_height="@dimen/dimen_190"
         android:layout_centerInParent="true"
-        android:background="@drawable/voice_record_corner_bg">
+        android:background="@drawable/voice_record_corner_bg"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dimen_20"
             android:layout_marginStart="@dimen/dimen_20"
-            android:background="@drawable/voice_mic_icon"/>
-    </FrameLayout>
+            android:layout_marginLeft="@dimen/dimen_20"
+            android:background="@drawable/voice_mic_icon" />
+
+        <ImageView
+            android:id="@+id/record_voice_mic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dimen_20"
+            android:layout_marginLeft="@dimen/dimen_20"
+            android:background="@drawable/voice_mic_1" />
+    </LinearLayout>
 
 </RelativeLayout>

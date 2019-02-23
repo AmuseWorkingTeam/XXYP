@@ -119,4 +119,22 @@ public interface MessageConfig {
         int VOICE_READED = 3;
     }
 
+    /**
+     * 语音状态
+     */
+    interface ShotStatus {
+
+        // 删除状态
+        int SHOT_DEL = 0;
+
+        // 新建
+        int SHOT_CREATE = 1;
+
+        // 已被接受
+        int SHOT_DATED = 2;
+
+        // 完成状态
+        int SHOT_DONE = 3;
+    }
+
 }

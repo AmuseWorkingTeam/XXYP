@@ -68,9 +68,15 @@ public interface ChatBaseContract {
         void showRecordView();
 
         /**
+         * 展示录制语音音量
+         */
+        void showRecordMicView(int radio);
+
+        /**
          * 隐藏语音录制view
          */
         void hideRecordView();
+
     }
 
     /**
@@ -198,6 +204,11 @@ public interface ChatBaseContract {
          * @param chatBean 聊天消息体
          */
         void onMessageLongClick(ChatMessageBean chatBean);
+
+        /**
+         * onPause
+         */
+        void onPause();
 
     }
 

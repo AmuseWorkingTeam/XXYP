@@ -22,6 +22,9 @@ public class MessageShotEntity {
     /* 约拍地址 */
     private String datingShotAddress;
 
+    /* 约拍时间 */
+    private Long datingShotTime;
+
     /* 约拍目的 摄影师 模特 */
     private String purpose;
 
@@ -46,14 +49,15 @@ public class MessageShotEntity {
     @NotNull
     private String belongTo;
 
-    @Generated(hash = 2086912344)
+    @Generated(hash = 365582058)
     public MessageShotEntity(Long shotId, String userId, String datingShotAddress,
-            String purpose, String paymentMethod, String datingShotIntroduction,
-            String description, String datingUserId, String datingShotImage,
-            Integer status, @NotNull String belongTo) {
+            Long datingShotTime, String purpose, String paymentMethod,
+            String datingShotIntroduction, String description, String datingUserId,
+            String datingShotImage, Integer status, @NotNull String belongTo) {
         this.shotId = shotId;
         this.userId = userId;
         this.datingShotAddress = datingShotAddress;
+        this.datingShotTime = datingShotTime;
         this.purpose = purpose;
         this.paymentMethod = paymentMethod;
         this.datingShotIntroduction = datingShotIntroduction;
@@ -154,5 +158,13 @@ public class MessageShotEntity {
 
     public void setBelongTo(String belongTo) {
         this.belongTo = belongTo;
+    }
+
+    public Long getDatingShotTime() {
+        return this.datingShotTime;
+    }
+
+    public void setDatingShotTime(Long datingShotTime) {
+        this.datingShotTime = datingShotTime;
     }
 }

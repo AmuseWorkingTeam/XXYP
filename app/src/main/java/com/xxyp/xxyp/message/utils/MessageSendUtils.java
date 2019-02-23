@@ -161,12 +161,13 @@ public class MessageSendUtils {
         messageShotBean.setDatingShotId(Long.valueOf(shotBean.getDatingShotId()));
         messageShotBean.setUserId(shotBean.getUserId());
         messageShotBean.setDatingShotAddress(shotBean.getDatingShotAddress());
+        messageShotBean.setDatingShotTime(shotBean.getReleaseTime());
         messageShotBean.setPurpose(shotBean.getPurpose());
         messageShotBean.setPaymentMethod(shotBean.getPaymentMethod());
         messageShotBean.setDatingShotIntroduction(shotBean.getDatingShotIntroduction());
         messageShotBean.setDescription(shotBean.getDescription());
         messageShotBean.setDatingUserId(shotBean.getDatingUserId());
-        messageShotBean.setStatus(MessageConfig.VoiceStatus.VOICE_READED);
+        messageShotBean.setStatus(MessageConfig.ShotStatus.SHOT_CREATE);
         String url = shotBean.getDatingShotImages().get(0).getDatingShotPhoto();
         messageShotBean.setDatingShotImage(url);
 

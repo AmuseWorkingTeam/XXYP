@@ -11,6 +11,7 @@ import com.xxyp.xxyp.message.itemholder.BaseChatHolder;
 import com.xxyp.xxyp.message.itemholder.IItemChatPanel;
 import com.xxyp.xxyp.message.itemholder.MessageItemBaseView;
 import com.xxyp.xxyp.message.itemholder.MessageItemImage;
+import com.xxyp.xxyp.message.itemholder.MessageItemShot;
 import com.xxyp.xxyp.message.itemholder.MessageItemText;
 import com.xxyp.xxyp.message.itemholder.MessageItemVoice;
 import com.xxyp.xxyp.message.utils.MessageConfig;
@@ -109,6 +110,16 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<BaseChatHolder> {
             case MessageConfig.ChatListViewItemType.IMAGE_RIGHT:
                 // 右图片
                 panel = new MessageItemImage(mContext, mActionListener,
+                        MessageItemBaseView.ITEM_RIGHT);
+                break;
+            case MessageConfig.ChatListViewItemType.APPOINTMENT_LEFT:
+                // 左约拍
+                panel = new MessageItemShot(mContext, mActionListener,
+                        MessageItemBaseView.ITEM_LEFT);
+                break;
+            case MessageConfig.ChatListViewItemType.APPOINTMENT_RIGHT:
+                // 右约拍
+                panel = new MessageItemShot(mContext, mActionListener,
                         MessageItemBaseView.ITEM_RIGHT);
                 break;
             default:

@@ -18,6 +18,9 @@ public class MessageShotBean extends BaseBean {
     /* 约拍地址 */
     private String datingShotAddress;
 
+    /* 约拍时间 */
+    private long datingShotTime;
+
     /* 约拍目的 摄影师 模特 */
     private String purpose;
 
@@ -63,6 +66,14 @@ public class MessageShotBean extends BaseBean {
 
     public void setDatingShotAddress(String datingShotAddress) {
         this.datingShotAddress = datingShotAddress;
+    }
+
+    public long getDatingShotTime() {
+        return datingShotTime;
+    }
+
+    public void setDatingShotTime(long datingShotTime) {
+        this.datingShotTime = datingShotTime;
     }
 
     public String getPurpose() {

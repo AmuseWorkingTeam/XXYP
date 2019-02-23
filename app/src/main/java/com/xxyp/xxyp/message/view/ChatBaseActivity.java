@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.xxyp.xxyp.R;
@@ -50,6 +51,9 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
     /* 语音录制view */
     private View mRecordView;
 
+    /* 录制音量 */
+    private ImageView mRecordMicView;
+
     protected ChatBaseContract.Presenter mPresenter;
 
     @Override
@@ -71,6 +75,7 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
         mChatViewGroup = ((ChatViewGroup)view.findViewById(R.id.chat_view_group));
         mRecyclerView = ((ChatRecyclerView)view.findViewById(R.id.swipe_target));
         mRecordView = view.findViewById(R.id.record_voice_view);
+        mRecordMicView = (ImageView) view.findViewById(R.id.record_voice_mic);
         mInputBar = ((MessageInputBar)view.findViewById(R.id.chat_control_bar));
         mChatViewHelper = new ChatViewHelper(this, mRecyclerView);
         MsgServiceManager.getInstance().registerIMListener(this, this);
@@ -183,6 +188,9 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
         super.onPause();
         //清除未读数
         new MessageModel().clearUnReadCountByChatId(mChatId);
+        if (mPresenter != null) {
+            mPresenter.onPause();
+        }
     }
 
     @Override
@@ -247,6 +255,23 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
     @Override
     public void showRecordView() {
         mRecordView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showRecordMicView(int radio) {
+        if (mRecordView != null && mRecordView.isShown()) {
+            if (radio > 20) {
+                mRecordMicView.setBackgroundResource(R.drawable.voice_mic_3);
+                return;
+            }
+            if (radio <= 8) {
+                mRecordMicView.setBackgroundResource(R.drawable.voice_mic_1);
+            } else if (radio <= 14) {
+                mRecordMicView.setBackgroundResource(R.drawable.voice_mic_2);
+            } else if (radio <= 20) {
+                mRecordMicView.setBackgroundResource(R.drawable.voice_mic_3);
+            }
+        }
     }
 
     @Override

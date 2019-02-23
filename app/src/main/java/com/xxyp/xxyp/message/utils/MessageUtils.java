@@ -46,6 +46,7 @@ public class MessageUtils {
                 buildMessageImage(chatMessageBean, chatMessageBean.getBodyBean());
                 break;
             case MessageConfig.MessageType.MSG_APPOINTMENT:
+                buildMessageShot(chatMessageBean, chatMessageBean.getBodyBean());
                 break;
             default:
                 break;
@@ -155,6 +156,33 @@ public class MessageUtils {
     }
 
     /**
+     * 构造约拍消息
+     *
+     * @param chatMessageBean
+     * @param bodyBean
+     */
+    private static void buildMessageShot(ChatMessageBean chatMessageBean,
+                                          MessageBodyBean bodyBean) {
+        if (chatMessageBean == null || bodyBean == null) {
+            return;
+        }
+        MessageShotBean shotBean = new MessageShotBean();
+
+        shotBean.setDatingShotId(bodyBean.getDatingShotId());
+        shotBean.setUserId(bodyBean.getUserId());
+        shotBean.setDatingShotAddress(bodyBean.getDatingShotAddress());
+        shotBean.setDatingShotTime(bodyBean.getDatingShotTime());
+        shotBean.setPurpose(bodyBean.getPurpose());
+        shotBean.setPaymentMethod(bodyBean.getPaymentMethod());
+        shotBean.setDatingShotIntroduction(bodyBean.getDatingShotIntroduction());
+        shotBean.setDescription(bodyBean.getDescription());
+        shotBean.setDatingUserId(bodyBean.getDatingUserId());
+        shotBean.setStatus(bodyBean.getStatus());
+        shotBean.setDatingShotImage(bodyBean.getDatingShotImage());
+        chatMessageBean.setShotBean(shotBean);
+    }
+
+    /**
      * 构造发送的消息包
      * 
      * @param messageBean 消息体
@@ -217,7 +245,17 @@ public class MessageUtils {
             case MessageConfig.MessageType.MSG_APPOINTMENT:
                 MessageShotBean shotBean = chatMessageBean.getShotBean();
                 if (shotBean != null) {
-                    bodyBean.setUrl(shotBean.getDatingShotImage());
+                    bodyBean.setDatingShotId(shotBean.getDatingShotId());
+                    bodyBean.setUserId(shotBean.getUserId());
+                    bodyBean.setDatingShotAddress(shotBean.getDatingShotAddress());
+                    bodyBean.setDatingShotTime(shotBean.getDatingShotTime());
+                    bodyBean.setPurpose(shotBean.getPurpose());
+                    bodyBean.setPaymentMethod(shotBean.getPaymentMethod());
+                    bodyBean.setDatingShotIntroduction(shotBean.getDatingShotIntroduction());
+                    bodyBean.setDescription(shotBean.getDescription());
+                    bodyBean.setDatingUserId(shotBean.getDatingUserId());
+                    bodyBean.setStatus(shotBean.getStatus());
+                    bodyBean.setDatingShotImage(shotBean.getDatingShotImage());
                 }
                 break;
             default:

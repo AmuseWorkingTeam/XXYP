@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_11"
+    android:layout_marginBottom="@dimen/dimen_11"
+    android:paddingEnd="@dimen/dimen_10"
+    android:paddingRight="@dimen/dimen_10">
+
+
+    <RelativeLayout
+        android:id="@+id/layout_shot_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dating_shot_blue_bg"
+        android:padding="@dimen/dimen_6">
+
+        <LinearLayout
+            android:id="@+id/ll_dating_info"
+            android:layout_width="@dimen/dimen_140"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_dating_count"
+            android:layout_marginRight="@dimen/dimen_5"
+            android:background="@drawable/dating_shot_white_bg"
+            android:orientation="vertical"
+            android:padding="@dimen/dimen_5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dimen_5"
+                android:text="发送了一个约拍订单"
+                android:textColor="@color/color_5a5a5a"
+                android:textSize="@dimen/dimen_16" />
+
+            <TextView
+                android:id="@+id/tv_shot_purpose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dimen_5"
+                android:paddingTop="@dimen/dimen_7"
+                android:text="约摄影师 双方互免"
+                android:textColor="@color/color_868686"
+                android:textSize="@dimen/dimen_12" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dimen_5"
+                android:text="时间:2017.5.1"
+                android:textColor="@color/color_868686"
+                android:textSize="@dimen/dimen_12" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:layout_marginBottom="@dimen/dimen_20"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dimen_5"
+                android:text="地点"
+                android:textColor="@color/color_868686"
+                android:textSize="@dimen/dimen_12" />
+
+        </LinearLayout>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/dating_avatar"
+            android:layout_width="@dimen/dimen_64"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ll_dating_info"
+            android:layout_alignBottom="@id/ll_dating_info"
+            android:layout_toRightOf="@id/ll_dating_info"
+            fresco:fadeDuration="100"
+            fresco:roundedCornerRadius="@dimen/dimen_8" />
+
+        <View
+            android:id="@+id/dating_line"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_1"
+            android:layout_below="@id/ll_dating_info"
+            android:layout_alignLeft="@id/ll_dating_info"
+            android:layout_alignRight="@id/dating_avatar"
+            android:layout_marginTop="@dimen/dimen_7"
+            android:layout_marginBottom="@dimen/dimen_5"
+            android:background="@color/c3" />
+
+        <TextView
+            android:id="@+id/dating_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dating_line"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/dating_shot_white_bg"
+            android:gravity="center"
+            android:padding="@dimen/dimen_8"
+            android:text="邀约"
+            android:textColor="@color/color_cfd0ff"
+            android:textSize="@dimen/dimen_18" />
+    </RelativeLayout>
+
+</FrameLayout>

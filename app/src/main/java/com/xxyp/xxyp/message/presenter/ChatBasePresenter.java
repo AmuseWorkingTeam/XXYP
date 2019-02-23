@@ -224,6 +224,11 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
         stopVoicePlay();
     }
 
+    @Override
+    public void onPause() {
+        stopAudio();
+    }
+
     /**
      * 如果有权限，则进行录音任务
      */
@@ -232,6 +237,15 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
         stopAudio();
         if (mVoiceRecordHelper == null) {
             mVoiceRecordHelper = new VoiceRecordHelper((Activity)mView.getContext());
+            mVoiceRecordHelper.setCallBackSoundDecibel(new VoiceRecordHelper.OnCallBackSoundDecibel() {
+                @Override
+                public void callBackSoundDecibel(float decibel) {
+                    //音量
+                    if(mView != null){
+                        mView.showRecordMicView((int) decibel);
+                    }
+                }
+            });
         }
         if (action == MessageInputBar.VOICE_START && mRecordingStatus == 1) {
             // 展示语音录制view

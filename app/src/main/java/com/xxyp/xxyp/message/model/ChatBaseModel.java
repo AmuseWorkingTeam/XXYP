@@ -101,7 +101,6 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
             return -1;
         }
         shotBean.setBelongTo(belongTo);
-        shotBean.setDatingShotId(-1);
         return RelationResourceDBManager.getInstance().addMessageShot(shotBean);
     }
 
