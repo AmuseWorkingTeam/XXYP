@@ -76,4 +76,8 @@
     <color name="search_result_color">#007AFF</color>
     <color name="view_divider_color">#E1E1E1</color>
 
+    <color name="dialog_title_color">#111111</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
 </resources>

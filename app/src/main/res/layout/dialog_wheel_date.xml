@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/wheel_linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/wheel_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_16"
+                android:text="@string/cancel"
+                android:textColor="@color/search_result_color"
+                android:textSize="@dimen/dimen_16" />
+
+            <TextView
+                android:id="@+id/wheel_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dimen_16"
+                android:text="@string/ok"
+                android:textColor="@color/search_result_color"
+                android:textSize="@dimen/dimen_16" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_0.3"
+            android:background="@color/view_divider_color" />
+    </LinearLayout>
+</LinearLayout>
