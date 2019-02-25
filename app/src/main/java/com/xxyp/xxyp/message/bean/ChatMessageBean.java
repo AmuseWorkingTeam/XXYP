@@ -23,6 +23,10 @@ public class ChatMessageBean extends MessageBean {
 
     private MessageShotBean mShotBean;
 
+    private MessageNoticeBean mNoticeBean;
+
+    private MessageOperateBean mOperateBean;
+
     private int sendStatus;
 
     private int sender;
@@ -97,6 +101,22 @@ public class ChatMessageBean extends MessageBean {
         mShotBean = shotBean;
     }
 
+    public MessageNoticeBean getNoticeBean() {
+        return mNoticeBean;
+    }
+
+    public void setNoticeBean(MessageNoticeBean noticeBean) {
+        mNoticeBean = noticeBean;
+    }
+
+    public MessageOperateBean getOperateBean() {
+        return mOperateBean;
+    }
+
+    public void setOperateBean(MessageOperateBean operateBean) {
+        mOperateBean = operateBean;
+    }
+
     public int getSendStatus() {
         return sendStatus;
     }
@@ -125,6 +145,8 @@ public class ChatMessageBean extends MessageBean {
         setImageBean(bean.getImageBean());
         setVoiceBean(bean.getVoiceBean());
         setShotBean(bean.getShotBean());
+        setNoticeBean(bean.getNoticeBean());
+        setOperateBean(bean.getOperateBean());
         setSendStatus(bean.getSendStatus());
         setSender(bean.getSender());
     }

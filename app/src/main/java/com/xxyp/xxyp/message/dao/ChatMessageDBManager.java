@@ -75,6 +75,37 @@ public class ChatMessageDBManager extends BaseDao {
     }
 
     /**
+     * 添加消息到数据库
+     *
+     * @param bean 消息数据
+     * @return long
+     */
+    public void deleteChatMessage(ChatMessageBean bean) {
+        if (bean == null) {
+            return;
+        }
+        String tableName = getChatMessageTable(bean.getChatType());
+        if (TextUtils.isEmpty(tableName)) {
+            return;
+        }
+        SQLiteStatement statement = null;
+        try {
+            String deleteSql = DBUtils.buildDeleteSql(tableName, new String[]{
+                    "MSG_ID"
+            }).toString();
+            statement = getDatabase().compileStatement(deleteSql);
+            statement.bindString(1, bean.getMsgId());
+            statement.executeUpdateDelete();
+        } catch (Exception e) {
+            XXLog.log_e("ChatMessageDBManager", "deleteChatMessage is failed" + e.getMessage());
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
+
+    /**
      * 获取聊天信息
      * 
      * @param chatType 聊天类型
@@ -134,6 +165,52 @@ public class ChatMessageDBManager extends BaseDao {
             return null;
         } catch (Exception e) {
             XXLog.log_e("database", "getChatMessageList is failed:" + e.getMessage());
+            if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    /**
+     * 获取聊天信息
+     *
+     * @param chatType 聊天类型
+     * @param msgId 消息id
+     * @return ChatMessageBean
+     */
+    public ChatMessageBean getChatMessage(int chatType, String msgId) {
+        if (TextUtils.isEmpty(msgId)) {
+            return null;
+        }
+        String tableName = getChatMessageTable(chatType);
+        if (TextUtils.isEmpty(tableName)) {
+            return null;
+        }
+        // 查询的列名数组
+        String[] selectColumns = {
+                "_id", "MSG_ID", "AVIM_MSG_ID", "CONVERSATION_ID", "CONTENT", "MSG_TYPE",
+                "CREATE_TIME", "SEND_STATUS", "SENDER", "RELATION_SOURCE_ID", "SEND_ID", "CHAT_ID"
+        };
+        StringBuilder where = new StringBuilder(" where ");
+        DBUtils.buildColumn(where, tableName, "MSG_ID");
+        where.append("='").append(msgId).append("'");
+
+        String selectSql = DBUtils.buildSelectSql(tableName, where.toString(), selectColumns)
+                .toString();
+        Cursor cursor = null;
+        try {
+            cursor = getDatabase().rawQuery(selectSql, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor2Bean(cursor, chatType);
+            }
+            return null;
+        } catch (Exception e) {
+            XXLog.log_e("database", "getChatMessage is failed:" + e.getMessage());
             if (cursor != null) {
                 cursor.close();
             }
@@ -306,6 +383,7 @@ public class ChatMessageDBManager extends BaseDao {
         bean.setRelationSourceId(relationSourceId);
         bean.setSendId(cursor.getString(10));
         bean.setChatId(cursor.getString(11));
+        MessageUtils.handlePacketContent(bean, bean.getContent());
         switch (msgType) {
             case MessageConfig.MessageType.MSG_VOICE:
                 bean.setVoiceBean(
@@ -319,10 +397,15 @@ public class ChatMessageDBManager extends BaseDao {
                 bean.setShotBean(
                         RelationResourceDBManager.getInstance().getMessageShot(relationSourceId));
                 break;
+            case MessageConfig.MessageType.MSG_NOTICE:
+                MessageUtils.buildMessageNotice(bean, bean.getBodyBean());
+                break;
+            case MessageConfig.MessageType.MSG_OPERATE:
+                //操作消息不展示
+                return null;
             default:
                 break;
         }
-        MessageUtils.handlePacketContent(bean, bean.getContent());
         return bean;
     }
 }

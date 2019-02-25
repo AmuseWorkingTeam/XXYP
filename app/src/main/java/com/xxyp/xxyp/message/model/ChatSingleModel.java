@@ -24,7 +24,15 @@ public class ChatSingleModel extends ChatBaseModel implements ChatSingleContract
     }
 
     @Override
+    public ChatMessageBean getChatMessage(int chatType, String msgId) {
+        return null;
+    }
+
+    @Override
     public long addChatMessage(ChatMessageBean bean) {
+        if(bean == null){
+            return -1;
+        }
         bean.setRelationSourceId(addRelationResource(bean));
         return ChatMessageDBManager.getInstance().addChatMessage(bean);
     }

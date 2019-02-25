@@ -11,6 +11,7 @@ import com.xxyp.xxyp.message.itemholder.BaseChatHolder;
 import com.xxyp.xxyp.message.itemholder.IItemChatPanel;
 import com.xxyp.xxyp.message.itemholder.MessageItemBaseView;
 import com.xxyp.xxyp.message.itemholder.MessageItemImage;
+import com.xxyp.xxyp.message.itemholder.MessageItemNotice;
 import com.xxyp.xxyp.message.itemholder.MessageItemShot;
 import com.xxyp.xxyp.message.itemholder.MessageItemText;
 import com.xxyp.xxyp.message.itemholder.MessageItemVoice;
@@ -122,6 +123,10 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<BaseChatHolder> {
                 panel = new MessageItemShot(mContext, mActionListener,
                         MessageItemBaseView.ITEM_RIGHT);
                 break;
+            case MessageConfig.ChatListViewItemType.NOTICE:
+                panel = new MessageItemNotice(mContext, mActionListener,
+                        MessageItemBaseView.ITEM_CENTER);
+                break;
             default:
                 break;
         }
@@ -179,6 +184,9 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<BaseChatHolder> {
                 } else {
                     itemType = MessageConfig.ChatListViewItemType.APPOINTMENT_LEFT;
                 }
+                break;
+            case MessageConfig.MessageType.MSG_NOTICE:
+                itemType = MessageConfig.ChatListViewItemType.NOTICE;
                 break;
             default:
                 // 无法识别的类型转为文本

@@ -10,17 +10,15 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.xxyp.xxyp.R;
 import com.xxyp.xxyp.common.utils.ScreenUtils;
-import com.xxyp.xxyp.common.view.dialog.bean.OperateDialogConfig;
+import com.xxyp.xxyp.common.view.dialog.bean.OperateDialogConfig.DialogItem;
 import com.xxyp.xxyp.map.utils.ViewHolder;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import com.xxyp.xxyp.common.view.dialog.bean.OperateDialogConfig.*;
 
 public class DialogBaseAdapter extends BaseAdapter implements Observer {
 
@@ -53,8 +51,8 @@ public class DialogBaseAdapter extends BaseAdapter implements Observer {
     }
 
     @Override
-    public Object getItem(int i) {
-        return i;
+    public String getItem(int i) {
+        return mList != null && mList.size() > i ? mList.get(i) : null;
     }
 
     @Override

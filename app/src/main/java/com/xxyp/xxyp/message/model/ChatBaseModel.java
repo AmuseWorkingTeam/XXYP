@@ -70,6 +70,13 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
     }
 
     @Override
+    public void deleteMessageImage(long imgId, String belongTo) {
+        if(imgId < 0 || TextUtils.isEmpty(belongTo)){
+            RelationResourceDBManager.getInstance().removeMessageImage(imgId, belongTo);
+        }
+    }
+
+    @Override
     public List<MessageImageBean> getMessageImages(String belongTo) {
         if (TextUtils.isEmpty(belongTo)) {
             return null;
@@ -96,6 +103,13 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
     }
 
     @Override
+    public void deleteMessageVoice(long voiceId, String belongTo) {
+        if(voiceId < 0 || TextUtils.isEmpty(belongTo)){
+            RelationResourceDBManager.getInstance().removeMessageVoice(voiceId, belongTo);
+        }
+    }
+
+    @Override
     public long addMessageShot(MessageShotBean shotBean, String belongTo) {
         if (shotBean == null) {
             return -1;
@@ -111,6 +125,13 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
             return -1;
         }
         return RelationResourceDBManager.getInstance().updateMessageShot(shotBean);
+    }
+
+    @Override
+    public void deleteMessageShot(long shotId, String belongTo) {
+        if(shotId < 0 || TextUtils.isEmpty(belongTo)){
+            RelationResourceDBManager.getInstance().removeMessageShot(shotId, belongTo);
+        }
     }
 
     @Override
@@ -148,9 +169,15 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
     }
 
     @Override
+    public void removeMessageShotByBelongTo(String belongTo) {
+        RelationResourceDBManager.getInstance().removeMessageImageByBelongTo(belongTo);
+    }
+
+    @Override
     public void removeMessageResource(String belongTo) {
         removeMessageImageByBelongTo(belongTo);
         removeVoiceMessageByBelongTo(belongTo);
+        removeMessageShotByBelongTo(belongTo);
     }
 
     @Override
@@ -160,5 +187,26 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
         // 清除资源信息
         removeMessageResource(chatId);
         return 0;
+    }
+
+    @Override
+    public void deleteMessage(ChatMessageBean bean) {
+        // 清除聊天数据
+        ChatMessageDBManager.getInstance().deleteChatMessage(bean);
+        // 清除资源信息
+        long resourceId = bean.getRelationSourceId();
+        switch (bean.getMsgType()) {
+            case MessageConfig.MessageType.MSG_IMAGE:
+                RelationResourceDBManager.getInstance().removeMessageImage(resourceId, bean.getChatId());
+                break;
+            case MessageConfig.MessageType.MSG_VOICE:
+                RelationResourceDBManager.getInstance().removeMessageVoice(resourceId, bean.getChatId());
+                break;
+            case MessageConfig.MessageType.MSG_APPOINTMENT:
+                RelationResourceDBManager.getInstance().removeMessageShot(resourceId, bean.getChatId());
+                break;
+            default:
+                break;
+        }
     }
 }

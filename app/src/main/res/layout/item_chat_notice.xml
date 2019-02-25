@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><!-- IM通知 -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/txt_invite"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="@dimen/dimen_28"
+    android:layout_marginRight="@dimen/dimen_28"
+    android:background="@drawable/chat_radius_8_color"
+    android:gravity="center"
+    android:paddingLeft="@dimen/dimen_10"
+    android:paddingTop="@dimen/dimen_2"
+    android:paddingRight="@dimen/dimen_10"
+    android:paddingBottom="@dimen/dimen_2"
+    android:textColor="@color/color_696969"
+    android:textSize="@dimen/dimen_14" />

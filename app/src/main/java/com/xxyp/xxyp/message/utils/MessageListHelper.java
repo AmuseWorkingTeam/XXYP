@@ -55,6 +55,22 @@ public class MessageListHelper {
     }
 
     /**
+     * 删除某一条消息
+     *
+     */
+    public void deleteMessage(String msgId) {
+        if (msgId != null) {
+            for (int i = 0; i < mMessages.size(); i++) {
+                if (TextUtils.equals(mMessages.get(i).getMsgId(), msgId)) {
+                    mMessages.remove(i);
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * 更新某一条消息
      *
      * @param bean 消息体

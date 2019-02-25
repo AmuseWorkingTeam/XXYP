@@ -36,6 +36,8 @@ public class ChatViewHelper implements ChatActionListener {
 
     private static final int CHANGE_SEND_STATUS = 10007;
 
+    private static final int DELETE_CHAT_MESSAGE = 10008;
+
     private ChatRecyclerView mChatRecyclerView;
 
     private Activity mContext;
@@ -104,6 +106,12 @@ public class ChatViewHelper implements ChatActionListener {
                         if (null != messageId) {
                             int status = msg.arg1;
                             mMessageListHelper.updateSendStatus(messageId, status);
+                        }
+                        break;
+                    case DELETE_CHAT_MESSAGE:
+                        String deleteMsgId = (String)msg.obj;
+                        if (null != deleteMsgId) {
+                            mMessageListHelper.deleteMessage(deleteMsgId);
                         }
                         break;
                     default:
@@ -191,6 +199,18 @@ public class ChatViewHelper implements ChatActionListener {
     }
 
     /**
+     * 删除消息
+     *
+     * @param msgId 消息
+     */
+    public void deleteMessage(String msgId) {
+        Message msg = Message.obtain();
+        msg.what = DELETE_CHAT_MESSAGE;
+        msg.obj = msgId;
+        mHandler.sendMessage(msg);
+    }
+
+    /**
      * 获取第一条消息
      * 
      * @return ChatMessageBean
@@ -255,17 +275,9 @@ public class ChatViewHelper implements ChatActionListener {
     }
 
     @Override
-    public void onChatCopy(ChatMessageBean chatBean) {
-
-    }
-
-    @Override
-    public void onChatDel(ChatMessageBean chatBean) {
-
-    }
-
-    @Override
     public void onMessageLongClick(ChatMessageBean chatBean) {
-
+        if (mPresenter != null) {
+            mPresenter.onMessageLongClick(chatBean);
+        }
     }
 }

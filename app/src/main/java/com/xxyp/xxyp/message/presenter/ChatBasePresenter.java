@@ -22,11 +22,13 @@ import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 import com.xxyp.xxyp.common.utils.ToastUtil;
 import com.xxyp.xxyp.common.utils.VoicePlayHelper;
 import com.xxyp.xxyp.common.utils.VoiceRecordHelper;
+import com.xxyp.xxyp.common.utils.dialog.DialogUtils;
 import com.xxyp.xxyp.common.utils.gallery.GalleryActivity;
 import com.xxyp.xxyp.common.utils.gallery.GalleryProvider;
 import com.xxyp.xxyp.common.utils.permissions.PermissionsConstant;
 import com.xxyp.xxyp.common.utils.permissions.PermissionsMgr;
 import com.xxyp.xxyp.common.utils.permissions.PermissionsResultAction;
+import com.xxyp.xxyp.common.view.dialog.CommonDialogView;
 import com.xxyp.xxyp.find.provider.FindProvider;
 import com.xxyp.xxyp.main.bean.ShotBean;
 import com.xxyp.xxyp.message.bean.ChatMessageBean;
@@ -39,6 +41,7 @@ import com.xxyp.xxyp.message.customsviews.panel.PanelConfig;
 import com.xxyp.xxyp.message.provider.ChatProvider;
 import com.xxyp.xxyp.message.utils.MessageConfig;
 import com.xxyp.xxyp.message.utils.MessageSendUtils;
+import com.xxyp.xxyp.message.utils.MessageUtils;
 import com.xxyp.xxyp.user.provider.UserProvider;
 import com.xxyp.xxyp.user.service.UserServiceManager;
 import com.xxyp.xxyp.user.view.MyDatingShotActivity;
@@ -494,13 +497,12 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
             return;
         }
         mView.showChatLoading(true);
-        String userId = SharePreferenceUtils.getInstance().getUserId();
         final MessageShotBean messageShotBean = chatBean.getShotBean();
 
         ShotBean shotBean = new ShotBean();
+        shotBean.setStatus(targetStatus);
         shotBean.setDatingShotId(String.valueOf(messageShotBean.getDatingShotId()));
-        shotBean.setUserId(userId);
-        shotBean.setDatingUserId(messageShotBean.getDatingUserId());
+        shotBean.setDatingUserId(SharePreferenceUtils.getInstance().getUserId());
         UserServiceManager.updateDatingShot(shotBean).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
             @Override
             public void onCompleted() {
@@ -524,18 +526,17 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
                     mView.updateChatMessage(chatBean);
                     mView.cancelChatLoading();
                 }
+                if (targetStatus == MessageConfig.ShotStatus.SHOT_DONE) {
+                    //完成之后发送notice信息
+                    mView.sendChatMessage(mSendUtils.sendNotice("对方确认了[拍摄完成]"));
+                }else{
+                    // 需要发送修改约拍状态
+                    MessageUtils.buildSendMessage(chatBean);
+                    String content = chatBean.getContent();
+                    mSendUtils.sendOperate(chatBean.getMsgId(), MessageConfig.OperateType.TYPE_UPDATE, content);
+                }
             }
         });
-    }
-
-    @Override
-    public void onChatCopy(ChatMessageBean chatBean) {
-
-    }
-
-    @Override
-    public void onChatDel(ChatMessageBean chatBean) {
-
     }
 
     @Override
@@ -544,8 +545,23 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
     }
 
     @Override
-    public void onMessageLongClick(ChatMessageBean chatBean) {
-
+    public void onMessageLongClick(final ChatMessageBean chatBean) {
+        if(chatBean == null){
+            return;
+        }
+        List<String> operates = new ArrayList<>();
+        operates.add("删除");
+        DialogUtils.getInstance().showOperateDialog(mView.getContext(), operates, null, null, 0, false, new CommonDialogView.DialogViews_ask.DialogViews_askImpl() {
+            @Override
+            public void doOk(String text) {
+                if (TextUtils.equals("删除", text)) {
+                    mModel.deleteMessage(chatBean);
+                    if (mView != null) {
+                        mView.deleteMessage(chatBean);
+                    }
+                }
+            }
+        });
     }
 
     @Override

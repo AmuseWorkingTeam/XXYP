@@ -279,6 +279,26 @@ public class ConversationDBManager extends BaseDao {
     }
 
     /**
+     * 更新会话的LeanCloud的conversationId
+     *
+     * @param chatId 会话id
+     */
+    public void deleteConversationIdByChatId(String chatId) {
+        if (TextUtils.isEmpty(chatId)) {
+            return;
+        }
+        SQLiteStatement statement = null;
+        StringBuilder deleteSql = DBUtils.buildDeleteSql(ConversationEntityDao.TABLENAME, ConversationEntityDao.Properties.ChatId.columnName);
+        try {
+            statement = getDatabase().compileStatement(deleteSql.toString());
+            statement.bindString(1, chatId);
+            statement.executeUpdateDelete();
+        } catch (Exception e) {
+            XXLog.log_e("ConversationDBManager", "deleteConversationIdByChatId is failed:" + e.getMessage());
+        }
+    }
+
+    /**
      * 获取会话的leanCloud的ConversationId
      *
      * @param chatId 会话id

@@ -174,7 +174,7 @@ public class CommonDialogView extends Dialog {
     /**
      * 显示操作的 Dialog样式
      */
-    private void createOperateDialog(Context context, DialogOperateBean operateBean, final DialogViews_ask.DialogViews_askImpl listener) {
+    private void createOperateDialog(Context context, final DialogOperateBean operateBean, final DialogViews_ask.DialogViews_askImpl listener) {
         if (operateBean == null) {
             return;
         }
@@ -183,7 +183,7 @@ public class CommonDialogView extends Dialog {
         setContentView(R.layout.dialog_operate);
         initView();
         this.mAction_ask = listener;
-        DialogBaseAdapter adapter = new DialogBaseAdapter(context, operateBean.getList(), operateBean.getDecMap(), operateBean.getColorMap(), operateBean.getPosition());
+        final DialogBaseAdapter adapter = new DialogBaseAdapter(context, operateBean.getList(), operateBean.getDecMap(), operateBean.getColorMap(), operateBean.getPosition());
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -191,7 +191,7 @@ public class CommonDialogView extends Dialog {
                 isNoDismissCallBack = true;
                 dismiss();
                 if (listener != null) {
-                    listener.doOk("" + i);
+                    listener.doOk(adapter.getItem(i));
                 }
             }
         });

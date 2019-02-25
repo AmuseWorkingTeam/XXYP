@@ -14,10 +14,13 @@ import com.xxyp.xxyp.common.base.BaseTitleActivity;
 import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 import com.xxyp.xxyp.common.view.Header;
 import com.xxyp.xxyp.message.bean.ChatMessageBean;
+import com.xxyp.xxyp.message.bean.MessageOperateBean;
 import com.xxyp.xxyp.message.contract.ChatBaseContract;
 import com.xxyp.xxyp.message.customsviews.ChatRecyclerView;
 import com.xxyp.xxyp.message.customsviews.ChatViewGroup;
 import com.xxyp.xxyp.message.customsviews.MessageInputBar;
+import com.xxyp.xxyp.message.model.ChatBaseModel;
+import com.xxyp.xxyp.message.model.ChatSingleModel;
 import com.xxyp.xxyp.message.model.MessageModel;
 import com.xxyp.xxyp.message.service.MessageListenerManager;
 import com.xxyp.xxyp.message.service.MsgServiceManager;
@@ -178,6 +181,13 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
     }
 
     @Override
+    public void deleteMessage(ChatMessageBean bean) {
+        if (bean != null) {
+            mChatViewHelper.deleteMessage(bean.getMsgId());
+        }
+    }
+
+    @Override
     public void setPresenter(ChatBaseContract.Presenter presenter) {
         mPresenter = presenter;
         mChatViewHelper.setChatPresenter(presenter);
@@ -223,10 +233,30 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
 
     @Override
     public void onReceiveMessage(ChatMessageBean bean) {
-        if (bean == null) {
+        handleMessage(bean);
+    }
+
+    protected void handleMessage(ChatMessageBean bean){
+        if (bean == null || !TextUtils.equals(bean.getChatId(), mChatId)) {
             return;
         }
-        if (TextUtils.equals(bean.getChatId(), mChatId)) {
+        if (bean.getMsgType() == MessageConfig.MessageType.MSG_OPERATE && bean.getOperateBean() != null) {
+            //操作消息单独处理
+            MessageOperateBean operateBean = bean.getOperateBean();
+            switch (operateBean.getOperateType()) {
+                case MessageConfig.OperateType.TYPE_DEL:
+                    mChatViewHelper.deleteMessage(operateBean.getOperateMsgId());
+                    break;
+                case MessageConfig.OperateType.TYPE_UPDATE:
+                    ChatBaseModel model = null;
+                    if (bean.getChatType() == MessageConfig.MessageCatalog.CHAT_SINGLE) {
+                        model = new ChatSingleModel();
+                    }
+                    ChatMessageBean operatedMsg = model == null ? null : model.getChatMessage(bean.getChatType(), operateBean.getOperateMsgId());
+                    updateChatMessage(operatedMsg);
+                    break;
+            }
+        } else {
             mChatViewHelper.addChatMessage(bean);
         }
     }

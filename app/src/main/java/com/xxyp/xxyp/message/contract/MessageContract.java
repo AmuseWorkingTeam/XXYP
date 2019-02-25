@@ -110,5 +110,11 @@ public interface MessageContract {
          * @param chatId 会话id
          */
         void clearUnReadCountByChatId(String chatId);
+
+        /**
+         * 删除
+         * @param chatId 会话id
+         */
+        void deleteSession(String chatId);
     }
 }

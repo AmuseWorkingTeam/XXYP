@@ -183,6 +183,7 @@ public class MessagePresenter implements MessageContract.Presenter {
     public void clearConversation(String chatId, int chatType) {
         switch (chatType){
             case MessageConfig.MessageCatalog.CHAT_SINGLE:
+                mModel.deleteSession(chatId);
                 new ChatSingleModel().clearChatMessage(chatId, chatType);
                 break;
             default:

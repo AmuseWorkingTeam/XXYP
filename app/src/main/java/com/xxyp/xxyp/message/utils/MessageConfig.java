@@ -48,6 +48,8 @@ public interface MessageConfig {
         int APPOINTMENT_LEFT = 6;
 
         int APPOINTMENT_RIGHT = 7;
+
+        int NOTICE = 8;
     }
 
     /**
@@ -69,6 +71,12 @@ public interface MessageConfig {
         int MSG_IMAGE = 3;
 
         int MSG_APPOINTMENT = 4;
+
+        // 通知类消息
+        int MSG_NOTICE = 5;
+
+        // 操作类消息
+        int MSG_OPERATE = 6;
     }
 
     /**
@@ -135,6 +143,19 @@ public interface MessageConfig {
 
         // 完成状态
         int SHOT_DONE = 3;
+    }
+
+    /**
+     * 语音状态
+     */
+    interface OperateType {
+
+        // 删除状态
+        int TYPE_DEL = 0;
+
+        // 更新状态
+        int TYPE_UPDATE = 1;
+
     }
 
 }

@@ -1,8 +1,13 @@
 
 package com.xxyp.xxyp.message.service;
 
+import android.text.TextUtils;
+
 import com.xxyp.xxyp.message.bean.ChatMessageBean;
 import com.xxyp.xxyp.message.bean.MessageBean;
+import com.xxyp.xxyp.message.bean.MessageOperateBean;
+import com.xxyp.xxyp.message.model.ChatBaseModel;
+import com.xxyp.xxyp.message.model.ChatSingleModel;
 import com.xxyp.xxyp.message.model.MessageModel;
 import com.xxyp.xxyp.message.utils.MessageConfig;
 import com.xxyp.xxyp.message.utils.MessageUtils;
@@ -19,7 +24,8 @@ public abstract class BaseMessageProcess {
 
     /**
      * 消息处理
-     * @param messageBean  消息体
+     *
+     * @param messageBean 消息体
      * @return Observable<ChatMessageBean>
      */
     public Observable<ChatMessageBean> processMessage(MessageBean messageBean) {
@@ -29,7 +35,9 @@ public abstract class BaseMessageProcess {
         return Observable.just(messageBean).map(new Func1<MessageBean, ChatMessageBean>() {
             @Override
             public ChatMessageBean call(MessageBean messageBean) {
-                return MessageUtils.buildChatMsgBean(messageBean);
+                ChatMessageBean bean = MessageUtils.buildChatMsgBean(messageBean);
+                handleMessage(bean);
+                return bean;
             }
         }).filter(new Func1<ChatMessageBean, Boolean>() {
             @Override
@@ -53,8 +61,44 @@ public abstract class BaseMessageProcess {
 
     /**
      * 保存消息
+     *
      * @param chatMessageBean
      * @return
      */
     abstract boolean saveMessage(ChatMessageBean chatMessageBean);
+
+    /**
+     * 处理消息
+     *
+     * @param chatMessageBean
+     */
+    void handleMessage(ChatMessageBean chatMessageBean) {
+        if (chatMessageBean != null && chatMessageBean.getMsgType() == MessageConfig.MessageType.MSG_OPERATE && chatMessageBean.getOperateBean() != null) {
+            //操作消息
+            MessageOperateBean operateBean = chatMessageBean.getOperateBean();
+            ChatBaseModel model = null;
+            if (chatMessageBean.getChatType() == MessageConfig.MessageCatalog.CHAT_SINGLE) {
+                model = new ChatSingleModel();
+            }
+            ChatMessageBean operate = model == null ? null : model.getChatMessage(chatMessageBean.getChatType(), operateBean.getOperateMsgId());
+            switch (operateBean.getOperateType()) {
+                case MessageConfig.OperateType.TYPE_UPDATE:
+                    if (!TextUtils.isEmpty(operateBean.getContent())) {
+                        if (operate != null) {
+                            operate.setContent(operateBean.getContent());
+                            MessageUtils.buildChatMessageContent(operate);
+                            model.updateMessageContent(chatMessageBean.getChatType(), operateBean.getOperateMsgId(), operateBean.getContent());
+                        }
+                    }
+                case MessageConfig.OperateType.TYPE_DEL:
+                    //删除消息
+                    if (model != null && operate != null) {
+                        model.deleteMessage(operate);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

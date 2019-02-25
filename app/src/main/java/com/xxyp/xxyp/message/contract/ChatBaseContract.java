@@ -63,6 +63,12 @@ public interface ChatBaseContract {
         void updateChatMessage(ChatMessageBean bean);
 
         /**
+         * 删除消息
+         * @param bean
+         */
+        void deleteMessage(ChatMessageBean bean);
+
+        /**
          * 展示录制语音view
          */
         void showRecordView();
@@ -206,18 +212,6 @@ public interface ChatBaseContract {
         void onReSendMessageListener(ChatMessageBean chatBean);
 
         /**
-         * 消息复制监听
-         * @param chatBean 聊天消息体
-         */
-        void onChatCopy(ChatMessageBean chatBean);
-
-        /**
-         * 消息删除监听
-         * @param chatBean 聊天消息体
-         */
-        void onChatDel(ChatMessageBean chatBean);
-
-        /**
          * 消息长按点击
          * @param chatBean 聊天消息体
          */
@@ -247,11 +241,24 @@ public interface ChatBaseContract {
                                               int pageSize);
 
         /**
+         * 获取单个消息
+         * @return ChatMessageBean
+         */
+        ChatMessageBean getChatMessage(int chatType, String msgId);
+
+        /**
          * 添加消息入库
          * @param bean 消息体
          * @return long
          */
         long addChatMessage(ChatMessageBean bean);
+
+        /**
+         * 添加消息入库
+         * @param bean 消息体
+         * @return long
+         */
+        void deleteMessage(ChatMessageBean bean);
 
         /**
          * 添加图片消息入库
@@ -267,6 +274,11 @@ public interface ChatBaseContract {
          * @return long
          */
         long updateMessageImage(MessageImageBean imageBean);
+
+        /**
+         * 删除图片消息
+         */
+        void deleteMessageImage(long imgId, String belongTo);
 
         /**
          * 根据belongTo获取所有图片
@@ -292,6 +304,11 @@ public interface ChatBaseContract {
         long updateMessageVoice(MessageVoiceBean voiceBean);
 
         /**
+         * 删除语音消息
+         */
+        void deleteMessageVoice(long voiceId, String belongTo);
+
+        /**
          * 添加约拍消息入库
          * @param shotBean  约拍信息
          * @param belongTo   发送者id
@@ -305,6 +322,11 @@ public interface ChatBaseContract {
          * @return long
          */
         long updateMessageShot(MessageShotBean shotBean);
+
+        /**
+         * 删除约拍消息
+         */
+        void deleteMessageShot(long shotId, String belongTo);
 
         /**
          * 添加资源消息入库
@@ -353,6 +375,13 @@ public interface ChatBaseContract {
          * @param belongTo 所属会话
          */
         void removeMessageImageByBelongTo(String belongTo);
+
+        /**
+         * 移除会话下约拍信息
+         *
+         * @param belongTo 所属会话
+         */
+        void removeMessageShotByBelongTo(String belongTo);
 
         /**
          * 移除会话下的资源信息

@@ -11,6 +11,8 @@ import com.xxyp.xxyp.message.bean.MessageBean;
 import com.xxyp.xxyp.message.bean.MessageBodyBean;
 import com.xxyp.xxyp.message.bean.MessageContentBean;
 import com.xxyp.xxyp.message.bean.MessageImageBean;
+import com.xxyp.xxyp.message.bean.MessageNoticeBean;
+import com.xxyp.xxyp.message.bean.MessageOperateBean;
 import com.xxyp.xxyp.message.bean.MessageShotBean;
 import com.xxyp.xxyp.message.bean.MessageVoiceBean;
 import com.xxyp.xxyp.message.service.PacketMessage;
@@ -28,7 +30,7 @@ public class MessageUtils {
      * 
      * @param chatMessageBean
      */
-    private static void buildChatMessageContent(ChatMessageBean chatMessageBean) {
+    public static void buildChatMessageContent(ChatMessageBean chatMessageBean) {
         if (chatMessageBean == null) {
             return;
         }
@@ -47,6 +49,12 @@ public class MessageUtils {
                 break;
             case MessageConfig.MessageType.MSG_APPOINTMENT:
                 buildMessageShot(chatMessageBean, chatMessageBean.getBodyBean());
+                break;
+            case MessageConfig.MessageType.MSG_NOTICE:
+                buildMessageNotice(chatMessageBean, chatMessageBean.getBodyBean());
+                break;
+            case MessageConfig.MessageType.MSG_OPERATE:
+                buildMessageOperate(chatMessageBean, chatMessageBean.getBodyBean());
                 break;
             default:
                 break;
@@ -183,6 +191,40 @@ public class MessageUtils {
     }
 
     /**
+     * 构造通知消息
+     *
+     * @param chatMessageBean
+     * @param bodyBean
+     */
+    public static void buildMessageNotice(ChatMessageBean chatMessageBean,
+                                          MessageBodyBean bodyBean) {
+        if (chatMessageBean == null || bodyBean == null) {
+            return;
+        }
+        MessageNoticeBean noticeBean = new MessageNoticeBean();
+        noticeBean.setText(bodyBean.getText());
+        chatMessageBean.setNoticeBean(noticeBean);
+    }
+
+    /**
+     * 构造操作消息
+     *
+     * @param chatMessageBean
+     * @param bodyBean
+     */
+    private static void buildMessageOperate(ChatMessageBean chatMessageBean,
+                                          MessageBodyBean bodyBean) {
+        if (chatMessageBean == null || bodyBean == null) {
+            return;
+        }
+        MessageOperateBean operateBean = new MessageOperateBean();
+        operateBean.setOperateType(bodyBean.getOperateType());
+        operateBean.setOperateUserId(bodyBean.getOperateUserId());
+        operateBean.setOperateMsgId(bodyBean.getOperateMsgId());
+        chatMessageBean.setOperateBean(operateBean);
+    }
+
+    /**
      * 构造发送的消息包
      * 
      * @param messageBean 消息体
@@ -256,6 +298,20 @@ public class MessageUtils {
                     bodyBean.setDatingUserId(shotBean.getDatingUserId());
                     bodyBean.setStatus(shotBean.getStatus());
                     bodyBean.setDatingShotImage(shotBean.getDatingShotImage());
+                }
+                break;
+            case MessageConfig.MessageType.MSG_OPERATE:
+                MessageOperateBean operateBean = chatMessageBean.getOperateBean();
+                if (operateBean != null) {
+                    bodyBean.setOperateMsgId(operateBean.getOperateMsgId());
+                    bodyBean.setOperateType(operateBean.getOperateType());
+                    bodyBean.setOperateUserId(operateBean.getOperateUserId());
+                }
+                break;
+            case MessageConfig.MessageType.MSG_NOTICE:
+                MessageNoticeBean noticeBean = chatMessageBean.getNoticeBean();
+                if (noticeBean != null) {
+                    bodyBean.setText(noticeBean.getText());
                 }
                 break;
             default:

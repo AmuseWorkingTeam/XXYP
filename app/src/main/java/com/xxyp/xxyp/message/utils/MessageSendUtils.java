@@ -8,6 +8,8 @@ import com.xxyp.xxyp.message.bean.ChatMessageBean;
 import com.xxyp.xxyp.message.bean.MessageBodyBean;
 import com.xxyp.xxyp.message.bean.MessageContentBean;
 import com.xxyp.xxyp.message.bean.MessageImageBean;
+import com.xxyp.xxyp.message.bean.MessageNoticeBean;
+import com.xxyp.xxyp.message.bean.MessageOperateBean;
 import com.xxyp.xxyp.message.bean.MessageShotBean;
 import com.xxyp.xxyp.message.bean.MessageVoiceBean;
 import com.xxyp.xxyp.message.service.MsgSendModel;
@@ -173,6 +175,44 @@ public class MessageSendUtils {
 
         bean.setShotBean(messageShotBean);
         bean.setMsgType(MessageConfig.MessageType.MSG_APPOINTMENT);
+        return buildChatMessageBean(bean);
+    }
+
+    /**
+     * 发送操作类消息
+     *
+     * @param msgId 被操作的消息id
+     * @return ChatMessageBean
+     */
+    public void sendOperate(String msgId, int operateType, String content) {
+        if (TextUtils.isEmpty(msgId)) {
+            return;
+        }
+        ChatMessageBean bean = getChatMessageBean();
+        MessageOperateBean operateBean = new MessageOperateBean();
+        operateBean.setOperateMsgId(msgId);
+        operateBean.setOperateUserId(mMyUserId);
+        operateBean.setOperateType(operateType);
+        if (operateType == MessageConfig.OperateType.TYPE_UPDATE) {
+            operateBean.setContent(content);
+        }
+        bean.setMsgType(MessageConfig.MessageType.MSG_OPERATE);
+        buildChatMessageBean(bean);
+    }
+
+    /**
+     * 发送通知类消息
+     *
+     * @return ChatMessageBean
+     */
+    public ChatMessageBean sendNotice(String text) {
+        if (TextUtils.isEmpty(text)) {
+            return null;
+        }
+        ChatMessageBean bean = getChatMessageBean();
+        MessageNoticeBean noticeBean = new MessageNoticeBean();
+        noticeBean.setText(text);
+        bean.setMsgType(MessageConfig.MessageType.MSG_NOTICE);
         return buildChatMessageBean(bean);
     }
 

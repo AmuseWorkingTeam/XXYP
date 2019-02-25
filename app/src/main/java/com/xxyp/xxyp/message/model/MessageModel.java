@@ -98,4 +98,12 @@ public class MessageModel implements MessageContract.Model {
         }
         ConversationDBManager.getInstance().clearUnReadCountByChatId(chatId);
     }
+
+    @Override
+    public void deleteSession(String chatId) {
+        if (TextUtils.isEmpty(chatId)) {
+            return;
+        }
+        ConversationDBManager.getInstance().deleteConversationIdByChatId(chatId);
+    }
 }

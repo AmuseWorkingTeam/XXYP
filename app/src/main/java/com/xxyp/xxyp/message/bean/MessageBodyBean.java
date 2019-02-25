@@ -49,8 +49,17 @@ public class MessageBodyBean extends BaseBean {
     /* 约拍图片 */
     private String datingShotImage;
 
-    /* 状态 */
+    /* 约拍状态 */
     private int status;
+
+    /* 操作者id */
+    private String operateUserId;
+
+    /* 操作消息的msgId */
+    private String operateMsgId;
+
+    /* 操作类型 */
+    private int operateType;
 
     public String getText() {
         return text;
@@ -178,5 +187,29 @@ public class MessageBodyBean extends BaseBean {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getOperateUserId() {
+        return operateUserId;
+    }
+
+    public void setOperateUserId(String operateUserId) {
+        this.operateUserId = operateUserId;
+    }
+
+    public String getOperateMsgId() {
+        return operateMsgId;
+    }
+
+    public void setOperateMsgId(String operateMsgId) {
+        this.operateMsgId = operateMsgId;
+    }
+
+    public int getOperateType() {
+        return operateType;
+    }
+
+    public void setOperateType(int operateType) {
+        this.operateType = operateType;
     }
 }

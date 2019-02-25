@@ -3,13 +3,16 @@ package com.xxyp.xxyp.message.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 
 import com.xxyp.xxyp.R;
 import com.xxyp.xxyp.common.base.BaseTitleFragment;
+import com.xxyp.xxyp.common.utils.dialog.DialogUtils;
 import com.xxyp.xxyp.common.view.Header;
+import com.xxyp.xxyp.common.view.dialog.CommonDialogView;
 import com.xxyp.xxyp.common.view.recyclerView.DividerItemDecoration;
 import com.xxyp.xxyp.message.adapter.MessageListAdapter;
 import com.xxyp.xxyp.message.bean.ChatMessageBean;
@@ -19,6 +22,7 @@ import com.xxyp.xxyp.message.presenter.MessagePresenter;
 import com.xxyp.xxyp.message.service.MessageListenerManager;
 import com.xxyp.xxyp.message.service.MsgServiceManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,11 +81,35 @@ public class MessageFragment extends BaseTitleFragment
         mAdapter.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ConversationBean bean = mAdapter.getItem(position);
-                if(bean != null){
-                    mPresenter.clearConversation(bean.getChatId(), bean.getChatType());
+                showOperateSession(position);
+                return true;
+            }
+        });
+    }
+
+    /**
+     * 展示操作消息session
+     */
+    private void showOperateSession(final int position){
+        if(mAdapter == null){
+            return;
+        }
+        final ConversationBean bean = mAdapter.getItem(position);
+        if(bean == null){
+            return;
+        }
+        List<String> operates = new ArrayList<>();
+        operates.add("删除");
+        DialogUtils.getInstance().showOperateDialog(getActivity(), operates, null, null, 0, false, new CommonDialogView.DialogViews_ask.DialogViews_askImpl() {
+            @Override
+            public void doOk(String text) {
+                if (TextUtils.equals("删除", text)) {
+                    if (mPresenter != null) {
+                        mPresenter.clearConversation(bean.getChatId(), bean.getChatType());
+                        mAdapter.remove(position);
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
-                return false;
             }
         });
     }

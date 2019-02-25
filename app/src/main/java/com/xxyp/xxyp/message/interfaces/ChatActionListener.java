@@ -53,18 +53,6 @@ public interface ChatActionListener {
     void onReSendMessageListener(ChatMessageBean chatBean);
 
     /**
-     * 消息复制监听
-     * @param chatBean 聊天消息体
-     */
-    void onChatCopy(ChatMessageBean chatBean);
-
-    /**
-     * 消息删除监听
-     * @param chatBean 聊天消息体
-     */
-    void onChatDel(ChatMessageBean chatBean);
-
-    /**
      * 消息长按点击
      * @param chatBean 聊天消息体
      */

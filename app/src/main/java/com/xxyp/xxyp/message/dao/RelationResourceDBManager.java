@@ -365,6 +365,30 @@ public class RelationResourceDBManager extends BaseDao {
             }
         }
     }
+    /**
+     * 移除会话下图片信息
+     *
+     * @param belongTo 所属会话
+     */
+    public void removeMessageImage(long imgId, String belongTo) {
+        String deleteSql;
+        SQLiteStatement statement = null;
+        try {
+            deleteSql = DBUtils.buildDeleteSql(MessageImageEntityDao.TABLENAME,
+                    MessageImageEntityDao.Properties.BelongTo.columnName,
+                    MessageImageEntityDao.Properties.ImgId.columnName).toString();
+            statement = getDatabase().compileStatement(deleteSql);
+            statement.bindString(1, belongTo);
+            statement.bindLong(2, imgId);
+            statement.executeUpdateDelete();
+        } catch (Exception e) {
+            XXLog.log_e(TAG, "MessageImageEntityDao is failed:" + e);
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
 
     /**
      * 移除会话下语音信息
@@ -379,6 +403,31 @@ public class RelationResourceDBManager extends BaseDao {
                     MessageVoiceEntityDao.Properties.BelongTo.columnName).toString();
             statement = getDatabase().compileStatement(deleteSql);
             statement.bindString(1, belongTo);
+            statement.executeUpdateDelete();
+        } catch (Exception e) {
+            XXLog.log_e(TAG, "removeMessageVoiceByBelongTo is failed:" + e);
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
+
+    /**
+     * 移除会话下语音信息
+     *
+     * @param belongTo 所属会话
+     */
+    public void removeMessageVoice(long voiceId, String belongTo) {
+        String deleteSql;
+        SQLiteStatement statement = null;
+        try {
+            deleteSql = DBUtils.buildDeleteSql(MessageVoiceEntityDao.TABLENAME,
+                    MessageVoiceEntityDao.Properties.BelongTo.columnName,
+                    MessageVoiceEntityDao.Properties.VoiceId.columnName).toString();
+            statement = getDatabase().compileStatement(deleteSql);
+            statement.bindString(1, belongTo);
+            statement.bindLong(2, voiceId);
             statement.executeUpdateDelete();
         } catch (Exception e) {
             XXLog.log_e(TAG, "removeMessageVoiceByBelongTo is failed:" + e);
@@ -508,6 +557,31 @@ public class RelationResourceDBManager extends BaseDao {
             XXLog.log_e("RelationResourceDBManager",
                     "updateMessageShot is failed" + e.getMessage());
             return -1;
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
+
+    /**
+     * 移除会话下约拍信息
+     *
+     * @param belongTo 所属会话
+     */
+    public void removeMessageShot(long shotId, String belongTo) {
+        String deleteSql;
+        SQLiteStatement statement = null;
+        try {
+            deleteSql = DBUtils.buildDeleteSql(MessageShotEntityDao.TABLENAME,
+                    MessageShotEntityDao.Properties.BelongTo.columnName,
+                    MessageShotEntityDao.Properties.ShotId.columnName).toString();
+            statement = getDatabase().compileStatement(deleteSql);
+            statement.bindString(1, belongTo);
+            statement.bindLong(2, shotId);
+            statement.executeUpdateDelete();
+        } catch (Exception e) {
+            XXLog.log_e(TAG, "removeMessageShotByBelongTo is failed:" + e);
         } finally {
             if (statement != null) {
                 statement.close();
