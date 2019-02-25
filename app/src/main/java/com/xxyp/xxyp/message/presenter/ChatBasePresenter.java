@@ -18,6 +18,7 @@ import com.xxyp.xxyp.common.utils.DownloadCallback;
 import com.xxyp.xxyp.common.utils.DownloadUtils;
 import com.xxyp.xxyp.common.utils.FileConfig;
 import com.xxyp.xxyp.common.utils.FileUtils;
+import com.xxyp.xxyp.common.utils.SharePreferenceUtils;
 import com.xxyp.xxyp.common.utils.ToastUtil;
 import com.xxyp.xxyp.common.utils.VoicePlayHelper;
 import com.xxyp.xxyp.common.utils.VoiceRecordHelper;
@@ -26,9 +27,11 @@ import com.xxyp.xxyp.common.utils.gallery.GalleryProvider;
 import com.xxyp.xxyp.common.utils.permissions.PermissionsConstant;
 import com.xxyp.xxyp.common.utils.permissions.PermissionsMgr;
 import com.xxyp.xxyp.common.utils.permissions.PermissionsResultAction;
+import com.xxyp.xxyp.find.provider.FindProvider;
 import com.xxyp.xxyp.main.bean.ShotBean;
 import com.xxyp.xxyp.message.bean.ChatMessageBean;
 import com.xxyp.xxyp.message.bean.MessageImageBean;
+import com.xxyp.xxyp.message.bean.MessageShotBean;
 import com.xxyp.xxyp.message.bean.MessageVoiceBean;
 import com.xxyp.xxyp.message.contract.ChatBaseContract;
 import com.xxyp.xxyp.message.customsviews.MessageInputBar;
@@ -37,12 +40,17 @@ import com.xxyp.xxyp.message.provider.ChatProvider;
 import com.xxyp.xxyp.message.utils.MessageConfig;
 import com.xxyp.xxyp.message.utils.MessageSendUtils;
 import com.xxyp.xxyp.user.provider.UserProvider;
+import com.xxyp.xxyp.user.service.UserServiceManager;
 import com.xxyp.xxyp.user.view.MyDatingShotActivity;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Description : 消息基础presenter Created by sunpengfei on 2017/8/16. Person in
@@ -472,7 +480,52 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
 
     @Override
     public void onGoToShotDetail(ChatMessageBean chatBean) {
+        if (chatBean == null || chatBean.getMsgType() != MessageConfig.MessageType.MSG_APPOINTMENT || chatBean.getShotBean() == null) {
+            return;
+        }
+        String userId = SharePreferenceUtils.getInstance().getUserId();
+        FindProvider.openShot((Activity) mView.getContext(), userId,
+                String.valueOf(chatBean.getShotBean().getDatingShotId()));
+    }
 
+    @Override
+    public void onUpdateShot(final ChatMessageBean chatBean, final int targetStatus) {
+        if (chatBean == null || chatBean.getMsgType() != MessageConfig.MessageType.MSG_APPOINTMENT || chatBean.getShotBean() == null) {
+            return;
+        }
+        mView.showChatLoading(true);
+        String userId = SharePreferenceUtils.getInstance().getUserId();
+        final MessageShotBean messageShotBean = chatBean.getShotBean();
+
+        ShotBean shotBean = new ShotBean();
+        shotBean.setDatingShotId(String.valueOf(messageShotBean.getDatingShotId()));
+        shotBean.setUserId(userId);
+        shotBean.setDatingUserId(messageShotBean.getDatingUserId());
+        UserServiceManager.updateDatingShot(shotBean).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                if (mView != null) {
+                    mView.cancelChatLoading();
+                    ToastUtil.showTextViewPrompt("处理约拍失败");
+                }
+            }
+
+            @Override
+            public void onNext(Object o) {
+                messageShotBean.setStatus(targetStatus);
+                //更新消息
+                mModel.updateMessageShot(messageShotBean);
+                if (mView != null) {
+                    mView.updateChatMessage(chatBean);
+                    mView.cancelChatLoading();
+                }
+            }
+        });
     }
 
     @Override

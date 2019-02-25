@@ -42,7 +42,7 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
             case MessageConfig.MessageType.MSG_APPOINTMENT:
                 relationSourceId = addMessageShot(bean.getShotBean(), bean.getChatId());
                 if (bean.getShotBean() != null) {
-                    bean.getShotBean().setDatingShotId(relationSourceId);
+                    bean.getShotBean().setShotId(relationSourceId);
                 }
                 break;
             default:
@@ -101,6 +101,7 @@ public abstract class ChatBaseModel implements ChatBaseContract.Model {
             return -1;
         }
         shotBean.setBelongTo(belongTo);
+        shotBean.setShotId(-1);
         return RelationResourceDBManager.getInstance().addMessageShot(shotBean);
     }
 

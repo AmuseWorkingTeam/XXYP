@@ -3,8 +3,8 @@ package com.xxyp.xxyp.dao.entity;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Description : 聊天约拍 Created by sunpengfei on 2017/8/22. Person in charge :
@@ -15,6 +15,8 @@ public class MessageShotEntity {
     /* 约拍id */
     @Id
     private Long shotId;
+
+    private Long datingShotId;
 
     /* 发布约拍用户id */
     private String userId;
@@ -49,12 +51,14 @@ public class MessageShotEntity {
     @NotNull
     private String belongTo;
 
-    @Generated(hash = 365582058)
-    public MessageShotEntity(Long shotId, String userId, String datingShotAddress,
-            Long datingShotTime, String purpose, String paymentMethod,
-            String datingShotIntroduction, String description, String datingUserId,
-            String datingShotImage, Integer status, @NotNull String belongTo) {
+    @Generated(hash = 649426365)
+    public MessageShotEntity(Long shotId, Long datingShotId, String userId,
+            String datingShotAddress, Long datingShotTime, String purpose,
+            String paymentMethod, String datingShotIntroduction, String description,
+            String datingUserId, String datingShotImage, Integer status,
+            @NotNull String belongTo) {
         this.shotId = shotId;
+        this.datingShotId = datingShotId;
         this.userId = userId;
         this.datingShotAddress = datingShotAddress;
         this.datingShotTime = datingShotTime;
@@ -80,6 +84,14 @@ public class MessageShotEntity {
         this.shotId = shotId;
     }
 
+    public Long getDatingShotId() {
+        return this.datingShotId;
+    }
+
+    public void setDatingShotId(Long datingShotId) {
+        this.datingShotId = datingShotId;
+    }
+
     public String getUserId() {
         return this.userId;
     }
@@ -94,6 +106,14 @@ public class MessageShotEntity {
 
     public void setDatingShotAddress(String datingShotAddress) {
         this.datingShotAddress = datingShotAddress;
+    }
+
+    public Long getDatingShotTime() {
+        return this.datingShotTime;
+    }
+
+    public void setDatingShotTime(Long datingShotTime) {
+        this.datingShotTime = datingShotTime;
     }
 
     public String getPurpose() {
@@ -160,11 +180,4 @@ public class MessageShotEntity {
         this.belongTo = belongTo;
     }
 
-    public Long getDatingShotTime() {
-        return this.datingShotTime;
-    }
-
-    public void setDatingShotTime(Long datingShotTime) {
-        this.datingShotTime = datingShotTime;
-    }
 }

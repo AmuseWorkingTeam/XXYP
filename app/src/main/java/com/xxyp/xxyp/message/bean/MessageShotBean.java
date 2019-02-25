@@ -9,6 +9,8 @@ import com.xxyp.xxyp.common.bean.BaseBean;
  */
 public class MessageShotBean extends BaseBean {
 
+    private long shotId;
+
     /* 约拍id */
     private long datingShotId;
 
@@ -43,6 +45,14 @@ public class MessageShotBean extends BaseBean {
     private int status;
 
     private String belongTo;
+
+    public long getShotId() {
+        return shotId;
+    }
+
+    public void setShotId(long shotId) {
+        this.shotId = shotId;
+    }
 
     public long getDatingShotId() {
         return datingShotId;

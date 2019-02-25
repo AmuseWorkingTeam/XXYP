@@ -77,6 +77,18 @@ public interface ChatBaseContract {
          */
         void hideRecordView();
 
+
+        /**
+         * 展示加载框
+         * @param cancelable  是否可取消
+         */
+        void showChatLoading(boolean cancelable);
+
+        /**
+         * 取消加载框
+         */
+        void cancelChatLoading();
+
     }
 
     /**
@@ -181,6 +193,12 @@ public interface ChatBaseContract {
          * @param chatBean
          */
         void onGoToShotDetail(ChatMessageBean chatBean);
+
+        /**
+         * 更新约拍信息
+         * @param chatBean
+         */
+        void onUpdateShot(ChatMessageBean chatBean, int targetStatus);
 
         /**
          * 消息重发监听
@@ -349,6 +367,7 @@ public interface ChatBaseContract {
          * @param chatType 聊天类型
          */
         int clearChatMessage(String chatId, int chatType);
+
     }
 
 }

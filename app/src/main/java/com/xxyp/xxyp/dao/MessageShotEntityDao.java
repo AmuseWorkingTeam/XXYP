@@ -25,17 +25,18 @@ public class MessageShotEntityDao extends AbstractDao<MessageShotEntity, Long> {
      */
     public static class Properties {
         public final static Property ShotId = new Property(0, Long.class, "shotId", true, "_id");
-        public final static Property UserId = new Property(1, String.class, "userId", false, "USER_ID");
-        public final static Property DatingShotAddress = new Property(2, String.class, "datingShotAddress", false, "DATING_SHOT_ADDRESS");
-        public final static Property DatingShotTime = new Property(3, Long.class, "datingShotTime", false, "DATING_SHOT_TIME");
-        public final static Property Purpose = new Property(4, String.class, "purpose", false, "PURPOSE");
-        public final static Property PaymentMethod = new Property(5, String.class, "paymentMethod", false, "PAYMENT_METHOD");
-        public final static Property DatingShotIntroduction = new Property(6, String.class, "datingShotIntroduction", false, "DATING_SHOT_INTRODUCTION");
-        public final static Property Description = new Property(7, String.class, "description", false, "DESCRIPTION");
-        public final static Property DatingUserId = new Property(8, String.class, "datingUserId", false, "DATING_USER_ID");
-        public final static Property DatingShotImage = new Property(9, String.class, "datingShotImage", false, "DATING_SHOT_IMAGE");
-        public final static Property Status = new Property(10, Integer.class, "status", false, "STATUS");
-        public final static Property BelongTo = new Property(11, String.class, "belongTo", false, "BELONG_TO");
+        public final static Property DatingShotId = new Property(1, Long.class, "datingShotId", false, "DATING_SHOT_ID");
+        public final static Property UserId = new Property(2, String.class, "userId", false, "USER_ID");
+        public final static Property DatingShotAddress = new Property(3, String.class, "datingShotAddress", false, "DATING_SHOT_ADDRESS");
+        public final static Property DatingShotTime = new Property(4, Long.class, "datingShotTime", false, "DATING_SHOT_TIME");
+        public final static Property Purpose = new Property(5, String.class, "purpose", false, "PURPOSE");
+        public final static Property PaymentMethod = new Property(6, String.class, "paymentMethod", false, "PAYMENT_METHOD");
+        public final static Property DatingShotIntroduction = new Property(7, String.class, "datingShotIntroduction", false, "DATING_SHOT_INTRODUCTION");
+        public final static Property Description = new Property(8, String.class, "description", false, "DESCRIPTION");
+        public final static Property DatingUserId = new Property(9, String.class, "datingUserId", false, "DATING_USER_ID");
+        public final static Property DatingShotImage = new Property(10, String.class, "datingShotImage", false, "DATING_SHOT_IMAGE");
+        public final static Property Status = new Property(11, Integer.class, "status", false, "STATUS");
+        public final static Property BelongTo = new Property(12, String.class, "belongTo", false, "BELONG_TO");
     }
 
 
@@ -52,17 +53,18 @@ public class MessageShotEntityDao extends AbstractDao<MessageShotEntity, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"MESSAGE_SHOT_ENTITY\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: shotId
-                "\"USER_ID\" TEXT," + // 1: userId
-                "\"DATING_SHOT_ADDRESS\" TEXT," + // 2: datingShotAddress
-                "\"DATING_SHOT_TIME\" INTEGER," + // 3: datingShotTime
-                "\"PURPOSE\" TEXT," + // 4: purpose
-                "\"PAYMENT_METHOD\" TEXT," + // 5: paymentMethod
-                "\"DATING_SHOT_INTRODUCTION\" TEXT," + // 6: datingShotIntroduction
-                "\"DESCRIPTION\" TEXT," + // 7: description
-                "\"DATING_USER_ID\" TEXT," + // 8: datingUserId
-                "\"DATING_SHOT_IMAGE\" TEXT," + // 9: datingShotImage
-                "\"STATUS\" INTEGER," + // 10: status
-                "\"BELONG_TO\" TEXT NOT NULL );"); // 11: belongTo
+                "\"DATING_SHOT_ID\" INTEGER," + // 1: datingShotId
+                "\"USER_ID\" TEXT," + // 2: userId
+                "\"DATING_SHOT_ADDRESS\" TEXT," + // 3: datingShotAddress
+                "\"DATING_SHOT_TIME\" INTEGER," + // 4: datingShotTime
+                "\"PURPOSE\" TEXT," + // 5: purpose
+                "\"PAYMENT_METHOD\" TEXT," + // 6: paymentMethod
+                "\"DATING_SHOT_INTRODUCTION\" TEXT," + // 7: datingShotIntroduction
+                "\"DESCRIPTION\" TEXT," + // 8: description
+                "\"DATING_USER_ID\" TEXT," + // 9: datingUserId
+                "\"DATING_SHOT_IMAGE\" TEXT," + // 10: datingShotImage
+                "\"STATUS\" INTEGER," + // 11: status
+                "\"BELONG_TO\" TEXT NOT NULL );"); // 12: belongTo
     }
 
     /** Drops the underlying database table. */
@@ -80,56 +82,61 @@ public class MessageShotEntityDao extends AbstractDao<MessageShotEntity, Long> {
             stmt.bindLong(1, shotId);
         }
  
+        Long datingShotId = entity.getDatingShotId();
+        if (datingShotId != null) {
+            stmt.bindLong(2, datingShotId);
+        }
+ 
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(2, userId);
+            stmt.bindString(3, userId);
         }
  
         String datingShotAddress = entity.getDatingShotAddress();
         if (datingShotAddress != null) {
-            stmt.bindString(3, datingShotAddress);
+            stmt.bindString(4, datingShotAddress);
         }
  
         Long datingShotTime = entity.getDatingShotTime();
         if (datingShotTime != null) {
-            stmt.bindLong(4, datingShotTime);
+            stmt.bindLong(5, datingShotTime);
         }
  
         String purpose = entity.getPurpose();
         if (purpose != null) {
-            stmt.bindString(5, purpose);
+            stmt.bindString(6, purpose);
         }
  
         String paymentMethod = entity.getPaymentMethod();
         if (paymentMethod != null) {
-            stmt.bindString(6, paymentMethod);
+            stmt.bindString(7, paymentMethod);
         }
  
         String datingShotIntroduction = entity.getDatingShotIntroduction();
         if (datingShotIntroduction != null) {
-            stmt.bindString(7, datingShotIntroduction);
+            stmt.bindString(8, datingShotIntroduction);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(8, description);
+            stmt.bindString(9, description);
         }
  
         String datingUserId = entity.getDatingUserId();
         if (datingUserId != null) {
-            stmt.bindString(9, datingUserId);
+            stmt.bindString(10, datingUserId);
         }
  
         String datingShotImage = entity.getDatingShotImage();
         if (datingShotImage != null) {
-            stmt.bindString(10, datingShotImage);
+            stmt.bindString(11, datingShotImage);
         }
  
         Integer status = entity.getStatus();
         if (status != null) {
-            stmt.bindLong(11, status);
+            stmt.bindLong(12, status);
         }
-        stmt.bindString(12, entity.getBelongTo());
+        stmt.bindString(13, entity.getBelongTo());
     }
 
     @Override
@@ -141,56 +148,61 @@ public class MessageShotEntityDao extends AbstractDao<MessageShotEntity, Long> {
             stmt.bindLong(1, shotId);
         }
  
+        Long datingShotId = entity.getDatingShotId();
+        if (datingShotId != null) {
+            stmt.bindLong(2, datingShotId);
+        }
+ 
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(2, userId);
+            stmt.bindString(3, userId);
         }
  
         String datingShotAddress = entity.getDatingShotAddress();
         if (datingShotAddress != null) {
-            stmt.bindString(3, datingShotAddress);
+            stmt.bindString(4, datingShotAddress);
         }
  
         Long datingShotTime = entity.getDatingShotTime();
         if (datingShotTime != null) {
-            stmt.bindLong(4, datingShotTime);
+            stmt.bindLong(5, datingShotTime);
         }
  
         String purpose = entity.getPurpose();
         if (purpose != null) {
-            stmt.bindString(5, purpose);
+            stmt.bindString(6, purpose);
         }
  
         String paymentMethod = entity.getPaymentMethod();
         if (paymentMethod != null) {
-            stmt.bindString(6, paymentMethod);
+            stmt.bindString(7, paymentMethod);
         }
  
         String datingShotIntroduction = entity.getDatingShotIntroduction();
         if (datingShotIntroduction != null) {
-            stmt.bindString(7, datingShotIntroduction);
+            stmt.bindString(8, datingShotIntroduction);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(8, description);
+            stmt.bindString(9, description);
         }
  
         String datingUserId = entity.getDatingUserId();
         if (datingUserId != null) {
-            stmt.bindString(9, datingUserId);
+            stmt.bindString(10, datingUserId);
         }
  
         String datingShotImage = entity.getDatingShotImage();
         if (datingShotImage != null) {
-            stmt.bindString(10, datingShotImage);
+            stmt.bindString(11, datingShotImage);
         }
  
         Integer status = entity.getStatus();
         if (status != null) {
-            stmt.bindLong(11, status);
+            stmt.bindLong(12, status);
         }
-        stmt.bindString(12, entity.getBelongTo());
+        stmt.bindString(13, entity.getBelongTo());
     }
 
     @Override
@@ -202,17 +214,18 @@ public class MessageShotEntityDao extends AbstractDao<MessageShotEntity, Long> {
     public MessageShotEntity readEntity(Cursor cursor, int offset) {
         MessageShotEntity entity = new MessageShotEntity( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // shotId
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // userId
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // datingShotAddress
-            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // datingShotTime
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // purpose
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // paymentMethod
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // datingShotIntroduction
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // description
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // datingUserId
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // datingShotImage
-            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // status
-            cursor.getString(offset + 11) // belongTo
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // datingShotId
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // userId
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // datingShotAddress
+            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // datingShotTime
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // purpose
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // paymentMethod
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // datingShotIntroduction
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // description
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // datingUserId
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // datingShotImage
+            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11), // status
+            cursor.getString(offset + 12) // belongTo
         );
         return entity;
     }
@@ -220,17 +233,18 @@ public class MessageShotEntityDao extends AbstractDao<MessageShotEntity, Long> {
     @Override
     public void readEntity(Cursor cursor, MessageShotEntity entity, int offset) {
         entity.setShotId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setUserId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setDatingShotAddress(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setDatingShotTime(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
-        entity.setPurpose(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setPaymentMethod(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setDatingShotIntroduction(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setDescription(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setDatingUserId(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setDatingShotImage(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setStatus(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
-        entity.setBelongTo(cursor.getString(offset + 11));
+        entity.setDatingShotId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setUserId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setDatingShotAddress(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setDatingShotTime(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setPurpose(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setPaymentMethod(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setDatingShotIntroduction(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setDescription(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setDatingUserId(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setDatingShotImage(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setStatus(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
+        entity.setBelongTo(cursor.getString(offset + 12));
      }
     
     @Override

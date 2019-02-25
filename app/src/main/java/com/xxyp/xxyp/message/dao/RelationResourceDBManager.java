@@ -400,13 +400,13 @@ public class RelationResourceDBManager extends BaseDao {
             return null;
         }
         StringBuilder where = new StringBuilder(" where ");
-        DBUtils.buildColumn(where, MessageImageEntityDao.TABLENAME,
+        DBUtils.buildColumn(where, MessageShotEntityDao.TABLENAME,
                 MessageShotEntityDao.Properties.ShotId.columnName);
         where.append("=").append(shotId);
         Cursor cursor = null;
         try {
             cursor = getDatabase().rawQuery(
-                    DBUtils.buildSelectSql(MessageImageEntityDao.TABLENAME, where.toString(),
+                    DBUtils.buildSelectSql(MessageShotEntityDao.TABLENAME, where.toString(),
                             MessageShotEntityDao.Properties.UserId.columnName,
                             MessageShotEntityDao.Properties.DatingShotAddress.columnName,
                             MessageShotEntityDao.Properties.DatingShotTime.columnName,
@@ -418,7 +418,9 @@ public class RelationResourceDBManager extends BaseDao {
                             MessageShotEntityDao.Properties.Status.columnName,
                             MessageShotEntityDao.Properties.ShotId.columnName,
                             MessageShotEntityDao.Properties.BelongTo.columnName,
-                            MessageShotEntityDao.Properties.DatingShotImage.columnName).toString(),
+                            MessageShotEntityDao.Properties.DatingShotImage.columnName,
+                            MessageShotEntityDao.Properties.DatingShotId.columnName,
+                            MessageShotEntityDao.Properties.ShotId.columnName).toString(),
                     null);
             if (cursor != null && cursor.moveToFirst()) {
                 return cursor2Shot(cursor);
@@ -458,10 +460,11 @@ public class RelationResourceDBManager extends BaseDao {
                     MessageShotEntityDao.Properties.Status.columnName,
                     MessageShotEntityDao.Properties.ShotId.columnName,
                     MessageShotEntityDao.Properties.BelongTo.columnName,
-                    MessageShotEntityDao.Properties.DatingShotImage.columnName).toString();
+                    MessageShotEntityDao.Properties.DatingShotImage.columnName,
+                    MessageShotEntityDao.Properties.DatingShotId.columnName,
+                    MessageShotEntityDao.Properties.ShotId.columnName).toString();
             statement = getDatabase().compileStatement(insertSql);
-            bindShotValues(statement, shotBean).executeInsert();
-            return shotBean.getDatingShotId();
+            return bindShotValues(statement, shotBean).executeInsert();
         } catch (Exception e) {
             XXLog.log_e("RelationResourceDBManager", "addMessageShot is failed" + e.getMessage());
             return -1;
@@ -496,10 +499,11 @@ public class RelationResourceDBManager extends BaseDao {
                     MessageShotEntityDao.Properties.DatingUserId.columnName,
                     MessageShotEntityDao.Properties.Status.columnName,
                     MessageShotEntityDao.Properties.BelongTo.columnName,
-                    MessageShotEntityDao.Properties.DatingShotImage.columnName).toString();
+                    MessageShotEntityDao.Properties.DatingShotImage.columnName,
+                    MessageShotEntityDao.Properties.DatingShotId.columnName,
+                    MessageShotEntityDao.Properties.ShotId.columnName).toString();
             statement = getDatabase().compileStatement(updateSql);
-            bindShotValues(statement, shotBean).executeInsert();
-            return shotBean.getDatingShotId();
+            return bindShotValues(statement, shotBean).executeInsert();
         } catch (Exception e) {
             XXLog.log_e("RelationResourceDBManager",
                     "updateMessageShot is failed" + e.getMessage());
@@ -662,14 +666,17 @@ public class RelationResourceDBManager extends BaseDao {
             statement.bindString(8, shotBean.getDatingUserId());
         }
         statement.bindLong(9, shotBean.getStatus());
-        if (shotBean.getDatingShotId() != -1) {
-            statement.bindLong(10, shotBean.getDatingShotId());
-        }
         if (!TextUtils.isEmpty(shotBean.getBelongTo())) {
-            statement.bindString(11, shotBean.getBelongTo());
+            statement.bindString(10, shotBean.getBelongTo());
         }
         if (!TextUtils.isEmpty(shotBean.getDatingShotImage())) {
-            statement.bindString(12, shotBean.getDatingShotImage());
+            statement.bindString(11, shotBean.getDatingShotImage());
+        }
+        if (shotBean.getDatingShotId() != -1) {
+            statement.bindLong(12, shotBean.getDatingShotId());
+        }
+        if (shotBean.getShotId() != -1) {
+            statement.bindLong(13, shotBean.getShotId());
         }
         return statement;
     }
@@ -694,9 +701,10 @@ public class RelationResourceDBManager extends BaseDao {
         shotBean.setDescription(cursor.getString(6));
         shotBean.setDatingUserId(cursor.getString(7));
         shotBean.setStatus(cursor.getInt(8));
-        shotBean.setDatingShotId(cursor.getLong(9));
-        shotBean.setBelongTo(cursor.getString(10));
-        shotBean.setDatingShotImage(cursor.getString(11));
+        shotBean.setBelongTo(cursor.getString(9));
+        shotBean.setDatingShotImage(cursor.getString(10));
+        shotBean.setDatingShotId(cursor.getLong(11));
+        shotBean.setShotId(cursor.getLong(12));
         return shotBean;
     }
 }

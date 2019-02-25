@@ -280,6 +280,16 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
     }
 
     @Override
+    public void showChatLoading(boolean cancelable) {
+        showLoadingDialog(cancelable);
+    }
+
+    @Override
+    public void cancelChatLoading() {
+        dismissLoadingDialog();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mPresenter.onActivityResult(requestCode, resultCode, data);

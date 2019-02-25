@@ -232,6 +232,20 @@ public class ChatViewHelper implements ChatActionListener {
 
     @Override
     public void onGoToShotDetail(ChatMessageBean chatBean) {
+        if (mPresenter != null) {
+            mPresenter.onGoToShotDetail(chatBean);
+        }
+    }
+
+    @Override
+    public void onUpdateShot(ChatMessageBean chatBean, int targetStatus) {
+        if (mPresenter != null) {
+            mPresenter.onUpdateShot(chatBean, targetStatus);
+        }
+    }
+
+    @Override
+    public void onUpdateShotStatus(ChatMessageBean chatBean) {
 
     }
 

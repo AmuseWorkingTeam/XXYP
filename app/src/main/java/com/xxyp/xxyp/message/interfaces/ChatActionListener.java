@@ -36,6 +36,18 @@ public interface ChatActionListener {
     void onGoToShotDetail(ChatMessageBean chatBean);
 
     /**
+     * 更新约拍
+     * @param chatBean
+     */
+    void onUpdateShot(ChatMessageBean chatBean, int targetStatus);
+
+    /**
+     * 接受约拍
+     * @param chatBean
+     */
+    void onUpdateShotStatus(ChatMessageBean chatBean);
+
+    /**
      * 消息重发监听
      */
     void onReSendMessageListener(ChatMessageBean chatBean);

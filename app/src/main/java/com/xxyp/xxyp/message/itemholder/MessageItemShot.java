@@ -71,6 +71,52 @@ public class MessageItemShot extends MessageItemBaseView {
 
     @Override
     protected void setItemViewListener() {
+        mLayoutShot.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mChatMessageBean == null || mChatMessageBean.getShotBean() == null) {
+                    return;
+                }
+                //跳转详情
+                if (mActionListener != null) {
+                    mActionListener.onGoToShotDetail(mChatMessageBean);
+                }
+            }
+        });
+
+        //更新约拍状态
+        datingStatus.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mChatMessageBean == null || mChatMessageBean.getShotBean() == null) {
+                    return;
+                }
+                //更新状态
+                int targetStatus = -1;
+                switch (mChatMessageBean.getShotBean().getStatus()) {
+                    case MessageConfig.ShotStatus.SHOT_CREATE:
+                        if (mItemPos == ITEM_LEFT) {
+                            //对方才可接收
+                            targetStatus = MessageConfig.ShotStatus.SHOT_DATED;
+                        }
+                        break;
+                    case MessageConfig.ShotStatus.SHOT_DATED:
+                        if (mItemPos == ITEM_RIGHT) {
+                            //自己发出的可删除 删除后改为创建状态
+                            targetStatus = MessageConfig.ShotStatus.SHOT_CREATE;
+                        } else if (mItemPos == ITEM_LEFT) {
+                            //接收的的可确认结束
+                            targetStatus = MessageConfig.ShotStatus.SHOT_DONE;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                if (mActionListener != null && targetStatus > -1) {
+                    mActionListener.onUpdateShot(mChatMessageBean, targetStatus);
+                }
+            }
+        });
     }
 
     /**
@@ -131,10 +177,18 @@ public class MessageItemShot extends MessageItemBaseView {
                 status = "已取消";
                 break;
             case MessageConfig.ShotStatus.SHOT_CREATE:
-                status = "邀约";
+                if (mItemPos == ITEM_RIGHT) {
+                    status = "邀约";
+                } else if (mItemPos == ITEM_LEFT) {
+                    status = "接受邀约";
+                }
                 break;
             case MessageConfig.ShotStatus.SHOT_DATED:
-                status = "约拍中";
+                if (mItemPos == ITEM_RIGHT) {
+                    status = "取消邀约";
+                } else if (mItemPos == ITEM_LEFT) {
+                    status = "约拍中";
+                }
                 break;
             case MessageConfig.ShotStatus.SHOT_DONE:
                 status = "拍摄完成";

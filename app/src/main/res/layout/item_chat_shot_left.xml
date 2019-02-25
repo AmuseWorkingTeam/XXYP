@@ -108,7 +108,7 @@
             android:gravity="center"
             android:padding="@dimen/dimen_8"
             android:text="邀约"
-            android:textColor="@color/color_cfd0ff"
+            android:textColor="@color/color_83ccc9"
             android:textSize="@dimen/dimen_18" />
     </RelativeLayout>
 
