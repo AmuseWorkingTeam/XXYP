@@ -42,6 +42,8 @@ import com.xxyp.xxyp.message.provider.ChatProvider;
 import com.xxyp.xxyp.message.utils.MessageConfig;
 import com.xxyp.xxyp.message.utils.MessageSendUtils;
 import com.xxyp.xxyp.message.utils.MessageUtils;
+import com.xxyp.xxyp.publish.utils.PublishConfig;
+import com.xxyp.xxyp.publish.view.PublishActivity;
 import com.xxyp.xxyp.user.provider.UserProvider;
 import com.xxyp.xxyp.user.service.UserServiceManager;
 import com.xxyp.xxyp.user.view.MyDatingShotActivity;
@@ -190,12 +192,16 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
                 }
                 break;
             case PanelConfig.PANEL_CREATE_SHOT:
+                //创建约拍
+                Intent intent = new Intent(mView.getContext(), PublishActivity.class);
+                intent.putExtra(PublishConfig.PUBLISH_TYPE, PublishConfig.PublishType.PUBLISH_SHOT);
+                ((Activity)mView.getContext()).startActivityForResult(intent, CAREATE_SHOT_REQUSET);
                 break;
             case PanelConfig.PANEL_CHOOSE_SHOT:
                 // 选择约拍
-                Intent intent = new Intent(mView.getContext(), MyDatingShotActivity.class);
-                intent.putExtra(MyDatingShotActivity.IS_CHOOSE, true);
-                ((Activity)mView.getContext()).startActivityForResult(intent, CHOOSE_SHOT_REQUSET);
+                Intent intent1 = new Intent(mView.getContext(), MyDatingShotActivity.class);
+                intent1.putExtra(MyDatingShotActivity.IS_CHOOSE, true);
+                ((Activity)mView.getContext()).startActivityForResult(intent1, CHOOSE_SHOT_REQUSET);
                 break;
             default:
                 break;
@@ -591,7 +597,15 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
             case CHOOSE_SHOT_REQUSET:
                 // 选择约拍
                 if (resultCode == Activity.RESULT_OK && data != null) {
-                    ShotBean shotBean = (ShotBean)data
+                    ShotBean shotBean = (ShotBean) data
+                            .getSerializableExtra(MyDatingShotActivity.MY_SHOT);
+                    mView.sendChatMessage(mSendUtils.sendShot(shotBean));
+                }
+                break;
+            case CAREATE_SHOT_REQUSET:
+                // 创建约拍
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    ShotBean shotBean = (ShotBean) data
                             .getSerializableExtra(MyDatingShotActivity.MY_SHOT);
                     mView.sendChatMessage(mSendUtils.sendShot(shotBean));
                 }

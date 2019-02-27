@@ -20,13 +20,12 @@ import com.xxyp.xxyp.main.bean.ShotBean;
 import com.xxyp.xxyp.main.bean.ShotPhotoBean;
 import com.xxyp.xxyp.main.bean.WorkBean;
 import com.xxyp.xxyp.main.bean.WorkPhotoBean;
-import com.xxyp.xxyp.map.config.MapCommonConfig;
 import com.xxyp.xxyp.map.location.beans.PluginMapLocationBean;
 import com.xxyp.xxyp.map.view.MapControlFragment;
 import com.xxyp.xxyp.publish.contract.PublishContract;
 import com.xxyp.xxyp.publish.model.PublishModel;
 import com.xxyp.xxyp.user.provider.UserProvider;
-import com.xxyp.xxyp.user.utils.FrameConfig;
+import com.xxyp.xxyp.user.view.MyDatingShotActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -179,9 +178,9 @@ public class PublishPresenter implements PublishContract.Presenter {
                 }
                 return shotBeans;
             }
-        }).flatMap(new Func1<List<ShotPhotoBean>, Observable<String>>() {
+        }).flatMap(new Func1<List<ShotPhotoBean>, Observable<ShotBean>>() {
             @Override
-            public Observable<String> call(List<ShotPhotoBean> shotPhotoBeen) {
+            public Observable<ShotBean> call(List<ShotPhotoBean> shotPhotoBeen) {
                 ShotBean shotBean = new ShotBean();
                 shotBean.setDatingShotImages(shotPhotoBeen);
                 shotBean.setDatingShotIntroduction(shotDesc);
@@ -193,7 +192,7 @@ public class PublishPresenter implements PublishContract.Presenter {
                 shotBean.setUserId(SharePreferenceUtils.getInstance().getUserId());
                 return mModel.publishDatingShot(shotBean);
             }
-        }).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
+        }).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ShotBean>() {
             @Override
             public void onCompleted() {
             }
@@ -208,9 +207,12 @@ public class PublishPresenter implements PublishContract.Presenter {
             }
 
             @Override
-            public void onNext(String s) {
+            public void onNext(ShotBean s) {
                 if (mView != null) {
                     mView.cancelPublishDialog();
+                    Intent intent = new Intent();
+                    intent.putExtra(MyDatingShotActivity.MY_SHOT, s);
+                    ((Activity) mView.getContext()).setResult(Activity.RESULT_OK, intent);
                     ((Activity) mView.getContext()).finish();
                 }
             }
@@ -315,10 +317,7 @@ public class PublishPresenter implements PublishContract.Presenter {
         }).filter(new Func1<SparseArray<String>, Boolean>() {
             @Override
             public Boolean call(SparseArray<String> stringSparseArray) {
-                if (photoCache.size() == photoUrls.size()) {
-                    return true;
-                }
-                return false;
+                return photoCache.size() == photoUrls.size();
             }
         });
     }

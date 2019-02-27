@@ -5,7 +5,6 @@ import com.xxyp.xxyp.common.bean.UserInfo;
 import com.xxyp.xxyp.main.bean.ShotBean;
 import com.xxyp.xxyp.user.bean.CreateFansInput;
 import com.xxyp.xxyp.user.bean.LogoutInput;
-import com.xxyp.xxyp.user.bean.UpdateDatingInput;
 import com.xxyp.xxyp.user.bean.UpdateFansInput;
 
 import okhttp3.ResponseBody;
@@ -81,7 +80,6 @@ public interface UserService {
                                            @Query("datingShotId") String shotId);
 
     String UPDATE_DATING_SHOT = "updateDatingShot";
-
     /**
      * 修改约拍信息
      *
@@ -91,7 +89,6 @@ public interface UserService {
     Observable<ResponseBody> updateDatingShot(@Body ShotBean input);
 
     String GET_DATING_SHOT_PHOTO = "getWorkPhotos";
-
     /**
      * 获取照片
      *

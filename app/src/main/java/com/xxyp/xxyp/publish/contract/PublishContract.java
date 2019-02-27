@@ -105,7 +105,7 @@ public interface PublishContract {
          * @param shotBean 约拍信息
          * @return  Observable<String>
          */
-        Observable<String> publishDatingShot(ShotBean shotBean);
+        Observable<ShotBean> publishDatingShot(ShotBean shotBean);
     }
 
 }

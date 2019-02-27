@@ -41,10 +41,10 @@ public class PublishModel implements PublishContract.Model {
     }
 
     @Override
-    public Observable<String> publishDatingShot(final ShotBean shotBean) {
-        return PublishServiceManager.createDatingShot(shotBean).map(new Func1<String, String>() {
+    public Observable<ShotBean> publishDatingShot(final ShotBean shotBean) {
+        return PublishServiceManager.createDatingShot(shotBean).map(new Func1<String, ShotBean>() {
             @Override
-            public String call(String s) {
+            public ShotBean call(String s) {
                 if (shotBean != null) {
                     // 发布成功后插入数据库
                     // 返回约拍id 设置
@@ -56,7 +56,7 @@ public class PublishModel implements PublishContract.Model {
                     }
                     PublishDBManager.getInstance().addShotInfo(null, shotBean);
                 }
-                return s;
+                return shotBean;
             }
         });
     }
