@@ -37,38 +37,34 @@ public class MyDatingShotPresenter implements MyDatingShotContract.Presenter {
 
 
     public void getMyDatingShot() {
-        List<ShotBean> myShotInfo = mModel.getMyShotInfo();
-        if (myShotInfo == null || myShotInfo.isEmpty()) {
-            Subscription subscription = mModel.getDatingShot().subscribeOn(Schedulers.computation())
-                    .observeOn(Schedulers.computation()).subscribe(new Subscriber<UserShotListBean>() {
-                        @Override
-                        public void onCompleted() {
+        Subscription subscription = mModel.getDatingShot().subscribeOn(Schedulers.computation())
+                .observeOn(Schedulers.computation()).subscribe(new Subscriber<UserShotListBean>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        List<ShotBean> myShotInfo = mModel.getMyShotInfo();
+                        mView.showMyShot(myShotInfo);
+                    }
+
+                    @Override
+                    public void onNext(final UserShotListBean userInfo) {
+                        if (userInfo == null) {
+                            return;
                         }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(final UserShotListBean userInfo) {
-                            if (userInfo == null) {
-                                return;
+                        ((Activity) mView.getContext()).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mView.showMyShot(userInfo.getDatingShot());
                             }
-                            ((Activity) mView.getContext()).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mView.showMyShot(userInfo.getDatingShot());
-                                }
-                            });
-                            PublishDBManager.getInstance().addShotInfos(null, userInfo.getDatingShot());
-                        }
-                    });
-            mSubscription.add(subscription);
-        } else {
-            mView.showMyShot(myShotInfo);
-        }
+                        });
+                        PublishDBManager.getInstance().addShotInfos(null, userInfo.getDatingShot());
+                    }
+                });
+        mSubscription.add(subscription);
     }
 
     @Override

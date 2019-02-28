@@ -186,7 +186,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
                 // 选择相册 需要SD卡读写权限
                 if (hasPermission(PermissionsConstant.READ_STORAGE,
                         PermissionsConstant.WRITE_STORAGE)) {
-                    GalleryProvider.openGalley((Activity)mView.getContext(), 9, IMAGE_REQUSET);
+                    GalleryProvider.openGalley((Activity) mView.getContext(), 9, IMAGE_REQUSET);
                 } else {
                     requestPermissions(TYPE_CAMERA_PERMISSION, PermissionsConstant.READ_STORAGE);
                 }
@@ -195,13 +195,13 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
                 //创建约拍
                 Intent intent = new Intent(mView.getContext(), PublishActivity.class);
                 intent.putExtra(PublishConfig.PUBLISH_TYPE, PublishConfig.PublishType.PUBLISH_SHOT);
-                ((Activity)mView.getContext()).startActivityForResult(intent, CAREATE_SHOT_REQUSET);
+                ((Activity) mView.getContext()).startActivityForResult(intent, CAREATE_SHOT_REQUSET);
                 break;
             case PanelConfig.PANEL_CHOOSE_SHOT:
                 // 选择约拍
                 Intent intent1 = new Intent(mView.getContext(), MyDatingShotActivity.class);
                 intent1.putExtra(MyDatingShotActivity.IS_CHOOSE, true);
-                ((Activity)mView.getContext()).startActivityForResult(intent1, CHOOSE_SHOT_REQUSET);
+                ((Activity) mView.getContext()).startActivityForResult(intent1, CHOOSE_SHOT_REQUSET);
                 break;
             default:
                 break;
@@ -253,12 +253,12 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
         // 停止其他占用音频的地方
         stopAudio();
         if (mVoiceRecordHelper == null) {
-            mVoiceRecordHelper = new VoiceRecordHelper((Activity)mView.getContext());
+            mVoiceRecordHelper = new VoiceRecordHelper((Activity) mView.getContext());
             mVoiceRecordHelper.setCallBackSoundDecibel(new VoiceRecordHelper.OnCallBackSoundDecibel() {
                 @Override
                 public void callBackSoundDecibel(float decibel) {
                     //音量
-                    if(mView != null){
+                    if (mView != null) {
                         mView.showRecordMicView((int) decibel);
                     }
                 }
@@ -291,7 +291,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
             mVoiceRecordHelper.stopVoiceRecord(false, null);
             if (new File(mVoiceName).exists() && new File(mVoiceName).length() > 0) {
                 // 文件长度大于0才发送 否则就是没有录制成功
-                mView.sendChatMessage(mSendUtils.sendVoice(mVoiceName, "", (int)time));
+                mView.sendChatMessage(mSendUtils.sendVoice(mVoiceName, "", (int) time));
             } else {
                 // 录制失败 停止录音并删除文件
                 mVoiceRecordHelper.stopVoiceRecord(true, mVoiceName);
@@ -327,7 +327,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
     @Override
     public void onGoToUserDetail(String userId) {
         if (!TextUtils.isEmpty(userId)) {
-            UserProvider.openFrame((Activity)mView.getContext(), userId);
+            UserProvider.openFrame((Activity) mView.getContext(), userId);
         }
     }
 
@@ -338,7 +338,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
             return;
         }
         if (mVoicePlayHelper == null) {
-            mVoicePlayHelper = new VoicePlayHelper((Activity)mView.getContext());
+            mVoicePlayHelper = new VoicePlayHelper((Activity) mView.getContext());
             // registerSensor();
         }
         final MessageVoiceBean voiceBean = chatBean.getVoiceBean();
@@ -449,7 +449,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
         mCameraName = CameraUtils.getInstance().getCameraName();
         mCameraDir = FileConfig.DIR_APP_CACHE_CAMERA + "/";
         mCameraPath = FileConfig.DIR_APP_CACHE_CAMERA + "/" + mCameraName + ".jpg";
-        CameraUtils.getInstance().takePhoto(mCameraDir, mCameraPath, (Activity)mView.getContext(),
+        CameraUtils.getInstance().takePhoto(mCameraDir, mCameraPath, (Activity) mView.getContext(),
                 CAMERA_REQUSET);
     }
 
@@ -484,7 +484,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
             }
             photoViewBeans.add(photoViewBean);
         }
-        ChatProvider.openPhotoPreView((Activity)mView.getContext(), index, photoViewBeans);
+        ChatProvider.openPhotoPreView((Activity) mView.getContext(), index, photoViewBeans);
     }
 
     @Override
@@ -492,8 +492,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
         if (chatBean == null || chatBean.getMsgType() != MessageConfig.MessageType.MSG_APPOINTMENT || chatBean.getShotBean() == null) {
             return;
         }
-        String userId = SharePreferenceUtils.getInstance().getUserId();
-        FindProvider.openShot((Activity) mView.getContext(), userId,
+        FindProvider.openShot((Activity) mView.getContext(), chatBean.getShotBean().getUserId(),
                 String.valueOf(chatBean.getShotBean().getDatingShotId()));
     }
 
@@ -509,6 +508,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
         shotBean.setStatus(targetStatus);
         shotBean.setDatingShotId(String.valueOf(messageShotBean.getDatingShotId()));
         shotBean.setDatingUserId(SharePreferenceUtils.getInstance().getUserId());
+        shotBean.setUserId(messageShotBean.getUserId());
         UserServiceManager.updateDatingShot(shotBean).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
             @Override
             public void onCompleted() {
@@ -528,6 +528,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
                 messageShotBean.setStatus(targetStatus);
                 //更新消息
                 mModel.updateMessageShot(messageShotBean);
+
                 if (mView != null) {
                     mView.updateChatMessage(chatBean);
                     mView.cancelChatLoading();
@@ -535,7 +536,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
                 if (targetStatus == MessageConfig.ShotStatus.SHOT_DONE) {
                     //完成之后发送notice信息
                     mView.sendChatMessage(mSendUtils.sendNotice("对方确认了[拍摄完成]"));
-                }else{
+                } else {
                     // 需要发送修改约拍状态
                     MessageUtils.buildSendMessage(chatBean);
                     String content = chatBean.getContent();
@@ -552,7 +553,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
 
     @Override
     public void onMessageLongClick(final ChatMessageBean chatBean) {
-        if(chatBean == null){
+        if (chatBean == null) {
             return;
         }
         List<String> operates = new ArrayList<>();
@@ -635,7 +636,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
      */
     private boolean hasPermission(String... permissions) {
         if (mView.getContext() instanceof PermissionActivity) {
-            PermissionActivity activity = (PermissionActivity)mView.getContext();
+            PermissionActivity activity = (PermissionActivity) mView.getContext();
             return activity.hasPermission(permissions);
         } else {
             throw new IllegalArgumentException("is not allow request permission");
@@ -655,7 +656,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
             return;
         }
         PermissionsMgr.getInstance().requestPermissionsIfNecessaryForResult(
-                (Activity)mView.getContext(), permissions, new PermissionsResultAction() {
+                (Activity) mView.getContext(), permissions, new PermissionsResultAction() {
 
                     @Override
                     public void onGranted(List<String> perms) {
@@ -673,7 +674,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
 
     /**
      * 权限接受
-     * 
+     *
      * @param requestType 请求权限类型
      * @param permissions 权限接受的列表
      */
@@ -719,7 +720,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
 
     /**
      * 获取到权限之后的操作
-     * 
+     *
      * @param requestType 请求的权限类型
      */
     private void hasPermissionHandler(int requestType) {
@@ -734,7 +735,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
                 break;
             case TYPE_PHOTO_PERMISSION:
                 // 相册
-                GalleryProvider.openGalley((Activity)mView.getContext(), 9, IMAGE_REQUSET);
+                GalleryProvider.openGalley((Activity) mView.getContext(), 9, IMAGE_REQUSET);
                 break;
             case TYPE_VOICE_PERMISSION:
                 // 语音权限
@@ -755,7 +756,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
 
     /**
      * 权限拒绝
-     * 
+     *
      * @param requestType 请求权限类型
      * @param permissions 被拒绝的权限
      */
@@ -768,7 +769,7 @@ public abstract class ChatBasePresenter implements ChatBaseContract.Presenter {
                 case PermissionsConstant.READ_STORAGE:
                 case PermissionsConstant.WRITE_STORAGE:
                     // 读写SD权限拒绝
-                    CommonProvider.openAppPermission((Activity)mView.getContext());
+                    CommonProvider.openAppPermission((Activity) mView.getContext());
                     break;
                 case PermissionsConstant.CAMERA:
                     if (requestType == TYPE_CAMERA_PERMISSION) {

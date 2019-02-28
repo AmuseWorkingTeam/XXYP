@@ -19,6 +19,7 @@ import com.xxyp.xxyp.user.adapter.MyDatingShotAdapter;
 import com.xxyp.xxyp.user.contract.MyDatingShotContract;
 import com.xxyp.xxyp.user.presenter.MyDatingShotPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,7 +57,7 @@ public class MyDatingShotActivity extends BaseTitleActivity implements MyDatingS
     @Override
     protected View onCreateView() {
         View view = View.inflate(this, R.layout.activity_my_dating_shot, null);
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.dating_shot_recycler);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.dating_shot_recycler);
         mAdapter = new MyDatingShotAdapter(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
@@ -104,7 +105,17 @@ public class MyDatingShotActivity extends BaseTitleActivity implements MyDatingS
     @Override
     public void showMyShot(List<ShotBean> shotBeans) {
         if (shotBeans != null && shotBeans.size() > 0) {
-            mAdapter.replaceList(shotBeans);
+            if (mIsChoose) {
+                ArrayList<ShotBean> filterList = new ArrayList<>();
+                for (ShotBean shotBean : shotBeans) {
+                    if (shotBean.getStatus() == 1) {
+                        filterList.add(shotBean);
+                    }
+                }
+                mAdapter.replaceList(filterList);
+            } else {
+                mAdapter.replaceList(shotBeans);
+            }
         }
     }
 

@@ -66,8 +66,13 @@ public class MyDatingShotAdapter extends BaseRecyclerAdapter<ShotBean> {
             default:
                 break;
         }
-
-        datingStatus.setText(bean.getStatus() == 0 ? "进行中" : "已完成");
+        if (bean.getStatus() == 3 || bean.getStatus() == 0) {
+            datingStatus.setText("已完成");
+        } else if (bean.getStatus() == 1) {
+            datingStatus.setText("邀约中");
+        } else {
+            datingStatus.setText("进行中");
+        }
 //        datingCount.setText("人预约");
         datingCount.setVisibility(View.GONE);
         shotPurpose.setText(title);

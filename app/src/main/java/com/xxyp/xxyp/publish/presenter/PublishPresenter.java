@@ -190,6 +190,7 @@ public class PublishPresenter implements PublishContract.Presenter {
                 shotBean.setReleaseTime(time);
                 shotBean.setDatingShotAddress(address);
                 shotBean.setUserId(SharePreferenceUtils.getInstance().getUserId());
+                shotBean.setStatus(1);
                 return mModel.publishDatingShot(shotBean);
             }
         }).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ShotBean>() {

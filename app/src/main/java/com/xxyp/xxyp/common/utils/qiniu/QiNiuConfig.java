@@ -13,9 +13,9 @@ public class QiNiuConfig {
 
     public static final String QI_NIU_SK = "fMXH6AhK7A7tPSPxU_w0zh9epXZ8Ps1VyghA3xpJ";
 
-    public static final String QI_NIU_BUCK_NAME = "liuyibo1-project";
+    public static final String QI_NIU_BUCK_NAME = "liuyibo2-project";
 
-    public static final String QI_NIU_DNS_PREFIX = "http://plvj5cfmh.bkt.clouddn.com/";
+    public static final String QI_NIU_DNS_PREFIX = "http://pnmh5rr3l.bkt.clouddn.com/";
 
     /**
      * 有效期
