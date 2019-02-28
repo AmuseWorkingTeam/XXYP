@@ -237,7 +237,7 @@ public abstract class ChatBaseActivity extends BaseTitleActivity
     }
 
     protected void handleMessage(ChatMessageBean bean){
-        if (bean == null || !TextUtils.equals(bean.getSendId(), mMyUserId) || !TextUtils.equals(bean.getChatId(), mChatId)) {
+        if (bean == null || !TextUtils.equals(bean.getChatId(), mChatId)) {
             return;
         }
         if (bean.getMsgType() == MessageConfig.MessageType.MSG_OPERATE && bean.getOperateBean() != null) {
